@@ -9,3 +9,5 @@
 *.iml
 
 .idea/
+*/target/
+target/
