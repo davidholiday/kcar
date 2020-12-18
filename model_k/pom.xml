@@ -9,7 +9,7 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>A Camel Route</name>
+  <name>kcar model-k (for Kalashnikov)</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,11 +19,12 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- Camel BOM -->
+      <!-- Camel BOM
+           a B.ill O.ff M.aterials file is a separate pom file that specifies versions for dependencies-->
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-bom</artifactId>
-        <version>3.6.0</version>
+        <version>3.7.0</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -38,7 +39,7 @@
       <artifactId>camel-core-engine</artifactId>
     </dependency>
 
-    <!-- main core-component -->
+    <!-- main core-component (has the main class) -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-main</artifactId>
@@ -50,10 +51,19 @@
       <artifactId>camel-bean</artifactId>
     </dependency>
 
-    <!-- log core-component -->
+    <!-- log core-component connects to camel to slf4j impl-->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-log</artifactId>
+    </dependency>
+
+
+    <!-- The http4: component provides HTTP based endpoints for calling external HTTP resources (as a client to call
+         external servers using HTTP). Requires version tag because the component is not in camel-bom -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-http4</artifactId>
+      <version>3.0.0-M4</version>
     </dependency>
 
     <!-- timer core-component is used to generate message exchanges when a timer fires. -->
@@ -62,19 +72,29 @@
       <artifactId>camel-timer</artifactId>
     </dependency>
 
-
+    <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
+         endpoint that is bound to a published Servlet. -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-servlet</artifactId>
     </dependency>
 
+    <!-- The servletlistener component is used for bootstrapping Camel applications in web applications.
+         Requires version tag because the component is not in camel-bom -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-servletlistener</artifactId>
+      <version>2.25.2</version>
+    </dependency>
 
-    <!--<dependency>-->
-      <!--<groupId>org.apache.camel</groupId>-->
-      <!--<artifactId>camel-servletlistener</artifactId>-->
-    <!--</dependency>-->
+    <!-- testing core-component supports junit 4.x tests -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-    <!-- logging -->
+    <!-- logging implementation -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
@@ -82,12 +102,6 @@
       <version>${log4j2-version}</version>
     </dependency>
 
-    <!-- testing -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
