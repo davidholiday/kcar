@@ -39,7 +39,9 @@
       <artifactId>camel-core-engine</artifactId>
     </dependency>
 
-    <!-- main core-component (has the main class) -->
+    <!-- main core-component (has the main class).
+         also is means by which camel is configured.
+         https://camel.apache.org/components/latest/others/main.html -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-main</artifactId>
