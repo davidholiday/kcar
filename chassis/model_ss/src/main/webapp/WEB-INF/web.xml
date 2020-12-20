@@ -1,6 +1,14 @@
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+         xsi:schemaLocation="http://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/jakartaee_9.xsd"
+         version="9">
+
+
+
+<!--<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"-->
+<!--         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">-->
 
 
 
@@ -43,6 +51,15 @@
     <servlet-name>CamelServlet</servlet-name>
     <servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>async</param-name>
+      <param-value>true</param-value>
+    </init-param>
+      <!-- https://camel.apache.org/components/latest/servlet-component.html#_servlet_3_0_and_asynccontext -->
+      <!--    <init-param>-->
+      <!--      <param-name>executorRef</param-name>-->
+      <!--      <param-value>my-threads</param-value>-->
+      <!--    </init-param>-->
   </servlet>
 
   <!-- Camel servlet mapping -->

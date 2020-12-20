@@ -14,8 +14,15 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <log4j2-version>2.13.3</log4j2-version>
+
     <camel-bom-version>3.7.0</camel-bom-version>
+    <log4j2-version>2.14.0</log4j2-version>
+
+    <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
+    <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
+    <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
+    <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
+    <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
   </properties>
 
   <dependencyManagement>
@@ -67,11 +74,23 @@
       <artifactId>camel-http</artifactId>
     </dependency>
 
-    <!-- timer core-component is used to generate message exchanges when a timer fires. -->
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-timer</artifactId>
+      <artifactId>camel-rest</artifactId>
     </dependency>
+
+    <!-- The Rest DSL can be integrated with the camel-swagger-java module which is used for exposing the REST services
+         and their APIs using Swagger. -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-swagger-java</artifactId>
+    </dependency>
+
+    <!-- timer core-component is used to generate message exchanges when a timer fires. -->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-timer</artifactId>-->
+<!--    </dependency>-->
 
     <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
          endpoint that is bound to a published Servlet. -->
@@ -112,7 +131,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <source>11</source>
           <target>11</target>
@@ -123,7 +142,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>${maven-resources-plugin-version}</version>
         <configuration>
           <encoding>UTF-8</encoding>
         </configuration>
@@ -133,7 +152,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
+        <version>${maven-javadoc-plugin-version}</version>
         <executions>
           <execution>
             <goals>
@@ -144,7 +163,6 @@
               <!-- prevents javadoc error from failing build -->
               <detectJavaApiLink>false</detectJavaApiLink>
             </configuration>
-
           </execution>
         </executions>
       </plugin>
@@ -153,18 +171,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>${maven-war-plugin-version}</version>
       </plugin>
 
       <!-- for running unit tests as part of a maven build -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>${maven-surefire-plugin-version}</version>
       </plugin>
 
       <!-- to validate Camel endpoints: mvn camel-report:validate
-           should run automatically as part of a build. -->
+           the execution phase setting should cause this to run automatically as part of a build. -->
       <plugin>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-report-maven-plugin</artifactId>
