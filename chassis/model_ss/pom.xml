@@ -4,17 +4,18 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.holitek.kcar</groupId>
-  <artifactId>model_k</artifactId>
+  <groupId>io.holitek.kcar.chassis</groupId>
+  <artifactId>model_ss</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>kcar model-k (for Kalashnikov)</name>
+  <name>kcar model-ss (servlet with spring)</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <log4j2-version>2.13.3</log4j2-version>
+    <camel-bom-version>3.7.0</camel-bom-version>
   </properties>
 
   <dependencyManagement>
@@ -24,7 +25,7 @@
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-bom</artifactId>
-        <version>3.7.0</version>
+        <version>${camel-bom-version}</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -34,14 +35,9 @@
   <dependencies>
 
     <!-- camel kernel -->
-    <!--<dependency>-->
-      <!--<groupId>org.apache.camel</groupId>-->
-      <!--<artifactId>camel-core-engine</artifactId>-->
-    <!--</dependency>-->
-
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core</artifactId>
+      <artifactId>camel-core-engine</artifactId>
     </dependency>
 
     <!-- main core-component (has the main class).
@@ -64,20 +60,11 @@
       <artifactId>camel-log</artifactId>
     </dependency>
 
-
-    <!-- The http4: component provides HTTP based endpoints for calling external HTTP resources (as a client to call
-         external servers using HTTP). Requires version tag because the component is not in camel-bom -->
+    <!-- The HTTP component provides HTTP based endpoints for calling external HTTP resources (as a client to call
+         external servers using HTTP). -->
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-http4</artifactId>
-      <version>3.0.0-M4</version>
-      <!-- to prevent namespace confusion with dependencies from jaxb-runtime -->
-      <exclusions>
-        <exclusion>
-          <groupId>com.sun.activation</groupId>
-          <artifactId>javax.activation</artifactId>
-        </exclusion>
-      </exclusions>
+      <artifactId>camel-http</artifactId>
     </dependency>
 
     <!-- timer core-component is used to generate message exchanges when a timer fires. -->
@@ -181,6 +168,7 @@
       <plugin>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-report-maven-plugin</artifactId>
+        <version>${camel-bom-version}</version>
         <executions>
           <execution>
             <phase>process-classes</phase>
@@ -195,7 +183,7 @@
       <plugin>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-maven-plugin</artifactId>
-        <version>3.6.0</version>
+        <version>${camel-bom-version}</version>
         <!--<configuration>-->
           <!--<logClasspath>true</logClasspath>-->
           <!--<mainClass>io.holitek.kcar.MyApplication</mainClass>-->
