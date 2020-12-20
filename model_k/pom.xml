@@ -34,9 +34,14 @@
   <dependencies>
 
     <!-- camel kernel -->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.camel</groupId>-->
+      <!--<artifactId>camel-core-engine</artifactId>-->
+    <!--</dependency>-->
+
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core-engine</artifactId>
+      <artifactId>camel-core</artifactId>
     </dependency>
 
     <!-- main core-component (has the main class).
@@ -123,11 +128,11 @@
     </dependency>
 
     <!-- included to cover the exclusion of deprecated jaxb libs in camel-servletlistener -->
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>3.0.0</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.glassfish.jaxb</groupId>-->
+      <!--<artifactId>jaxb-runtime</artifactId>-->
+      <!--<version>3.0.0</version>-->
+    <!--</dependency>-->
 
   </dependencies>
 
@@ -158,24 +163,24 @@
       </plugin>
 
       <!-- for javadoc generation -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
-              <!-- prevents javadoc error from failing build -->
-              <detectJavaApiLink>false</detectJavaApiLink>
-            </configuration>
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+        <!--<version>2.9.1</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<goals>-->
+              <!--<goal>jar</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<additionalparam>-Xdoclint:none</additionalparam>-->
+              <!--&lt;!&ndash; prevents javadoc error from failing build &ndash;&gt;-->
+              <!--<detectJavaApiLink>false</detectJavaApiLink>-->
+            <!--</configuration>-->
 
-          </execution>
-        </executions>
-      </plugin>
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
 
       <!-- Allows the example to be run via 'mvn camel:run' -->
       <!--<plugin>-->
@@ -206,8 +211,25 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>11.0.0</version>
+        <!--<version>11.0.0</version>-->
+        <version>10.0.0</version>
       </plugin>
+
+
+
+
+      <!-- for running a local instance of tomcat -->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.tomcat.maven</groupId>-->
+        <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
+        <!--<version>2.2</version>-->
+        <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+          <!--&lt;!&ndash;<port>${tomcat.port}</port>&ndash;&gt;-->
+          <!--&lt;!&ndash;<path>/${warName}</path>&ndash;&gt;-->
+        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+      <!--</plugin>-->
+
+
 
     </plugins>
   </build>

@@ -1,0 +1,5 @@
+h1. kcar-model-k
+--
+modek 'k' as in [Kalashnikov](https://en.wikipedia.org/wiki/AK-47). the design ethos is to keep it simple in the extreme. model-k's are maximally modularized so as to include the bare minimum necessary to get the job done. 
+
+*!* Camel3 [deprecated](http://camel.465427.n5.nabble.com/Camel-3-alternatives-for-ServletListener-component-td5848605.html#a5848619) the [ServletListener](https://camel.apache.org/components/2.x/others/servletlistener.html#ServletListenerComponent-Examples) class. it looks fixable but will take some work to rewire the things that got moved [link](https://camel.apache.org/manual/latest/camel-3-migration-guide.html#_migrating_custom_components). the model_ks won't work until that wiring is fixed. the model_s family will include a servlet driven webservice. *!*
