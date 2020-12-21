@@ -1,19 +1,8 @@
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
-
-
-
-<!--<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"-->
-         <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-         <!--xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee-->
-         <!--http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"-->
-         <!--version="3.1">-->
-
-
-
-
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
 
     <!--<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"-->
@@ -22,11 +11,6 @@
          <!--https://jakarta.ee/xml/ns/jakartaee/jakartaee_9.xsd"-->
          <!--version="9">-->
 
-  <!--  -->
-  <context-param>
-    <param-name>CamelContextLifecycle</param-name>
-    <param-value>io.holitek.kcar.chassis.model_k.AppContextLifecycle</param-value>
-  </context-param>
 
   <!--&lt;!&ndash; location of Camel route builder(s) ** this can also be a route xml file w/o the packagescan directive ** &ndash;&gt;-->
   <!--&lt;!&ndash; *ACHTUNG* there can't be any spaces around the ':' separating 'packagescan' and the package name&ndash;&gt;-->
@@ -54,8 +38,12 @@
        CamelContextLifecycle must use the JndiRegistry as well. And likewise if the servlet is
        org.apache.camel.component.servletlistener.SimpleCamelServletContextListener then the CamelContextLifecycle
        must use the SimpleRegistry -->
+<!--  <listener>-->
+<!--    <listener-class>org.apache.camel.component.servletlistener.JndiCamelServletContextListener</listener-class>-->
+<!--  </listener>-->
+
   <listener>
-    <listener-class>org.apache.camel.component.servletlistener.JndiCamelServletContextListener</listener-class>
+    <listener-class>io.holitek.kcar.chassis.model_k.App</listener-class>
   </listener>
 
 </web-app>

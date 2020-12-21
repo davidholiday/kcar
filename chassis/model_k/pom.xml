@@ -34,23 +34,23 @@
   <dependencies>
 
     <!-- camel kernel -->
-    <!--<dependency>-->
-      <!--<groupId>org.apache.camel</groupId>-->
-      <!--<artifactId>camel-core-engine</artifactId>-->
-    <!--</dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-core-engine</artifactId>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-core</artifactId>
     </dependency>
 
-    <!-- main core-component (has the main class).
-         also is means by which camel is configured.
-         https://camel.apache.org/components/latest/others/main.html -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-main</artifactId>
-    </dependency>
+<!--    &lt;!&ndash; main core-component (has the main class).-->
+<!--         also is means by which camel is configured.-->
+<!--         https://camel.apache.org/components/latest/others/main.html &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-main</artifactId>-->
+<!--    </dependency>-->
 
     <!-- bean core-component binds beans to Camel message exchanges. -->
     <dependency>
@@ -67,24 +67,24 @@
 
     <!-- The http4: component provides HTTP based endpoints for calling external HTTP resources (as a client to call
          external servers using HTTP). Requires version tag because the component is not in camel-bom -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-http4</artifactId>
-      <version>3.0.0-M4</version>
-      <!-- to prevent namespace confusion with dependencies from jaxb-runtime -->
-      <exclusions>
-        <exclusion>
-          <groupId>com.sun.activation</groupId>
-          <artifactId>javax.activation</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-http4</artifactId>-->
+<!--      <version>3.0.0-M4</version>-->
+<!--      &lt;!&ndash; to prevent namespace confusion with dependencies from jaxb-runtime &ndash;&gt;-->
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <groupId>com.sun.activation</groupId>-->
+<!--          <artifactId>javax.activation</artifactId>-->
+<!--        </exclusion>-->
+<!--      </exclusions>-->
+<!--    </dependency>-->
 
     <!-- timer core-component is used to generate message exchanges when a timer fires. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-timer</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-timer</artifactId>-->
+<!--    </dependency>-->
 
     <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
          endpoint that is bound to a published Servlet. -->
@@ -95,29 +95,64 @@
 
     <!-- The servletlistener component is used for bootstrapping Camel applications in web applications.
          Requires version tag because the component is not in camel-bom -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-servletlistener</artifactId>
-      <version>2.25.2</version>
-      <!-- JDK11 doesn't play nicely with this 'split' package -->
-      <exclusions>
-        <exclusion>
-          <groupId>com.sun.xml.bind</groupId>
-          <artifactId>jaxb-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.xml.bind</groupId>
-          <artifactId>jaxb-impl</artifactId>
-        </exclusion>
-    </exclusions>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-servletlistener</artifactId>-->
+<!--      <version>2.25.2</version>-->
+<!--      &lt;!&ndash; JDK11 doesn't play nicely with this 'split' package &ndash;&gt;-->
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <groupId>com.sun.xml.bind</groupId>-->
+<!--          <artifactId>jaxb-core</artifactId>-->
+<!--        </exclusion>-->
+<!--        <exclusion>-->
+<!--          <groupId>com.sun.xml.bind</groupId>-->
+<!--          <artifactId>jaxb-impl</artifactId>-->
+<!--        </exclusion>-->
+<!--    </exclusions>-->
+<!--    </dependency>-->
 
     <!-- testing core-component supports junit 4.x tests -->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-test</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
+
+    <!-- contains the base classes and RouteBuilder which you would use to build Camel routes and applications. This
+     JAR also contains necessary base classes for building custom Camel components, and other kinds of plugins. -->
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test</artifactId>
-      <scope>test</scope>
+      <artifactId>camel-support</artifactId>
     </dependency>
+
+    <!-- contains the public API for Camel (eg interfaces such as CamelContext, Endpoint, Exchange, Message, and so
+         on). -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-api</artifactId>
+    </dependency>
+
+    <!-- The HTTP component provides HTTP based endpoints for calling external HTTP resources (as a client to call
+     external servers using HTTP). -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-http</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-rest</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
 
     <!-- logging implementation -->
     <dependency>
