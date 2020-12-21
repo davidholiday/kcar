@@ -25,7 +25,7 @@
   <!--  -->
   <context-param>
     <param-name>CamelContextLifecycle</param-name>
-    <param-value>io.holitek.kcar.model_k.AppContextLifecycle</param-value>
+    <param-value>io.holitek.kcar.chassis.model_k.AppContextLifecycle</param-value>
   </context-param>
 
   <!--&lt;!&ndash; location of Camel route builder(s) ** this can also be a route xml file w/o the packagescan directive ** &ndash;&gt;-->

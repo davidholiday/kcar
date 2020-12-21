@@ -1,4 +1,4 @@
-package io.holitek.kcar.model_k;
+package io.holitek.kcar.chassis.model_k;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
