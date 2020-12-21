@@ -34,15 +34,15 @@
   <dependencies>
 
     <!-- camel kernel -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-core-engine</artifactId>-->
-<!--    </dependency>-->
-
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core</artifactId>
+      <artifactId>camel-core-engine</artifactId>
     </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.apache.camel</groupId>-->
+<!--      <artifactId>camel-core</artifactId>-->
+<!--    </dependency>-->
 
 <!--    &lt;!&ndash; main core-component (has the main class).-->
 <!--         also is means by which camel is configured.-->
@@ -132,6 +132,11 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core-languages</artifactId>
     </dependency>
 
     <!-- The HTTP component provides HTTP based endpoints for calling external HTTP resources (as a client to call
@@ -246,7 +251,10 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <!--<version>11.0.0</version>-->
+        <!-- v10 is the last version that supports javax.servlet.* Might be ok to upgrade to the new jakarta.servlet.*
+             version but I think CamelHttpTransportServlet requires javax.servlet.*
+             will explore at some future date...
+             https://github.com/eclipse/jetty.project/releases -->
         <version>10.0.0</version>
       </plugin>
 
