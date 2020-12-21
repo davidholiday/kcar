@@ -4,22 +4,6 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-
-    <!--<web-app xmlns="http://jakarta.ee/xml/ns/jakartaee"-->
-         <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-         <!--xsi:schemaLocation="http://jakarta.ee/xml/ns/jakartaee-->
-         <!--https://jakarta.ee/xml/ns/jakartaee/jakartaee_9.xsd"-->
-         <!--version="9">-->
-
-
-  <!--&lt;!&ndash; location of Camel route builder(s) ** this can also be a route xml file w/o the packagescan directive ** &ndash;&gt;-->
-  <!--&lt;!&ndash; *ACHTUNG* there can't be any spaces around the ':' separating 'packagescan' and the package name&ndash;&gt;-->
-  <!--<context-param>-->
-    <!--<param-name>RouteBuilders</param-name>-->
-    <!--<param-value>packagescan:com.davidholiday.camel.harness.routebuilders</param-value>-->
-  <!--</context-param>-->
-
-
   <!-- Camel servlet used in the application -->
   <servlet>
     <servlet-name>CamelServlet</servlet-name>
@@ -33,15 +17,7 @@
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
 
-  <!-- the listener that kick-starts Camel -->
-  <!-- If you use org.apache.camel.component.servletlistener.JndiCamelServletContextListener then the
-       CamelContextLifecycle must use the JndiRegistry as well. And likewise if the servlet is
-       org.apache.camel.component.servletlistener.SimpleCamelServletContextListener then the CamelContextLifecycle
-       must use the SimpleRegistry -->
-<!--  <listener>-->
-<!--    <listener-class>org.apache.camel.component.servletlistener.JndiCamelServletContextListener</listener-class>-->
-<!--  </listener>-->
-
+  <!-- the ServletContextListener that kick-starts Camel -->
   <listener>
     <listener-class>io.holitek.kcar.chassis.model_k.App</listener-class>
   </listener>

@@ -14,6 +14,16 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <camel-bom-version>3.7.0</camel-bom-version>
+
+    <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
+    <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
+    <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
+    <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
+    <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
+
+    <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
     <log4j2-version>2.13.3</log4j2-version>
   </properties>
 
@@ -24,7 +34,7 @@
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-bom</artifactId>
-        <version>3.7.0</version>
+        <version>${camel-bom-version}</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -32,25 +42,11 @@
   </dependencyManagement>
 
   <dependencies>
-
     <!-- camel kernel -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-core-engine</artifactId>
     </dependency>
-
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-core</artifactId>-->
-<!--    </dependency>-->
-
-<!--    &lt;!&ndash; main core-component (has the main class).-->
-<!--         also is means by which camel is configured.-->
-<!--         https://camel.apache.org/components/latest/others/main.html &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-main</artifactId>-->
-<!--    </dependency>-->
 
     <!-- bean core-component binds beans to Camel message exchanges. -->
     <dependency>
@@ -64,28 +60,6 @@
       <artifactId>camel-log</artifactId>
     </dependency>
 
-
-    <!-- The http4: component provides HTTP based endpoints for calling external HTTP resources (as a client to call
-         external servers using HTTP). Requires version tag because the component is not in camel-bom -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-http4</artifactId>-->
-<!--      <version>3.0.0-M4</version>-->
-<!--      &lt;!&ndash; to prevent namespace confusion with dependencies from jaxb-runtime &ndash;&gt;-->
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.activation</groupId>-->
-<!--          <artifactId>javax.activation</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
-<!--    </dependency>-->
-
-    <!-- timer core-component is used to generate message exchanges when a timer fires. -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-timer</artifactId>-->
-<!--    </dependency>-->
-
     <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
          endpoint that is bound to a published Servlet. -->
     <dependency>
@@ -93,32 +67,12 @@
       <artifactId>camel-servlet</artifactId>
     </dependency>
 
-    <!-- The servletlistener component is used for bootstrapping Camel applications in web applications.
-         Requires version tag because the component is not in camel-bom -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-servletlistener</artifactId>-->
-<!--      <version>2.25.2</version>-->
-<!--      &lt;!&ndash; JDK11 doesn't play nicely with this 'split' package &ndash;&gt;-->
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.xml.bind</groupId>-->
-<!--          <artifactId>jaxb-core</artifactId>-->
-<!--        </exclusion>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.xml.bind</groupId>-->
-<!--          <artifactId>jaxb-impl</artifactId>-->
-<!--        </exclusion>-->
-<!--    </exclusions>-->
-<!--    </dependency>-->
-
     <!-- testing core-component supports junit 4.x tests -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-test</artifactId>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
-
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <!-- contains the base classes and RouteBuilder which you would use to build Camel routes and applications. This
      JAR also contains necessary base classes for building custom Camel components, and other kinds of plugins. -->
@@ -134,6 +88,9 @@
       <artifactId>camel-api</artifactId>
     </dependency>
 
+    <!-- camel can parse several languages. this dependency enables us to parse the camel specific language, 'simple'.
+         https://camel.apache.org/components/latest/languages/index.html
+         https://camel.apache.org/components/latest/languages/simple-language.html -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-core-languages</artifactId>
@@ -146,18 +103,34 @@
       <artifactId>camel-http</artifactId>
     </dependency>
 
+    <!-- allows us to define RESTful camel routes using camel REST DSL
+         https://camel.apache.org/manual/latest/rest-dsl.html  -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-rest</artifactId>
     </dependency>
 
+    <!-- The Rest DSL can be integrated with the camel-swagger-java module which is used for exposing the REST services
+     and their APIs using Swagger. -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-swagger-java</artifactId>
+    </dependency>
+
+    <!-- Validator performs declarative validation of the message according to the declared Input Type and/or Output
+         Type on a route definition which declares the expected message type. -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-validator</artifactId>
+    </dependency>
+
+    <!-- allows us to hook into into the servlet container's servlet resources -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
-
 
     <!-- logging implementation -->
     <dependency>
@@ -166,13 +139,6 @@
       <scope>runtime</scope>
       <version>${log4j2-version}</version>
     </dependency>
-
-    <!-- included to cover the exclusion of deprecated jaxb libs in camel-servletlistener -->
-    <!--<dependency>-->
-      <!--<groupId>org.glassfish.jaxb</groupId>-->
-      <!--<artifactId>jaxb-runtime</artifactId>-->
-      <!--<version>3.0.0</version>-->
-    <!--</dependency>-->
 
   </dependencies>
 
@@ -185,7 +151,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <source>11</source>
           <target>11</target>
@@ -196,55 +162,43 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>${maven-resources-plugin-version}</version>
         <configuration>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
 
       <!-- for javadoc generation -->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-        <!--<version>2.9.1</version>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<goals>-->
-              <!--<goal>jar</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<additionalparam>-Xdoclint:none</additionalparam>-->
-              <!--&lt;!&ndash; prevents javadoc error from failing build &ndash;&gt;-->
-              <!--<detectJavaApiLink>false</detectJavaApiLink>-->
-            <!--</configuration>-->
-
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
-
-      <!-- Allows the example to be run via 'mvn camel:run' -->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.camel</groupId>-->
-        <!--<artifactId>camel-maven-plugin</artifactId>-->
-        <!--<version>3.6.0</version>-->
-        <!--<configuration>-->
-          <!--<logClasspath>true</logClasspath>-->
-          <!--<mainClass>io.holitek.kcar.MyApplication</mainClass>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin-version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+              <!-- prevents javadoc error from failing build -->
+              <detectJavaApiLink>false</detectJavaApiLink>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
       <!-- for packaging things as a webapp -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>${maven-war-plugin-version}</version>
       </plugin>
 
       <!-- for running unit tests as part of a maven build -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>${maven-surefire-plugin-version}</version>
       </plugin>
 
       <!-- for spinning up the service in self-contained instance of jetty -->
@@ -255,24 +209,8 @@
              version but I think CamelHttpTransportServlet requires javax.servlet.*
              will explore at some future date...
              https://github.com/eclipse/jetty.project/releases -->
-        <version>10.0.0</version>
+        <version>${jetty-maven-plugin-version}</version>
       </plugin>
-
-
-
-
-      <!-- for running a local instance of tomcat -->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.tomcat.maven</groupId>-->
-        <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
-        <!--<version>2.2</version>-->
-        <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
-          <!--&lt;!&ndash;<port>${tomcat.port}</port>&ndash;&gt;-->
-          <!--&lt;!&ndash;<path>/${warName}</path>&ndash;&gt;-->
-        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
-      <!--</plugin>-->
-
-
 
     </plugins>
   </build>
