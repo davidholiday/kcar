@@ -7,7 +7,7 @@ public class HealthCheckBean {
      * @return
      */
     public String getOkResponse() {
-        return "{status: ok}";
+        return "{\"status\": \"ok\"}";
     }
 
 }

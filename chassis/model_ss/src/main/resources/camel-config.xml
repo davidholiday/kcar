@@ -6,9 +6,15 @@
          http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
   <camelContext xmlns="http://camel.apache.org/schema/spring">
-
-
+    <!-- route files -->
+    <package>io.holitek.kcar.chassis.model_ss.routes</package>
 
   </camelContext>
+
+
+    <!-- beans for the registry -->
+    <bean id="healthCheckBean" class="io.holitek.kcar.chassis.model_ss.components.HealthCheckBean"/>
+
+
 
 </beans>
