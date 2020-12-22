@@ -10,6 +10,10 @@ import org.apache.camel.builder.RouteBuilder;
  */
 public class HealthCheckRoute extends RouteBuilder {
 
+    // in order to be decoupled from the rest of the application, the route needs to define the handle it's looking for
+    // when directing data to someplace else
+    public static final String HEALTH_CHECK_HANDLER_ID = "healthCheckHandler";
+
     @Override
     public void configure() throws Exception {
 
@@ -19,7 +23,7 @@ public class HealthCheckRoute extends RouteBuilder {
         rest().path("/healthcheck")
                 .get()
                 .route()
-                .to(App.HEALTH_CHECK_HANDLER_ID);
+                .to("bean:" + HEALTH_CHECK_HANDLER_ID);
     }
 
 }

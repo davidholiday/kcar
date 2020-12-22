@@ -21,15 +21,9 @@ public class HealthCheckProcessor implements Processor {
 
     /**
      *
-     * @param defaultState
-     */
-    public HealthCheckProcessor(boolean defaultState) { isOK = defaultState; }
-
-    /**
-     *
      * @return
      */
-    public boolean  getState() { return isOK; }
+    public boolean getState() { return isOK; }
 
     /**
      * sets health check state to OK
