@@ -5,7 +5,6 @@ import io.holitek.kcar.elements.HealthCheckProcessor;
 
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.Exchange;
-import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
@@ -19,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ *
+ */
 public class HealthCheckProcessorTest extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(HealthCheckProcessorTest.class);

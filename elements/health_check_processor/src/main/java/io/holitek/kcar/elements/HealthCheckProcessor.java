@@ -5,7 +5,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 
-import java.util.HashMap;
 import java.util.Map;
 
 

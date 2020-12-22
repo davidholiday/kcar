@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>HealthCheckBean</name>
+  <name>HealthCheckProcessor</name>
 
   <parent>
     <groupId>io.holitek.kcar</groupId>
