@@ -13,6 +13,7 @@
 
   <modules>
     <module>elements/health_check_bean</module>
+    <module>elements/health_check_processor</module>
   </modules>
 
   <properties>
