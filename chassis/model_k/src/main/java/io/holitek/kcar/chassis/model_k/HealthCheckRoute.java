@@ -20,7 +20,7 @@ public class HealthCheckRoute extends RouteBuilder {
                 .route()
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("200"))
                 .setHeader(Exchange.CONTENT_TYPE, simple("application/json"))
-                .to("bean:" + App.HEALTH_CHECK_BEAN_ID);
+                .bean(App.HEALTH_CHECK_BEAN_ID);
 
     }
 

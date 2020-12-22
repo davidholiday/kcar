@@ -13,33 +13,31 @@ import javax.servlet.ServletContextListener;
 public class App implements ServletContextListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
+
     public static final String HEALTH_CHECK_BEAN_ID = "healthCheckBean";
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
-            LOG.info("ServletContextListener started... ");
-
-            // create a new CamelContext
+            LOG.info("ServletContextListener started! Firing up Camel... ");
+            //
             CamelContext camelContext = new DefaultCamelContext();
-
-            // configure where to load properties file in the properties component
             camelContext.getPropertiesComponent().setLocation("classpath:application.properties");
 
-            // and create bean with the placeholder
-            HealthCheckBean healthCheckBean = new HealthCheckBean();
-            // register bean to Camel
-            camelContext.getRegistry().bind(HEALTH_CHECK_BEAN_ID, healthCheckBean);
+            // register components(s)
+            //
+            camelContext.getRegistry().bind(HEALTH_CHECK_BEAN_ID, new HealthCheckBean(true));
 
-            // add routes to Camel
+            // register routes(s)
+            //
             camelContext.addRoutes(new HealthCheckRoute());
 
-            // start Camel
+            //
             camelContext.start();
-
+            LOG.info("*!* Camel is up! *!*");
         } catch (Exception e) {
-            LOG.error("something went wrong during context initialization", e);
+            LOG.error("something went wrong during context initialization!", e);
         }
 
     }
