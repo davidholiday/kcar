@@ -242,6 +242,22 @@
         <version>${jetty-maven-plugin-version}</version>
       </plugin>
 
+      <!-- validates source for invalid camel endpoint URIs and reprts the coverage oc camel routes after unit
+           testing -->
+      <plugin>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-report-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>validate</goal>
+              <goal>route-coverage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

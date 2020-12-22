@@ -1,6 +1,7 @@
 package io.holitek.kcar.chassis.model_k;
 
 
+import io.holitek.kcar.chassis.model_k.routes.HealthCheckRoute;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ public class App implements ServletContextListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 
-    public static final String HEALTH_CHECK_BEAN_ID = "healthCheckBean";
+    public static final String HEALTH_CHECK_HANDLER_ID = "healthCheckHandler";
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -24,10 +25,10 @@ public class App implements ServletContextListener {
             //
             CamelContext camelContext = new DefaultCamelContext();
             camelContext.getPropertiesComponent().setLocation("classpath:application.properties");
-
+            LOG.info(camelContext.getRegistry().lookupByName(HEALTH_CHECK_HANDLER_ID).toString());
             // register components(s)
             //
-            camelContext.getRegistry().bind(HEALTH_CHECK_BEAN_ID, new HealthCheckBean(true));
+            //camelContext.getRegistry().bind(HEALTH_CHECK_BEAN_ID, HealthCheckProcessor.class);
 
             // register routes(s)
             //

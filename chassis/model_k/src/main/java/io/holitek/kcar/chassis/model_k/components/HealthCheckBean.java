@@ -1,7 +1,8 @@
-package io.holitek.kcar.chassis.model_k;
+package io.holitek.kcar.chassis.model_k.components;
 
 
 import org.apache.camel.Handler;
+
 
 /**
  * bean capable of responding with either json-encoded status 'ok' or 'fault'. a fault state is meant to indicate
@@ -15,13 +16,28 @@ public class HealthCheckBean {
 
     private boolean isOK = true;
 
-    public HealthCheckBean(boolean defaultState) {
-        isOK = defaultState;
-    }
+    /**
+     *
+     */
+    public HealthCheckBean() {}
 
+    /**
+     * sets health check state to OK
+     */
     public void setOkState() { isOK = true; }
+
+    /**
+     * sets health check state to FAULT
+     */
     public void setFaultState() { isOK = false; }
 
+    /**
+     * returns JSON response strong appropriate to state of member variable isOK. is also the default exchange message
+     * handler.
+     *
+     * @param body
+     * @return
+     */
     @Handler
     public String getHealthCheckJsonString(String body) {
         return isOK ? OK_JSON_RESPONSE : FAULT_JSON_REPONSE;
