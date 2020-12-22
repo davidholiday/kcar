@@ -13,8 +13,7 @@ import java.util.Map;
 /**
  * a bean-wrapped map containing app health information. currently acts as a boolean indicating things are ok or
  * something weird happened (but the system is still functional enough to service the request). this can be extended
- * in future to include more information, as well as conditional logic to present subsets of the available data
- * depending on caller entitlements.
+ * in future to include more information.
  */
 public class HealthCheckBean {
 
@@ -28,6 +27,9 @@ public class HealthCheckBean {
 
     private final Map<String, String> stateMap = new HashMap<>();
 
+    /**
+     * constructs instance with default stateMap entry {'status':'ok'}
+     */
     public HealthCheckBean() { stateMap.put(STATUS_KEY, STATUS_OK); }
 
     /**
@@ -41,7 +43,8 @@ public class HealthCheckBean {
     public void setFaultState() { stateMap.put(STATUS_KEY, STATUS_FAULT); }
 
     /**
-     * clones and returns the stateMap object
+     * clones and returns the stateMap object. takes Exchange as a parameter to let camel know this method is the
+     * message handler.
      */
     public Map<String, String> getState(Exchange exchange) {
         Map<String, String> rv = new HashMap<>();

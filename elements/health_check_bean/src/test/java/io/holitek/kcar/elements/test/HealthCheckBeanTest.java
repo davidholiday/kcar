@@ -26,9 +26,10 @@ public class HealthCheckBeanTest extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(HealthCheckBeanTest.class);
 
-    private HealthCheckBean healthCheckBean;
     private static final Map<String, String> expectedStatusOkMap = new HashMap<>();
     private static final Map<String, String> expectedStatusFaultMap = new HashMap<>();
+
+    private HealthCheckBean healthCheckBean;
 
     @BeforeAll
     static void beforeAll() {
