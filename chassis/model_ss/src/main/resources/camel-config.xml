@@ -7,7 +7,7 @@
 
   <camelContext xmlns="http://camel.apache.org/schema/spring">
     <!-- route files -->
-    <package>io.holitek.kcar.chassis.model_ss.routes</package>
+    <package>io.holitek.kcar.chassis.model_ss.io.holitek.kcar.routes</package>
 
   </camelContext>
 

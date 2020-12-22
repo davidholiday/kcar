@@ -5,28 +5,32 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.holitek.kcar</groupId>
-  <artifactId>model_k</artifactId>
-  <packaging>war</packaging>
+  <artifactId>kcar-parent-pom</artifactId>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>kcar model-k (for Kalashnikov)</name>
+  <name>parent POM for all kcar elements, io.holitek.kcar.routes, chassis, and services</name>
+
+  <modules>
+    <module>elements/health_check_bean</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+    <resources-encoding>UTF-8</resources-encoding>
+
+    <java-target-version>11</java-target-version>
+
     <camel-bom-version>3.7.0</camel-bom-version>
 
-    <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
     <log4j2-version>2.13.3</log4j2-version>
-    <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
 
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
     <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
-    <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
     <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
-    <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
 
   </properties>
 
@@ -63,24 +67,10 @@
       <artifactId>camel-log</artifactId>
     </dependency>
 
-    <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
-         endpoint that is bound to a published Servlet. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-servlet</artifactId>
-      <!-- to deal with package namespace collision with newer version from jaxb-runtime -->
-      <exclusions>
-        <exclusion>
-          <groupId>com.sun.activation</groupId>
-          <artifactId>javax.activation</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
     <!-- testing core-component supports junit 4.x tests -->
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test</artifactId>
+      <artifactId>camel-test-junit5</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -106,51 +96,11 @@
       <artifactId>camel-core-languages</artifactId>
     </dependency>
 
-    <!-- The HTTP component provides HTTP based endpoints for calling external HTTP resources (as a client to call
-     external servers using HTTP). -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-http</artifactId>
-    </dependency>
-
-    <!-- allows us to define RESTful camel io.holitek.kcar.routes using camel REST DSL
-         https://camel.apache.org/manual/latest/rest-dsl.html  -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-rest</artifactId>
-    </dependency>
-
-    <!-- The Rest DSL can be integrated with the camel-swagger-java module which is used for exposing the REST services
-     and their APIs using Swagger. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-swagger-java</artifactId>
-        <!-- deals with namespace conflicts in this split library -->
-        <exclusions>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-          </exclusion>
-        </exclusions>
-    </dependency>
-
     <!-- Validator performs declarative validation of the message according to the declared Input Type and/or Output
          Type on a route definition which declares the expected message type. -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-validator</artifactId>
-    </dependency>
-
-    <!-- allows us to hook into into the servlet container's servlet resources -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${javax.servlet-api-version}</version>
-      <scope>provided</scope>
     </dependency>
 
     <!-- logging implementation -->
@@ -159,15 +109,6 @@
       <artifactId>log4j-slf4j-impl</artifactId>
       <scope>runtime</scope>
       <version>${log4j2-version}</version>
-    </dependency>
-
-    <!-- this library was previously split into two that caused package namespace conflicts. dependencies with the split
-         predecessors as one of their dependencies have them marked excluded in their respective POM entries.
-         jaxb-runtime is here to meet whatever need those dependency had from those now excluded libraries. -->
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>${jaxb-runtime-version}</version>
     </dependency>
 
   </dependencies>
@@ -183,8 +124,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin-version}</version>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <source>${java-target-version}</source>
+          <target>${java-target-version}</target>
         </configuration>
       </plugin>
 
@@ -194,7 +135,7 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>${maven-resources-plugin-version}</version>
         <configuration>
-          <encoding>UTF-8</encoding>
+          <encoding>${resources-encoding}</encoding>
         </configuration>
       </plugin>
 
@@ -217,13 +158,6 @@
         </executions>
       </plugin>
 
-      <!-- for packaging things as a webapp -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${maven-war-plugin-version}</version>
-      </plugin>
-
       <!-- for running unit tests as part of a maven build -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -231,22 +165,12 @@
         <version>${maven-surefire-plugin-version}</version>
       </plugin>
 
-      <!-- for spinning up the service in self-contained instance of jetty -->
-      <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <!-- v10 is the last version that supports javax.servlet.* Might be ok to upgrade to the new jakarta.servlet.*
-             version but I think CamelHttpTransportServlet requires javax.servlet.*
-             will explore at some future date...
-             https://github.com/eclipse/jetty.project/releases -->
-        <version>${jetty-maven-plugin-version}</version>
-      </plugin>
-
-      <!-- validates source for invalid camel endpoint URIs and reprts the coverage oc camel io.holitek.kcar.routes after unit
+      <!-- validates source for invalid camel endpoint URIs and reports the coverage oc camel io.holitek.kcar.routes after unit
            testing -->
       <plugin>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-report-maven-plugin</artifactId>
+        <version>${camel-bom-version}</version>
         <executions>
           <execution>
             <phase>process-classes</phase>

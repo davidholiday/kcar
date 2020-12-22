@@ -2,9 +2,11 @@ package io.holitek.kcar.components.test;
 
 
 import io.holitek.kcar.components.HealthCheckBean;
+
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,22 +14,20 @@ import org.junit.jupiter.api.Test;
 
 public class HealthCheckBeanTest extends CamelTestSupport {
 
-    public static
-
     private HealthCheckBean healthCheckBean;
 
     @BeforeEach
     void beforeEach() {
         healthCheckBean = new HealthCheckBean();
-        template.getCamelContext().getRegistry().bind();
+        template.getCamelContext().getRegistry().bind(HealthCheckBean.CAMEL_REGISTRY_ID, healthCheckBean);
     }
 
     @Test
     @DisplayName("checks default behavior of HealthCheckBean")
     public void testHappyPath() throws Exception {
-        getMockEndpoint("mock:result").expectedBodiesReceived("Hello World");
+        getMockEndpoint("mock:result").expectedBodiesReceived(HealthCheckBean.OK_JSON_RESPONSE);
 
-        template.sendBody("direct:start", "Hello World");
+        template.sendBody("direct:start", "");
 
         assertMockEndpointsSatisfied();
     }
@@ -39,7 +39,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
             @Override
             public void configure() {
                 from("direct:start")
-                        to("bean:")
+                        .to("bean:" + HealthCheckBean.CAMEL_REGISTRY_ID)
                         .to("mock:result");
             }
         };

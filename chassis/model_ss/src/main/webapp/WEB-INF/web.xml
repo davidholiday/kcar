@@ -9,7 +9,7 @@
   <!-- *ACHTUNG* there can't be any spaces around the ':' separating 'packagescan' and the package name-->
 <!--  <context-param>-->
 <!--    <param-name>RouteBuilders</param-name>-->
-<!--    <param-value>packagescan:io.holitek.kcar.chassis.model_ss.routes</param-value>-->
+<!--    <param-value>packagescan:io.holitek.kcar.chassis.model_ss.io.holitek.kcar.routes</param-value>-->
 <!--  </context-param>-->
 
   <!-- location of spring xml file(s). used to configure camel context -->

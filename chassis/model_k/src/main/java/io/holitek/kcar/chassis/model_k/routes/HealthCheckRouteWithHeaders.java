@@ -7,7 +7,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 
 /*
-TODO get rid of common HTTPStrings class. the routes need to be wholly self contained, as does the service chassis!
+TODO get rid of common HTTPStrings class. the io.holitek.kcar.routes need to be wholly self contained, as does the service chassis!
 */
 import static io.holitek.kcar.chassis.model_k.common.HttpStrings.JSON_MEDIA_TYPE;
 import static io.holitek.kcar.chassis.model_k.common.HttpStrings.HTTP_OK;

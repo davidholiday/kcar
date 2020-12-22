@@ -5,7 +5,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 
 import io.holitek.kcar.chassis.model_ss.components.HealthCheckBean;
-import io.holitek.kcar.chassis.model_ss.routes.HeathCheckRoute;
+import io.holitek.kcar.chassis.model_ss.io.holitek.kcar.routes.HeathCheckRoute;
 
 
 /**
@@ -29,7 +29,7 @@ public class App {
         // register bean to Camel
         camelContext.getRegistry().bind(HEALTH_CHECK_BEAN_ID, healthCheckBean);
 
-        // add routes to Camel
+        // add io.holitek.kcar.routes to Camel
         camelContext.addRoutes(new HeathCheckRoute());
 
         // start Camel

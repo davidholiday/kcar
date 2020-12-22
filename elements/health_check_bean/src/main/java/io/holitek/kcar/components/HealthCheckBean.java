@@ -10,13 +10,12 @@ import org.apache.camel.Handler;
  */
 public class HealthCheckBean {
 
-    public static final String REGISTRY_ID = HealthCheckBean.class.getCanonicalName();
+    public static final String CAMEL_REGISTRY_ID = HealthCheckBean.class.getCanonicalName();
 
     public static final String OK_JSON_RESPONSE = "{\"status\": \"ok\"}";
     public static final String FAULT_JSON_REPONSE = "{\"status\": \"fault\"}";
 
     private boolean isOK = true;
-
 
     /**
      * sets health check state to OK

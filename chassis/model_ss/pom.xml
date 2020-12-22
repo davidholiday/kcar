@@ -57,7 +57,7 @@
       <artifactId>camel-main</artifactId>
     </dependency>
 
-    <!-- contains the base classes and RouteBuilder which you would use to build Camel routes and applications. This
+    <!-- contains the base classes and RouteBuilder which you would use to build Camel io.holitek.kcar.routes and applications. This
          JAR also contains necessary base classes for building custom Camel components, and other kinds of plugins. -->
     <dependency>
       <groupId>org.apache.camel</groupId>

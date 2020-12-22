@@ -1,9 +1,9 @@
 package io.holitek.kcar.chassis.model_k;
 
 
-import io.holitek.kcar.chassis.model_k.routes.HealthCheckRoute;
+import io.holitek.kcar.chassis.model_k.io.holitek.kcar.routes.HealthCheckRoute;
 
-import io.holitek.kcar.chassis.model_k.routes.HealthCheckRouteWithHeaders;
+import io.holitek.kcar.chassis.model_k.io.holitek.kcar.routes.HealthCheckRouteWithHeaders;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class App implements ServletContextListener {
             String className = camelContext.resolvePropertyPlaceholders((healthcheckProcessorPropertyPlaceholder));
             camelContext.getRegistry().bind(HealthCheckRoute.HEALTH_CHECK_HANDLER_ID, Class.forName(className));
 
-            // register routes(s)
+            // register io.holitek.kcar.routes(s)
             //
             camelContext.addRoutes(new HealthCheckRouteWithHeaders());
 
