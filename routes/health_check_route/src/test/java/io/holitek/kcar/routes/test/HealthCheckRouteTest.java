@@ -6,6 +6,7 @@ import io.holitek.kcar.routes.HealthCheckRoute;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
 
 import org.junit.jupiter.api.*;
@@ -41,6 +42,14 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     /**
      * reads from the test properties file and sets up the camel context with registry entries and the route to be
      * tested.
+     *
+     * @TODO this method can be converted into a common test utils helper. something like
+     *   <p>
+     *     public void setUpCamel(CamelContext camelContext, List<String> properties)
+     *   </p>
+     *   where properties is populated with whatever the route says it needs. the method can also stand up the
+     *   test route.
+     *   put this in a class that extends Camel-Test-Support and have all your tests extend from there.
      */
     @BeforeEach
     void setUpCamel() {
@@ -93,13 +102,14 @@ public class HealthCheckRouteTest extends CamelTestSupport {
         }
 
 
-//        // add the route we want to test
-//        //
-//        try {
-//            template.getCamelContext().addRoutes(new HealthCheckRoute());
-//        } catch (Exception e) {
-//            LOG.error("couldn't add route for testing", e);
-//        }
+        // add the route we want to test
+        //
+        try {
+            template.getCamelContext().addRoutes(new HealthCheckRoute());
+            template.getCamelContext().addRoutes(getTestRoute());
+        } catch (Exception e) {
+            LOG.error("couldn't add route for testing", e);
+        }
 
     }
 
@@ -126,13 +136,25 @@ public class HealthCheckRouteTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
+
+
     /**
-     * uses CamelTestSupport to inject the route to be tested
+     * allows us to create a fresh instance of the route (including whatever we're injecting into it) for every test.
      *
      * @return
      * @throws Exception
      */
-    @Override
-    protected RoutesBuilder createRouteBuilder() throws Exception { return new HealthCheckRoute(); }
+    private RoutesBuilder getTestRoute() {
+        return new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("direct:start")
+                        .to("direct:" + HealthCheckRoute.ROUTE_ID)
+                        .to("mock:result");
+            }
+        };
+
+    }
+
 
 }
