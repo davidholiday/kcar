@@ -24,12 +24,38 @@
 
   <dependencies>
 
+    <!-- allows us to hook into into the servlet container's servlet resources -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${javax.servlet-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- route is a REST endpoint so this is required for testing. when installed into a service chassis this will be
+         provided by the chassis -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-rest</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- route is a REST endpoint configured to hook into a servlet so this is required for testing. when installed
+         into a service chassis this will be provided by the chassis -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-servlet</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- health-check-bean is an element that holds onto app state information -->
     <dependency>
       <groupId>io.holitek.kcar.elements</groupId>
       <artifactId>health-check-bean</artifactId>
       <version>${health-check-bean-version}</version>
     </dependency>
 
+    <!-- health-check-processor is an element that resolves the health-check-bean output into a json REST response -->
     <dependency>
       <groupId>io.holitek.kcar.elements</groupId>
       <artifactId>health-check-processor</artifactId>

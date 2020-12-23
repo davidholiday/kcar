@@ -28,7 +28,9 @@
 
     <camel-bom-version>3.7.0</camel-bom-version>
 
+    <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
     <log4j2-version>2.13.3</log4j2-version>
+    <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
 
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
