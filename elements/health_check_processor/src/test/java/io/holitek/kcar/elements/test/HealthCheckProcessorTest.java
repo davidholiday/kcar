@@ -45,10 +45,10 @@ public class HealthCheckProcessorTest extends CamelTestSupport {
         // ensure the route is always fresh as well. otherwise, things fail because the beans is stale
         try {
             template.getCamelContext().addRoutes(getTestRoute());
-        } catch(Exception e) {
+        } catch(Exception e) { // addRoutes throws generic 'Exception'
             LOG.error("something went wrong adding routes", e);
         }
-    };
+    }
 
     @Test
     @DisplayName("checks default behavior")
@@ -150,24 +150,16 @@ public class HealthCheckProcessorTest extends CamelTestSupport {
      * @return
      * @throws Exception
      */
-    private RoutesBuilder getTestRoute() throws Exception {
-
-        RouteBuilder routeBuilder = null;
-
-        try {
-            routeBuilder = new RouteBuilder() {
-                @Override
-                public void configure() {
-                    from("direct:start")
-                            .to("bean:" + HealthCheckProcessor.CAMEL_REGISTRY_ID)
-                            .to("mock:result");
+    private RoutesBuilder getTestRoute() {
+        return new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("direct:start")
+                        .to("bean:" + HealthCheckProcessor.CAMEL_REGISTRY_ID)
+                        .to("mock:result");
                 }
-            };
-        } catch (Exception e) {
-            LOG.error("something went wring building the routes", e);
-        }
+        };
 
-        return routeBuilder;
     }
 
 }
