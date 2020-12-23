@@ -17,4 +17,25 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
+  <properties>
+    <health-check-bean-version>1.0-SNAPSHOT</health-check-bean-version>
+    <health-check-processor-version>1.0-SNAPSHOT</health-check-processor-version>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>io.holitek.kcar.elements</groupId>
+      <artifactId>health-check-bean</artifactId>
+      <version>${health-check-bean-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.holitek.kcar.elements</groupId>
+      <artifactId>health-check-processor</artifactId>
+      <version>${health-check-processor-version}</version>
+    </dependency>
+
+  </dependencies>
+
 </project>
