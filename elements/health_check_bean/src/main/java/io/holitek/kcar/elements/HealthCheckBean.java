@@ -30,7 +30,7 @@ public class HealthCheckBean {
     /**
      * constructs instance with default stateMap entry {'status':'ok'}
      */
-    public HealthCheckBean() { stateMap.put(STATUS_KEY, STATUS_OK); }
+    public HealthCheckBean() { stateMap.put(STATUS_KEY, STATUS_OK); LOG.info("{} is alive", this.toString());}
 
     /**
      * sets health check state to OK
@@ -47,6 +47,7 @@ public class HealthCheckBean {
      * message handler.
      */
     public Map<String, String> getState(Exchange exchange) {
+        LOG.info("from HealthCheckBean instance: {}", this.toString());
         Map<String, String> rv = new HashMap<>();
         for (String key : stateMap.keySet()) {
             rv.put(key, stateMap.get(key));

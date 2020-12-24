@@ -1,6 +1,9 @@
 package io.holitek.kcar.routes;
 
 
+import io.holitek.kcar.elements.HealthCheckBean;
+import org.apache.camel.BeanScope;
+import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -42,8 +45,15 @@ public class HealthCheckRoute extends RouteBuilder {
         from("{{" + HEALTH_CHECK_ROUTE_ENTRYPOINT_PROPERTY_ID + "}}")
                   .routeId(ROUTE_ID)
                   .log(LoggingLevel.INFO, "servicing /healthcheck request from: ${header.host}" )
-                  .to("bean: {{" + HEALTH_CHECK_BEAN_PROPERTY_ID + "}}")
-                  .to("bean: {{" + HEALTH_CHECK_PROCESSOR_PROPERTY_ID + "}}");
+                  /*
+                  beans behave differently within a route. they appear to be created independently of whether or not
+                  an instance of the bean class is already in the registry.
+                   */
+                  .log(LoggingLevel.INFO, "routing to -> bean: {{" + HEALTH_CHECK_BEAN_PROPERTY_ID + "}}")
+                  .bean("{{" + HEALTH_CHECK_BEAN_PROPERTY_ID + "}}")
+                  .log("${body}")
+                  .bean("{{" + HEALTH_CHECK_PROCESSOR_PROPERTY_ID + "}}")
+                  .to("mock:result");
     }
 
 }
