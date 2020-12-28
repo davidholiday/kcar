@@ -9,6 +9,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Route;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.support.jndi.JndiContext;
 import org.apache.camel.test.junit5.CamelTestSupport;
 
 import org.junit.jupiter.api.*;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.naming.Context;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,12 +69,9 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
 
 
-        TODO this is weird and hopefully because of the way the test support stuff works rather than camel itself. basically you can't seem to use the below code to pre-stage or otherwise manipulate the registry. whatever bean ovject gets created at route-creation time seems to be indepenant from whatever is going on with the registry you have a hook into.
+        TODO this is weird and hopefully because of the way the test support stuff works rather than camel itself.
 
-        TODO at this point you need to do some experimentation on a live camel route to see the degree to which objects will be sourced from the registry first before the route makes it's own. also where is the route hanging onto these things if not in the registry? shouldn't there be a collision?
-
-        TODO either way - you ened to be able to test routes end2end w/o mocking any of the intermediary elements.
-
+        TODO -- problem fixed!! see below TODO for deets
 
 
 
@@ -81,33 +80,37 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
 
 
-//        // resolve element classnames so needed elements can be created and added to the camel registry
-//        //
-//        String healthCheckBeanClassName =
-//                context().getPropertiesComponent()
-//                         .resolveProperty(HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID)
-//                         .orElse("");
-//
+        // resolve element classnames so needed elements can be created and added to the camel registry
+        //
+        String healthCheckBeanClassName =
+                context().getPropertiesComponent()
+                         .resolveProperty(HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID)
+                         .orElse("");
+
 //        String healthCheckProcessorClassName =
 //                context().getPropertiesComponent()
 //                         .resolveProperty(HealthCheckRoute.HEALTH_CHECK_PROCESSOR_PROPERTY_ID)
 //                         .orElse("");
-//
-//
-//        // create object instances for whatever is specified in properties file
-//        //
-//        try {
-//            LOG.info("adding {} -> {} to the registry...",
-//                    healthCheckBeanClassName, healthCheckBeanClassName);
-//
-//            context().getRegistry()
-//                     .bind(
-//                             //HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID,
-//                             healthCheckBeanClassName,
-//                             Class.forName(healthCheckBeanClassName).newInstance()
-//                     );
-//
-//
+
+
+        // create object instances for whatever is specified in properties file
+        //
+        try {
+            LOG.info("adding {} -> {} to the registry...",
+                    healthCheckBeanClassName, healthCheckBeanClassName);
+
+            context().getRegistry()
+                     .bind(
+                             //HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID,
+                             healthCheckBeanClassName,
+                             Class.forName(healthCheckBeanClassName).newInstance()
+                     );
+
+
+
+// TODO -- remove the section below - we need to manually add the health check bean because it is stateful. anything else will be created when the
+            // TODO route is exercised
+
 //            LOG.info("adding {} -> {} to the registry",
 //                    healthCheckProcessorClassName, healthCheckProcessorClassName);
 //
@@ -117,9 +120,9 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 //                             healthCheckProcessorClassName,
 //                             Class.forName(healthCheckProcessorClassName)
 //                    );
-//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-//            LOG.error("couldn't create class instance from entry in properties file", e);
-//        }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            LOG.error("couldn't create class instance from entry in properties file", e);
+        }
 
 
         // add the route we want to test
@@ -135,6 +138,9 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     }
 
 
+
+
+
     /**
      *
      * @throws Exception
@@ -142,6 +148,8 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     @Test
     @DisplayName("checks default behavior")
     public void testHappyPath() throws Exception {
+        context.start();
+
         getMockEndpoint("mock:result").expectedHeaderReceived(
                 Exchange.HTTP_RESPONSE_CODE,
                 HealthCheckProcessor.HTTP_OK
@@ -155,6 +163,14 @@ public class HealthCheckRouteTest extends CamelTestSupport {
         getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
+
+        context.stop();
+    }
+
+
+    @Override
+    public boolean isUseAdviceWith() {
+        return true;
     }
 
 
@@ -165,7 +181,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     @Test
     @DisplayName("checks fault behavior")
     public void testFaultPath() throws Exception {
-
+        context.start();
 
         getMockEndpoint("mock:result").expectedHeaderReceived(
                 Exchange.HTTP_RESPONSE_CODE,
@@ -179,24 +195,64 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
 
-//        String healthCheckBeanClassName =
-//                context()
-//                        .getPropertiesComponent()
-//                        .resolveProperty(HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID)
-//                        .orElse("");
-//
-//        LOG.info("healthCheckBeanClassName is: {}", healthCheckBeanClassName);
-//
-//        LOG.info(template.getCamelContext().getRegistry().lookupByName(healthCheckBeanClassName) + "");
-//        LOG.info(context().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class) + "");
-//        context().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).setFaultState();
-//        LOG.info(context().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).getState(null) + "");
-//        LOG.info(template.getCamelContext().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).toString());
+        String healthCheckBeanClassName =
+                context()
+                        .getPropertiesComponent()
+                        .resolveProperty(HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID)
+                        .orElse("");
+
+        LOG.info("healthCheckBeanClassName is: {}", healthCheckBeanClassName);
+
+        LOG.info(template.getCamelContext().getRegistry().lookupByName(healthCheckBeanClassName) + "");
+        LOG.info(context().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class) + "");
+        context().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).setFaultState();
+        LOG.info(context().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).getState(null) + "");
+        LOG.info(template.getCamelContext().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).toString());
 
         sendBody("direct:start", "");
 //        LOG.info(template.getCamelContext().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).toString());
         assertMockEndpointsSatisfied();
+
+
+
+
+        /*
+
+
+
+        https://opensourceconnections.com/blog/2014/04/24/correctly-using-camels-advicewith-in-unit-tests/
+
+
+        that was a fucking livesaver!!!!
+
+
+        TODO the tl'dr on this was that your assumption about how beans work is CORRECT!! something weird was happening in the guts of the CameTestSupport logic that was causing the root to get
+          resolved before the registry was properly populated. use the method in that article to start/stop the camel context before and after each test - MANUALLY.
+
+          TODO also - write a version on this test that invovles using "advicewith" so you have working examples using both methods
+
+
+
+         */
+
+
+
+
+        context().stop();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
