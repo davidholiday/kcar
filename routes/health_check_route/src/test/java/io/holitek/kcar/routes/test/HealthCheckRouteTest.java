@@ -64,34 +64,12 @@ public class HealthCheckRouteTest extends CamelTestSupport {
         context().getPropertiesComponent()
                  .setLocation("classpath:application.test.properties");
 
-
-        /*
-
-
-
-        TODO this is weird and hopefully because of the way the test support stuff works rather than camel itself.
-
-        TODO -- problem fixed!! see below TODO for deets
-
-
-
-         */
-
-
-
-
         // resolve element classnames so needed elements can be created and added to the camel registry
         //
         String healthCheckBeanClassName =
                 context().getPropertiesComponent()
                          .resolveProperty(HealthCheckRoute.HEALTH_CHECK_BEAN_PROPERTY_ID)
                          .orElse("");
-
-//        String healthCheckProcessorClassName =
-//                context().getPropertiesComponent()
-//                         .resolveProperty(HealthCheckRoute.HEALTH_CHECK_PROCESSOR_PROPERTY_ID)
-//                         .orElse("");
-
 
         // create object instances for whatever is specified in properties file
         //
@@ -105,25 +83,9 @@ public class HealthCheckRouteTest extends CamelTestSupport {
                              healthCheckBeanClassName,
                              Class.forName(healthCheckBeanClassName).newInstance()
                      );
-
-
-
-// TODO -- remove the section below - we need to manually add the health check bean because it is stateful. anything else will be created when the
-            // TODO route is exercised
-
-//            LOG.info("adding {} -> {} to the registry",
-//                    healthCheckProcessorClassName, healthCheckProcessorClassName);
-//
-//            context().getRegistry()
-//                     .bind(
-//                             //HealthCheckRoute.HEALTH_CHECK_PROCESSOR_PROPERTY_ID,
-//                             healthCheckProcessorClassName,
-//                             Class.forName(healthCheckProcessorClassName)
-//                    );
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             LOG.error("couldn't create class instance from entry in properties file", e);
         }
-
 
         // add the route we want to test
         //
@@ -213,6 +175,36 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 //        LOG.info(template.getCamelContext().getRegistry().lookupByNameAndType(healthCheckBeanClassName, HealthCheckBean.class).toString());
         assertMockEndpointsSatisfied();
 
+        context().stop();
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    private RoutesBuilder getTestRoute() { return new HealthCheckRoute(); }
+
+    /**
+     * allows us to create a fresh instance of the route (including whatever we're injecting into it) for every test.
+     *
+     * @return
+     * @throws Exception
+     */
+    private RoutesBuilder getTestRouteWrapper() {
+        return new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("direct:start")
+                        .to("direct:" + HealthCheckRoute.ROUTE_ID)
+                        .to("mock:result");
+            }
+        };
+
+    }
+
+
+}
 
 
 
@@ -234,50 +226,3 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
 
          */
-
-
-
-
-        context().stop();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     *
-     * @return
-     */
-    private RoutesBuilder getTestRoute() { return new HealthCheckRoute(); }
-
-    /**
-     * allows us to create a fresh instance of the route (including whatever we're injecting into it) for every test.
-     *
-     * @return
-     * @throws Exception
-     */
-//    private RoutesBuilder getTestRouteWrapper() {
-//        return new RouteBuilder() {
-//            @Override
-//            public void configure() {
-//                from("direct:start")
-//                        .to("direct:" + HealthCheckRoute.ROUTE_ID)
-//                        .to("mock:result");
-//            }
-//        };
-//
-//    }
-
-
-}

@@ -53,7 +53,7 @@ public class HealthCheckRoute extends RouteBuilder {
                   .bean("{{" + HEALTH_CHECK_BEAN_PROPERTY_ID + "}}")
                   .log("${body}")
                   .bean("{{" + HEALTH_CHECK_PROCESSOR_PROPERTY_ID + "}}")
-                  .to("mock:result");
+                  .bean("{{" + );
     }
 
 }

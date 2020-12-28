@@ -15,7 +15,7 @@
     <module>elements/health_check_bean</module>
     <module>elements/health_check_processor</module>
 
-    <module>routes/health_check_route</module>
+<!--    <module>routes/health_check_route</module>-->
   </modules>
 
   <properties>
@@ -72,7 +72,7 @@
       <artifactId>camel-log</artifactId>
     </dependency>
 
-    <!-- testing core-component supports junit 4.x tests -->
+    <!-- testing core-component supports junit5 tests -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-test-junit5</artifactId>
