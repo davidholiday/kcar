@@ -4,64 +4,25 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.holitek.kcar</groupId>
+  <groupId>io.holitek.kcar.chassis</groupId>
   <artifactId>model_k</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>kcar model-k (for Kalashnikov)</name>
+  <name>K-car chassis model-k </name>
+
+  <parent>
+    <groupId>io.holitek.kcar</groupId>
+    <artifactId>kcar-parent-pom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <camel-bom-version>3.7.0</camel-bom-version>
-
-    <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
-    <log4j2-version>2.13.3</log4j2-version>
-    <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
-
-    <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
-    <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
-    <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
-    <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
-    <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
-    <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
-
+    <health-check-route-version>1.0-SNAPSHOT</health-check-route-version>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <!-- Camel BOM
-           a B.ill O.ff M.aterials file is a separate pom file that specifies versions for dependencies-->
-      <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-bom</artifactId>
-        <version>${camel-bom-version}</version>
-        <scope>import</scope>
-        <type>pom</type>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
-    <!-- camel kernel -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core-engine</artifactId>
-    </dependency>
-
-    <!-- bean core-component binds beans to Camel message exchanges. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-bean</artifactId>
-    </dependency>
-
-    <!-- log core-component connects to camel to slf4j impl-->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-log</artifactId>
-    </dependency>
 
     <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
          endpoint that is bound to a published Servlet. -->
@@ -75,35 +36,6 @@
           <artifactId>javax.activation</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <!-- testing core-component supports junit 4.x tests -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- contains the base classes and RouteBuilder which you would use to build Camel io.holitek.kcar.routes and applications. This
-     JAR also contains necessary base classes for building custom Camel components, and other kinds of plugins. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-support</artifactId>
-    </dependency>
-
-    <!-- contains the public API for Camel (eg interfaces such as CamelContext, Endpoint, Exchange, Message, and so
-         on). -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-api</artifactId>
-    </dependency>
-
-    <!-- camel can parse several languages. this dependency enables us to parse the camel specific language, 'simple'.
-         https://camel.apache.org/components/latest/languages/index.html
-         https://camel.apache.org/components/latest/languages/simple-language.html -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core-languages</artifactId>
     </dependency>
 
     <!-- The HTTP component provides HTTP based endpoints for calling external HTTP resources (as a client to call
@@ -120,45 +52,12 @@
       <artifactId>camel-rest</artifactId>
     </dependency>
 
-    <!-- The Rest DSL can be integrated with the camel-swagger-java module which is used for exposing the REST services
-     and their APIs using Swagger. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-swagger-java</artifactId>
-        <!-- deals with namespace conflicts in this split library -->
-        <exclusions>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-          </exclusion>
-        </exclusions>
-    </dependency>
-
-    <!-- Validator performs declarative validation of the message according to the declared Input Type and/or Output
-         Type on a route definition which declares the expected message type. -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-validator</artifactId>
-    </dependency>
-
     <!-- allows us to hook into into the servlet container's servlet resources -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>${javax.servlet-api-version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <!-- logging implementation -->
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <scope>runtime</scope>
-      <version>${log4j2-version}</version>
     </dependency>
 
     <!-- this library was previously split into two that caused package namespace conflicts. dependencies with the split
@@ -170,65 +69,23 @@
       <version>${jaxb-runtime-version}</version>
     </dependency>
 
+    <!-- route that exposes /healthcheck REST endpoint -->
+    <dependency>
+      <groupId>io.holitek.kcar.routes</groupId>
+      <artifactId>health-check-route</artifactId>
+      <version>${health-check-route-version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
-    <defaultGoal>install</defaultGoal>
-
     <plugins>
-
-      <!-- The Compiler Plugin is used to compile the sources of your project. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin-version}</version>
-        <configuration>
-          <source>11</source>
-          <target>11</target>
-        </configuration>
-      </plugin>
-
-      <!-- The Resources Plugin handles the copying of project resources to the output directory.  -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>${maven-resources-plugin-version}</version>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-
-      <!-- for javadoc generation -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin-version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
-              <!-- prevents javadoc error from failing build -->
-              <detectJavaApiLink>false</detectJavaApiLink>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
 
       <!-- for packaging things as a webapp -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>${maven-war-plugin-version}</version>
-      </plugin>
-
-      <!-- for running unit tests as part of a maven build -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin-version}</version>
       </plugin>
 
       <!-- for spinning up the service in self-contained instance of jetty -->
@@ -240,22 +97,6 @@
              will explore at some future date...
              https://github.com/eclipse/jetty.project/releases -->
         <version>${jetty-maven-plugin-version}</version>
-      </plugin>
-
-      <!-- validates source for invalid camel endpoint URIs and reprts the coverage oc camel io.holitek.kcar.routes after unit
-           testing -->
-      <plugin>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-report-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>validate</goal>
-              <goal>route-coverage</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
     </plugins>

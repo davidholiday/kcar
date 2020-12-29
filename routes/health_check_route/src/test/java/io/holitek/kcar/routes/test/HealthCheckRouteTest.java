@@ -50,8 +50,11 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     @BeforeEach
     void beforeEach() {
         context().getPropertiesComponent()
-                .setLocation("classpath:application.test.properties");
+                .setLocation("classpath:healthCheckRoute.application.test.properties");
 
+        // we need to add the health check bean to the registry prior to the test so we can change its state prior to
+        // the test run. otherwise the bean will be created when the route calls for it and we won't be able to test
+        // the processor's response to different health-check states reported by the bean.
         context().getRegistry()
                  .bind(HealthCheckBean.CAMEL_REGISTRY_ID, new HealthCheckBean());
 
@@ -69,7 +72,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     // tests
 
     @Test
-    @DisplayName("checks default behavior")
+    @DisplayName("checks happy path")
     public void testHappyPath() throws Exception {
         getMockEndpoint("mock:result").expectedHeaderReceived(
                 Exchange.HTTP_RESPONSE_CODE,
@@ -88,7 +91,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
 
     @Test
-    @DisplayName("checks fault behavior")
+    @DisplayName("checks fault state is correctly processed")
     public void testFaultPath() throws Exception {
 
         getMockEndpoint("mock:result").expectedHeaderReceived(
@@ -111,6 +114,5 @@ public class HealthCheckRouteTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
 
     }
-
 
 }
