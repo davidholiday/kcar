@@ -17,7 +17,8 @@
     <module>elements/health_check_processor</module>
     <module>elements/noop_processor</module>
 
-<!--    <module>routes/health_check_route</module>-->
+    <!-- routes -->
+    <module>routes/health_check_route</module>
   </modules>
 
   <properties>

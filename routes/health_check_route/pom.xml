@@ -20,6 +20,7 @@
   <properties>
     <health-check-bean-version>1.0-SNAPSHOT</health-check-bean-version>
     <health-check-processor-version>1.0-SNAPSHOT</health-check-processor-version>
+    <noop-processor-version>1.0-SNAPSHOT</noop-processor-version>
   </properties>
 
   <dependencies>
@@ -60,6 +61,13 @@
       <groupId>io.holitek.kcar.elements</groupId>
       <artifactId>health-check-processor</artifactId>
       <version>${health-check-processor-version}</version>
+    </dependency>
+
+    <!-- NoOp processor  -->
+    <dependency>
+      <groupId>io.holitek.kcar.elements</groupId>
+      <artifactId>noop-processor</artifactId>
+      <version>${noop-processor-version}</version>
     </dependency>
 
   </dependencies>
