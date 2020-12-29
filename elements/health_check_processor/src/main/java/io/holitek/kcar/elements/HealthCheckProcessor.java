@@ -23,7 +23,6 @@ public class HealthCheckProcessor implements Processor {
 
 
     /**
-     * handler for camel messages.
      *
      * @param exchange
      * @throws Exception

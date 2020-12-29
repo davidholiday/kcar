@@ -12,8 +12,10 @@
   <name>parent POM for all kcar elements, io.holitek.kcar.routes, chassis, and services</name>
 
   <modules>
+    <!-- elements -->
     <module>elements/health_check_bean</module>
     <module>elements/health_check_processor</module>
+    <module>elements/noop_processor</module>
 
 <!--    <module>routes/health_check_route</module>-->
   </modules>

@@ -5,7 +5,6 @@ import io.holitek.kcar.elements.HealthCheckProcessor;
 
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.Exchange;
-import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
 
@@ -28,27 +27,51 @@ public class HealthCheckProcessorTest extends CamelTestSupport {
     private static final Map<String, String> statusOkMap = new HashMap<>();
     private static final Map<String, String> statusFaultMap = new HashMap<>();
 
-    private HealthCheckProcessor healthCheckProcessor;
 
+    //
+    // test setup and configuration
+
+    /**
+     * tells the test runner that we'll start and stop the camel context manually. this ensures the camel context
+     * doesn't start before we've set up the camel registry and routes.
+     *
+     * @return
+     */
+    @Override
+    public boolean isUseAdviceWith() { return true; }
+
+    /**
+     * populate status maps. purposefully NOT using the constants found in the HealthCheckBean. the Processor this
+     * set of tests covers only looks for a specific key. both the processor and this test should not (and therefore
+     * do not as of this writing) have dependencies on any other elements.
+     */
     @BeforeAll
     static void beforeAll() {
-        statusOkMap.put("status", "ok");
-        statusFaultMap.put("status", "fault");
+        statusOkMap.put(HealthCheckProcessor.STATUS_KEY, "ok");
+        statusFaultMap.put(HealthCheckProcessor.STATUS_KEY, "fault");
     }
 
     @BeforeEach
-    void beforeEach() {
-        // ensure bean obj is always fresh
-        healthCheckProcessor = new HealthCheckProcessor();
-        template.getCamelContext().getRegistry().bind(HealthCheckProcessor.CAMEL_REGISTRY_ID, healthCheckProcessor);
+    void beforeEach() { context().start(); }
 
-        // ensure the route is always fresh as well. otherwise, things fail because the beans is stale
-        try {
-            template.getCamelContext().addRoutes(getTestRoute());
-        } catch(Exception e) { // addRoutes throws generic 'Exception'
-            LOG.error("something went wrong adding routes", e);
-        }
+    @AfterEach
+    void afterEach() { context().stop(); }
+
+    @Override
+    protected RouteBuilder createRouteBuilder() {
+        return new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("direct:start")
+                        .process(new HealthCheckProcessor())
+                        .to("mock:result");
+            }
+        };
     }
+
+
+    //
+    // tests
 
     @Test
     @DisplayName("checks default behavior")
@@ -140,25 +163,6 @@ public class HealthCheckProcessorTest extends CamelTestSupport {
                 testPass,
                 "processor should throw exception if the message body is empty"
         );
-
-    }
-
-
-    /**
-     * allows us to create a fresh instance of the route (including whatever we're injecting into it) for every test.
-     *
-     * @return
-     * @throws Exception
-     */
-    private RoutesBuilder getTestRoute() {
-        return new RouteBuilder() {
-            @Override
-            public void configure() {
-                from("direct:start")
-                        .to("bean:" + HealthCheckProcessor.CAMEL_REGISTRY_ID)
-                        .to("mock:result");
-                }
-        };
 
     }
 

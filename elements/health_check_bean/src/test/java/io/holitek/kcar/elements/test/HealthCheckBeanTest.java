@@ -3,14 +3,10 @@ package io.holitek.kcar.elements.test;
 
 import io.holitek.kcar.elements.HealthCheckBean;
 
-import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,35 +22,59 @@ public class HealthCheckBeanTest extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(HealthCheckBeanTest.class);
 
-    private static final Map<String, String> expectedStatusOkMap = new HashMap<>();
-    private static final Map<String, String> expectedStatusFaultMap = new HashMap<>();
+    private static final Map<String, String> statusOkMap = new HashMap<>();
+    private static final Map<String, String> statusFaultMap = new HashMap<>();
 
-    private HealthCheckBean healthCheckBean;
+
+    //
+    // test setup and configuration
+
+    /**
+     * tells the test runner that we'll start and stop the camel context manually. this ensures the camel context
+     * doesn't start before we've set up the camel registry and routes.
+     *
+     * @return
+     */
+    @Override
+    public boolean isUseAdviceWith() { return true; }
 
     @BeforeAll
     static void beforeAll() {
-        expectedStatusOkMap.put(HealthCheckBean.STATUS_KEY, HealthCheckBean.STATUS_OK);
-        expectedStatusFaultMap.put(HealthCheckBean.STATUS_KEY, HealthCheckBean.STATUS_FAULT);
+        statusOkMap.put(HealthCheckBean.STATUS_KEY, HealthCheckBean.STATUS_OK);
+        statusFaultMap.put(HealthCheckBean.STATUS_KEY, HealthCheckBean.STATUS_FAULT);
     }
 
     @BeforeEach
     void beforeEach() {
-        // ensure bean obj is always fresh
-        healthCheckBean = new HealthCheckBean();
-        template.getCamelContext().getRegistry().bind(HealthCheckBean.CAMEL_REGISTRY_ID, healthCheckBean);
+        context().getRegistry()
+                 .bind(HealthCheckBean.CAMEL_REGISTRY_ID, new HealthCheckBean());
 
-        // ensure the route is always fresh as well. otherwise, things fail because the beans is stale
-        try {
-            template.getCamelContext().addRoutes(getTestRoute());
-        } catch(Exception e) {
-            LOG.error("something went wrong adding routes", e);
-        }
-    };
+        context().start();
+    }
+
+    @AfterEach
+    void afterEach() { context().stop(); }
+
+    @Override
+    protected RouteBuilder createRouteBuilder() {
+        return new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("direct:start")
+                        .bean(HealthCheckBean.CAMEL_REGISTRY_ID)
+                        .to("mock:result");
+            }
+        };
+    }
+
+
+    //
+    // tests
 
     @Test
     @DisplayName("checks default behavior")
     public void testHappyPath() throws Exception {
-        getMockEndpoint("mock:result").expectedBodiesReceived(expectedStatusOkMap);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
     }
@@ -62,13 +82,11 @@ public class HealthCheckBeanTest extends CamelTestSupport {
     @Test
     @DisplayName("checks that setting state to 'fault' works")
     public void testSetFault() throws Exception {
+        context().getRegistry()
+                 .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
+                 .setFaultState();
 
-        template.getCamelContext()
-                .getRegistry()
-                .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
-                .setFaultState();
-
-        getMockEndpoint("mock:result").expectedBodiesReceived(expectedStatusFaultMap);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
     }
@@ -87,35 +105,9 @@ public class HealthCheckBeanTest extends CamelTestSupport {
                 .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
                 .setOkState();
 
-        getMockEndpoint("mock:result").expectedBodiesReceived(expectedStatusOkMap);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
-    }
-
-    /**
-     * allows us to create a fresh instance of the route (including whatever we're injecting into it) for every test.
-     *
-     * @return
-     * @throws Exception
-     */
-    private RoutesBuilder getTestRoute() throws Exception {
-
-        RouteBuilder routeBuilder = null;
-
-        try {
-            routeBuilder = new RouteBuilder() {
-                @Override
-                public void configure() {
-                    from("direct:start")
-                            .to("bean:" + HealthCheckBean.CAMEL_REGISTRY_ID)
-                            .to("mock:result");
-                }
-            };
-        } catch (Exception e) {
-            LOG.error("something went wring building the routes", e);
-        }
-
-        return routeBuilder;
     }
 
 }
