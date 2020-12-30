@@ -48,21 +48,19 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     }
 
     @BeforeEach
-    void beforeEach() {
-        context().getPropertiesComponent()
-                .setLocation("classpath:healthCheckRoute.application.test.properties");
+    void beforeEach() throws Exception {
+        // TODO plop this in a common helper method in the properties util
+        context.getPropertiesComponent()
+               .setLocation("classpath:" + HealthCheckRoute.NAMESPACE_KEY + ".application.test.properties");
 
-        // we need to add the health check bean to the registry prior to the test so we can change its state prior to
-        // the test run. otherwise the bean will be created when the route calls for it and we won't be able to test
-        // the processor's response to different health-check states reported by the bean.
-        context().getRegistry()
-                 .bind(HealthCheckBean.CAMEL_REGISTRY_ID, new HealthCheckBean());
+        HealthCheckBean healthCheckBean = new HealthCheckBean();
+        context.getRegistry().bind(HealthCheckBean.NAMESPACE_KEY, healthCheckBean);
 
-        context().start();
+        context.start();
     }
 
     @AfterEach
-    void afterEach() { context().stop(); }
+    void afterEach() { context.stop(); }
 
     @Override
     protected RouteBuilder createRouteBuilder() { return new HealthCheckRoute(); }
@@ -94,6 +92,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     @DisplayName("checks fault state is correctly processed")
     public void testFaultPath() throws Exception {
 
+
         getMockEndpoint("mock:result").expectedHeaderReceived(
                 Exchange.HTTP_RESPONSE_CODE,
                 HealthCheckProcessor.HTTP_OK
@@ -104,15 +103,15 @@ public class HealthCheckRouteTest extends CamelTestSupport {
                 HealthCheckProcessor.JSON_MEDIA_TYPE
         );
 
+        context.getRegistry()
+               .lookupByNameAndType(HealthCheckBean.NAMESPACE_KEY, HealthCheckBean.class)
+               .setFaultState();
+
         getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
-
-        context().getRegistry()
-                 .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
-                 .setFaultState();
-
         sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
 
     }
+
 
 }

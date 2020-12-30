@@ -6,6 +6,7 @@ import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.Introspector;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,8 @@ public class HealthCheckBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(HealthCheckBean.class);
 
-    public static final String CAMEL_REGISTRY_ID = HealthCheckBean.class.getCanonicalName();
+    // anything to do with this element - from properties to identification - will use this top level key
+    public static final String NAMESPACE_KEY = Introspector.decapitalize(HealthCheckBean.class.getSimpleName());
 
     public static final String STATUS_KEY = "status";
     public static final String STATUS_OK = "ok";

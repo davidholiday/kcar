@@ -77,6 +77,19 @@ public class App implements ServletContextListener {
                 camelContext.addRoutes(route);
             }
 
+            /*
+
+            TODO
+            services that implement a given chassis need to add an additional property in the chassis namespace
+            that the chassis code knows to look for to load additional routes.
+
+            A service doesn't have code. it's a bare bones project that has the chassis and route(s) as dependencies along with a docker file
+            (heroku) that ensures prod-ready build (meaning there's probably a hook into apache http as well or nginx or whatever)
+
+
+             */
+
+
             //
             camelContext.start();
             LOG.info("*!* Camel is up! *!*");

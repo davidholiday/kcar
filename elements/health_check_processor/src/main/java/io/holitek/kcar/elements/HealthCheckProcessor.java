@@ -5,6 +5,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 
+import java.beans.Introspector;
 import java.util.Map;
 
 
@@ -14,7 +15,8 @@ import java.util.Map;
  */
 public class HealthCheckProcessor implements Processor {
 
-    public static final String CAMEL_REGISTRY_ID = HealthCheckProcessor.class.getCanonicalName();
+    // anything to do with this element - from properties to identification - will use this top level key
+    public static final String NAMESPACE_KEY = Introspector.decapitalize(HealthCheckProcessor.class.getSimpleName());
 
     public static final String STATUS_KEY = "status";
 

@@ -47,7 +47,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
     @BeforeEach
     void beforeEach() {
         context().getRegistry()
-                 .bind(HealthCheckBean.CAMEL_REGISTRY_ID, new HealthCheckBean());
+                 .bind(HealthCheckBean.NAMESPACE_KEY, new HealthCheckBean());
 
         context().start();
     }
@@ -61,7 +61,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
             @Override
             public void configure() {
                 from("direct:start")
-                        .bean(HealthCheckBean.CAMEL_REGISTRY_ID)
+                        .bean(HealthCheckBean.NAMESPACE_KEY)
                         .to("mock:result");
             }
         };
@@ -83,7 +83,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
     @DisplayName("checks that setting state to 'fault' works")
     public void testSetFault() throws Exception {
         context().getRegistry()
-                 .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
+                 .lookupByNameAndType(HealthCheckBean.NAMESPACE_KEY, HealthCheckBean.class)
                  .setFaultState();
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
@@ -97,12 +97,12 @@ public class HealthCheckBeanTest extends CamelTestSupport {
 
         template.getCamelContext()
                 .getRegistry()
-                .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
+                .lookupByNameAndType(HealthCheckBean.NAMESPACE_KEY, HealthCheckBean.class)
                 .setFaultState();
 
         template.getCamelContext()
                 .getRegistry()
-                .lookupByNameAndType(HealthCheckBean.CAMEL_REGISTRY_ID, HealthCheckBean.class)
+                .lookupByNameAndType(HealthCheckBean.NAMESPACE_KEY, HealthCheckBean.class)
                 .setOkState();
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
