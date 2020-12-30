@@ -1,6 +1,7 @@
 package io.holitek.kcar.routes;
 
 
+import io.holitek.kcar.helpers.CamelPropertyHelper;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
@@ -19,20 +20,17 @@ public class HealthCheckRoute extends RouteBuilder {
     // anything to do with this route - from properties to identification - will use this top level key
     public static final String NAMESPACE_KEY = Introspector.decapitalize(HealthCheckRoute.class.getSimpleName());
 
-    // TODO as we create more routes it'll probably make sense to make a helper utility common to all routes that
-    // TODO     can take a do this boiler plate string building and keep the code DRY
     public static final String HEALTH_CHECK_ROUTE_ENTRYPOINT_PROPERTY_PLACEHOLDER =
-            "{{" + NAMESPACE_KEY + ".entryPoint}}";
-
-    public static final String HEALTH_CHECK_ROUTE_EXITPOINT_PROPERTY_PLACEHOLDER =
-            "{{" + NAMESPACE_KEY + ".exitPoint}}";
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "entryPoint");
 
     public static final String HEALTH_CHECK_BEAN_PROPERTY_PLACEHOLDER =
-            "{{" + NAMESPACE_KEY + ".healthCheckBean}}";
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "healthCheckBean");
 
     public static final String HEALTH_CHECK_PROCESSOR_PROPERTY_PLACEHOLDER =
-            "{{" + NAMESPACE_KEY + ".healthCheckProcessor}}";
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "healthCheckProcessor");
 
+    public static final String HEALTH_CHECK_ROUTE_EXITPOINT_PROPERTY_PLACEHOLDER =
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "exitPoint");
 
     /**
      *

@@ -28,13 +28,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
     <resources-encoding>UTF-8</resources-encoding>
 
     <java-target-version>11</java-target-version>
 
     <camel-bom-version>3.7.0</camel-bom-version>
 
+    <camel-property-helper-version>1.0-SNAPSHOT</camel-property-helper-version>
     <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
     <log4j2-version>2.13.3</log4j2-version>
     <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
@@ -116,6 +116,12 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-validator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
     </dependency>
 
     <!-- logging implementation -->
