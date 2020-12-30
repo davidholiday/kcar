@@ -96,12 +96,26 @@ public class CamelPropertyHelper {
      */
     public static List<String> loadPropertyFileForNamespace(CamelContext camelContext, String namespace) {
         String propertyFileLocation = "classpath:" + namespace + ".application.properties";
+        LOG.info("setting camel context properties component location to: {}", propertyFileLocation);
         camelContext.getPropertiesComponent().setLocation(propertyFileLocation);
         List<String> namespaces = new ArrayList<>();
         namespaces.add(namespace);
         return namespaces;
     }
 
+    /**
+     * searches the classpath for a properties file named {NAMESPACE.application.test.properties} and, if found, loads
+     * it into the camel context. returns a list with filename in aforementioned format.
+     *
+     * @param camelContext
+     * @param namespace
+     * @return
+     */
+    public static void loadTestPropertyFileForNamespace(CamelContext camelContext, String namespace) {
+        String propertyFileLocation = "classpath:" + namespace + ".application.test.properties";
+        LOG.info("setting camel context properties component location to: {}", propertyFileLocation);
+        camelContext.getPropertiesComponent().setLocation(propertyFileLocation);
+    }
 
     /**
      * takes a set of namespaces and loads every properties file in the class path with that namespace key into
@@ -109,15 +123,15 @@ public class CamelPropertyHelper {
      *
      * @param camelContext
      * @param namespaces
-     * @return
      */
     public static void loadPropertyFilesForNamespaces(CamelContext camelContext, List<String> namespaces) {
         String propertyFileLocations = new String();
         for (String namespace : namespaces) {
             String propertyFileLocation = "classpath:" + namespace + ".application.properties";
-            propertyFileLocations = propertyFileLocations + "," + propertyFileLocation;
-
+            if (propertyFileLocations.isEmpty()) { propertyFileLocations = propertyFileLocation; }
+            else { propertyFileLocations += "," + propertyFileLocation; }
         }
+        LOG.info("setting camel context properties component location to: {}", propertyFileLocations);
         camelContext.getPropertiesComponent().setLocation(propertyFileLocations);
     }
 
@@ -129,7 +143,6 @@ public class CamelPropertyHelper {
      * @param camelContext
      * @param namespace
      * @param routesPropertySubKey
-     * @return
      */
     public static void loadPropertiesAndInjectRoutes(
             CamelContext camelContext, String namespace, String routesPropertySubKey) {
@@ -176,7 +189,6 @@ public class CamelPropertyHelper {
         }
 
     }
-
 
 }
 

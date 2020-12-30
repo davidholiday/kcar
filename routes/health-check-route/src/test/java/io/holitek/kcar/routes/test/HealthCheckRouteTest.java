@@ -3,6 +3,7 @@ package io.holitek.kcar.routes.test;
 
 import io.holitek.kcar.elements.HealthCheckBean;
 import io.holitek.kcar.elements.HealthCheckProcessor;
+import io.holitek.kcar.helpers.CamelPropertyHelper;
 import io.holitek.kcar.routes.HealthCheckRoute;
 
 import org.apache.camel.Exchange;
@@ -48,10 +49,8 @@ public class HealthCheckRouteTest extends CamelTestSupport {
     }
 
     @BeforeEach
-    void beforeEach() throws Exception {
-        // TODO plop this in a common helper method in the properties util
-        context.getPropertiesComponent()
-               .setLocation("classpath:" + HealthCheckRoute.NAMESPACE_KEY + ".application.test.properties");
+    void beforeEach() {
+        CamelPropertyHelper.loadTestPropertyFileForNamespace(context, HealthCheckRoute.NAMESPACE_KEY);
 
         HealthCheckBean healthCheckBean = new HealthCheckBean();
         context.getRegistry().bind(HealthCheckBean.NAMESPACE_KEY, healthCheckBean);

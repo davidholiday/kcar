@@ -16,9 +16,9 @@ import javax.servlet.ServletContextListener;
 /**
  * fires up camel in a servlet
  */
-public class App implements ServletContextListener {
+public class ModelK implements ServletContextListener {
 
-    private static final Logger LOG = LoggerFactory.getLogger(App.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ModelK.class);
 
     public static final String NAMESPACE_KEY = "modelK";
     public static final String ROUTES_PROPERTY_KEY = "routes";
