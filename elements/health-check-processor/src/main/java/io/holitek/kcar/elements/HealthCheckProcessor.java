@@ -18,6 +18,8 @@ public class HealthCheckProcessor implements Processor {
     // anything to do with this element - from properties to identification - will use this top level key
     public static final String NAMESPACE_KEY = Introspector.decapitalize(HealthCheckProcessor.class.getSimpleName());
 
+    // purposefully NOT resolving this to same in HealthCheckBean. things stay flexible, resilient, and simple to
+    // reason about when they are de-coupled.
     public static final String STATUS_KEY = "status";
 
     public static final String HTTP_OK = Integer.valueOf(java.net.HttpURLConnection.HTTP_OK).toString();
