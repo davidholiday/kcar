@@ -3,12 +3,12 @@ package io.holitek.kcar.helpers;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.RoutesBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,8 +81,14 @@ public class CamelPropertyHelper {
 
 
     /**
-     * takes a set of namespaces and loads every properties file in the class path with that namespace key into
-     * the camel context properties component.
+     * searches the classpath for a properties file named {NAMESPACE.application.properties} and, if found, loads it
+     * into the camel context. returns a list with filename in aforementioned format.
+     *
+     * @apiNote the reason for the return List is, as of this writing, the camel context appears only able to load
+     * properties files via a single call to a method that tells camel where to look properties. as such the way to
+     * load more than one properties file into the camel context is to pass a comma-delimited list of them to that
+     * method call. moreover, because the method call sets a path string, each subsequent call must include all the
+     * previous property file locations if they are to be included.
      *
      * @param camelContext
      * @param namespace
@@ -117,7 +123,8 @@ public class CamelPropertyHelper {
 
 
     /**
-     *
+     * will load the properties application.properties file associated with the provided namespace, as well as all
+     * routes and all properties files associated with those routes, into the camel context.
      *
      * @param camelContext
      * @param namespace
@@ -135,6 +142,8 @@ public class CamelPropertyHelper {
         String routeNames = resolvePropertyOrElseEmpty(camelContext, routesPropertyKey);
         List<String> routeNamesList = Arrays.asList(routeNames.split(","));
 
+        // here goes nothing...
+        // https://youtu.be/gRvu0yHoHy8?t=49
         for (String routeName : routeNamesList) {
             LOG.info("found route class name {} in properties file. attempting to register...", routeName);
 
@@ -159,11 +168,13 @@ public class CamelPropertyHelper {
                 Constructor<?> clazzConstructor = clazz.getConstructor();
                 RoutesBuilder route = (RoutesBuilder) clazzConstructor.newInstance();
                 camelContext.addRoutes(route); // this guy forces us to catch the generic Exception
+                LOG.info("route {} registered to camel context!", propertiesNamespace);
             } catch (Exception e) {
                 LOG.error("something went wrong auto-injecting routes and route properties.", e);
             }
 
         }
+
     }
 
 

@@ -15,12 +15,6 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <properties>
-    <health-check-bean-version>1.0-SNAPSHOT</health-check-bean-version>
-    <health-check-processor-version>1.0-SNAPSHOT</health-check-processor-version>
-    <noop-processor-version>1.0-SNAPSHOT</noop-processor-version>
-  </properties>
-
   <dependencies>
 
     <!-- allows us to hook into into the servlet container's servlet resources -->
@@ -84,6 +78,13 @@
       <groupId>io.holitek.kcar.elements</groupId>
       <artifactId>noop-processor</artifactId>
       <version>${noop-processor-version}</version>
+    </dependency>
+
+    <!-- kcar properties helper -->
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
     </dependency>
 
   </dependencies>

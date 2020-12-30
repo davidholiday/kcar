@@ -16,10 +16,6 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <properties>
-    <health-check-route-version>1.0-SNAPSHOT</health-check-route-version>
-  </properties>
-
   <dependencies>
 
     <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
@@ -48,6 +44,13 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-rest</artifactId>
+    </dependency>
+
+    <!-- kcar properties helper -->
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
     </dependency>
 
     <!-- allows us to hook into into the servlet container's servlet resources -->

@@ -26,26 +26,43 @@
   </modules>
 
   <properties>
+    <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <resources-encoding>UTF-8</resources-encoding>
 
+    <!-- peg project soruce and target JDK version -->
     <java-target-version>11</java-target-version>
 
-    <camel-bom-version>3.7.0</camel-bom-version>
-
-    <camel-property-helper-version>1.0-SNAPSHOT</camel-property-helper-version>
-    <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
-    <log4j2-version>2.13.3</log4j2-version>
-    <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
-
+    <!-- plugin versions (to keep the verion stuff all in one place the plugins are here too) -->
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
     <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
     <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
     <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
-
     <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
+
+    <!-- peg camel version for all provided elements with bill of materials file -->
+    <camel-bom-version>3.7.0</camel-bom-version>
+
+    <!-- default versioning for third party dependencies -->
+    <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
+    <log4j2-version>2.13.3</log4j2-version>
+    <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
+
+    <!-- default versioning for kcar modules -->
+    <!-- helpers -->
+    <camel-property-helper-version>1.0-SNAPSHOT</camel-property-helper-version>
+
+    <!-- elements -->
+    <health-check-bean-version>1.0-SNAPSHOT</health-check-bean-version>
+    <health-check-processor-version>1.0-SNAPSHOT</health-check-processor-version>
+    <noop-processor-version>1.0-SNAPSHOT</noop-processor-version>
+
+    <!-- routes -->
+    <health-check-route-version>1.0-SNAPSHOT</health-check-route-version>
+
+    <!-- chassis -->
 
   </properties>
 
@@ -116,12 +133,6 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-validator</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.holitek.kcar.helpers</groupId>
-      <artifactId>camel-property-helper</artifactId>
-      <version>${camel-property-helper-version}</version>
     </dependency>
 
     <!-- logging implementation -->

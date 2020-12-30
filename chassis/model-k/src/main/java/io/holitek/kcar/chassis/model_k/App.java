@@ -2,8 +2,8 @@ package io.holitek.kcar.chassis.model_k;
 
 
 import io.holitek.kcar.helpers.CamelPropertyHelper;
+
 import org.apache.camel.CamelContext;
-import org.apache.camel.RoutesBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
 import org.slf4j.Logger;
@@ -11,12 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
-import java.beans.Introspector;
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -35,13 +29,8 @@ public class App implements ServletContextListener {
 
         try {
             LOG.info("ServletContextListener started! Firing up Camel... ");
-
-            //
             CamelContext camelContext = new DefaultCamelContext();
-
-
-
-            //
+            CamelPropertyHelper.loadPropertiesAndInjectRoutes(camelContext, NAMESPACE_KEY, ROUTES_PROPERTY_KEY);
             camelContext.start();
             LOG.info("*!* Camel is up! *!*");
         } catch (Exception e) {
