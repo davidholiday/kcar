@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.List;
 public class CamelPropertyHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(CamelPropertyHelper.class);
+
+    // anything to do with this element - from properties to identification - will use this top level key
+    public static final String NAMESPACE_KEY = Introspector.decapitalize(CamelPropertyHelper.class.getSimpleName());
 
 
     /**
@@ -48,13 +53,13 @@ public class CamelPropertyHelper {
      * takes [n] String arguments and returns a Camel property key. passing strings "property", "key", "foo" will
      * return "property.key.foo"
      *
-     * @param propertyKey
+     * @param propertySubKey
      * @return
      */
-    public static String getPropertyKey(String... propertyKey) {
+    public static String getPropertyKey(String... propertySubKey) {
         String propertyPlaceholder = "";
         boolean first = true;
-        for (String subkey : propertyKey) {
+        for (String subkey : propertySubKey) {
             if (first) {
                 propertyPlaceholder += subkey;
                 first = false;
@@ -97,8 +102,8 @@ public class CamelPropertyHelper {
     public static List<String> loadPropertyFileForNamespace(CamelContext camelContext, String namespace) {
         String propertyFileLocation = "classpath:" + namespace + ".application.properties";
         LOG.info("setting camel context properties component location to: {}", propertyFileLocation);
-        camelContext.getPropertiesComponent().setLocation(propertyFileLocation);
         List<String> namespaces = new ArrayList<>();
+        camelContext.getPropertiesComponent().setLocation(propertyFileLocation);
         namespaces.add(namespace);
         return namespaces;
     }
