@@ -4,6 +4,7 @@ package io.holitek.kcar.helpers;
 import org.apache.camel.CamelContext;
 import org.apache.camel.RoutesBuilder;
 
+import org.apache.camel.RuntimeCamelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -180,7 +181,14 @@ public class CamelPropertyHelper {
                 // look for and, if found, load the properties file associated with the route's namespace into the camel
                 // context. *!* by convention, the classpath will be searched for a file named
                 // {NAMESPACE}.application.properties
-                loadPropertyFilesForNamespaces(camelContext, propertyNamespaces);
+                try {
+                    loadPropertyFilesForNamespaces(camelContext, propertyNamespaces);
+                } catch (RuntimeCamelException e) {
+                    LOG.error("something went wrong loading properties file for property namespace: {}",
+                             propertyNamespaces,
+                             e
+                    );
+                }
 
                 // now that we have loaded the route's properties we can create and inject the route object itself
                 Constructor<?> clazzConstructor = clazz.getConstructor();

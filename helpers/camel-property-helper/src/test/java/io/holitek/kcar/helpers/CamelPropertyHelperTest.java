@@ -158,7 +158,7 @@ public class CamelPropertyHelperTest extends CamelTestSupport {
     //
     @Test
     @DisplayName("checks that all namespaced properties files get loaded into the camel context")
-    public void testLoadPropertiesFilesForNameSpacesHappyPath() {
+    public void testLoadPropertiesFilesForNamespacesHappyPath() {
         List<String> namespaces = Stream.of(CamelPropertyHelper.NAMESPACE_KEY, "wokkawokka")
                                         .collect(Collectors.toList());
 
@@ -175,7 +175,58 @@ public class CamelPropertyHelperTest extends CamelTestSupport {
         Assertions.assertEquals(expectedPropertyValue, actualPropertyValue);
     }
 
+    @Test
+    @DisplayName("checks that things break when a properties file can't be found for a given namespace")
+    public void testLoadPropertiesFilesForNonExistentNamespace() {
+        List<String> namespaces = Stream.of(CamelPropertyHelper.NAMESPACE_KEY, "samuel l bronkowitz presents")
+                                        .collect(Collectors.toList());
 
+        Assertions.assertThrows(RuntimeCamelException.class, () -> {
+           CamelPropertyHelper.loadPropertyFilesForNamespaces(context, namespaces);
+        });
+    }
+
+
+    //
+    @Test
+    @DisplayName("tests happy path for loading a route from a namespaced properties file")
+    public void testLoadPropertiesAndInjectRoutesHappyPath() {
+        // check that no routes exist in the camel context
+        Assertions.assertEquals(context.getRoutes().size(), 0);
+
+        CamelPropertyHelper.loadPropertiesAndInjectRoutes(
+                context, CamelPropertyHelper.NAMESPACE_KEY, "mockroute");
+
+        // now check that there's a single route in the camel context
+        Assertions.assertEquals(context.getRoutes().size(), 1);
+    }
+
+    @Test
+    @DisplayName("tests that a properly identified route without a properties file gets loaded")
+    public void testLoadPropertiesAndInjectRoutesNoRoutePropertiesFile() {
+        // check that no routes exist in the camel context
+        Assertions.assertEquals(context.getRoutes().size(), 0);
+
+        CamelPropertyHelper.loadPropertiesAndInjectRoutes(
+                context, CamelPropertyHelper.NAMESPACE_KEY, "mockroute2");
+
+        // now check that there's a single route in the camel context
+        Assertions.assertEquals(context.getRoutes().size(), 1);
+    }
+
+    @Test
+    @DisplayName("tests that a non existent route doesn't cause anything to blow up")
+    public void testLoadPropertiesAndInjectRoutesInvalidRoute() {
+            CamelPropertyHelper.loadTestPropertyFileForNamespace(context, "mockRouteBad");
+    }
+
+    @Test
+    @DisplayName("tests that a non-existent namespace doesn't cause anything to blow up")
+    public void testLoadPropertiesAndInjectRoutesNonExistentNamespace() {
+        Assertions.assertThrows(RuntimeCamelException.class, () -> {
+            CamelPropertyHelper.loadTestPropertyFileForNamespace(context, "international-space-eagle!");
+        });
+    }
 
 
 }
