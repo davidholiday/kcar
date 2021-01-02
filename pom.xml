@@ -23,6 +23,9 @@
 
     <!-- chassis -->
     <module>chassis/model-k</module>
+
+    <!-- services -->
+    <module>services</module>
   </modules>
 
   <properties>
