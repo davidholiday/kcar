@@ -27,7 +27,7 @@
         
     <module>archetypes</module>
         
-    <module>test-bean</module>
+    <module>foo-bean</module>
       
   </modules>
   

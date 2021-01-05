@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *
+ * example testing setup for a camel element
  */
 public class ${artifactIdCamelCase}Test extends CamelTestSupport {
 
