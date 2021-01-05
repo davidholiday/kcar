@@ -10,14 +10,8 @@
   <version>1.0-SNAPSHOT</version>
 
   <modules>
-<!--    &lt;!&ndash; helpers &ndash;&gt;-->
-<!--    <module>helpers/camel-property-helper</module>-->
-
-    <!-- elements -->
+    <module>helpers</module>
     <module>elements</module>
-<!--    <module>elements/health-check-bean</module>-->
-<!--    <module>elements/health-check-processor</module>-->
-<!--    <module>elements/noop-processor</module>-->
 
 <!--    &lt;!&ndash; routes &ndash;&gt;-->
 <!--    <module>routes/health-check-route</module>-->
