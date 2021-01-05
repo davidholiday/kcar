@@ -5,10 +5,16 @@
 
 
 import argparse
-import subprocess
 import os 
 import logging
+import subprocess
 
+from subprocess import PIPE
+
+
+log_format = ("[%(name)s] %(levelname)s %(asctime)s %(message)s")
+logging.basicConfig(level=logging.INFO, format=log_format)
+logger = logging.getLogger("ARCH")
 
 
 #
@@ -64,32 +70,47 @@ def get_group_id(module_name):
 #
 
 def bean(artifact_id):
-    logging.info("generating a bean module named: {}".format(artifact_id))    
-    os.chdir("./" + ELEMENTS)
+    logger.info("generating a bean module named: {}".format(artifact_id))    
+    os.chdir("./" + ELEMENTS_MODULE_NAME)
     
-    
+    rc = 0
     try:
         # purposefully NOT setting shell=True
         # https://docs.python.org/3/library/subprocess.html#security-considerations
-        result = subprocess.run(
+        response = subprocess.run(
             [
                 MAVEN_COMMAND,
                 MAVEN_GOAL,
-                ARCHETYPE_GROUP_ID_OPTION + get_archetype_group_id(ELEMENT_MODULE_NAME),
-                ARCHETYPE_VERSION_OPTION + archetype_version,
+                ARCHETYPE_GROUP_ID_OPTION + get_archetype_group_id(ELEMENTS_MODULE_NAME),
+                ARCHETYPE_VERSION_OPTION + ARCHETYPE_VERSION,
                 ARCHETYPE_ARTIFACT_ID_OPTION + "bean-archetype",
-                GROUP_ID_OPTION + get_group_id(ELEMENT_MODULE_NAME)
+                GROUP_ID_OPTION + get_group_id(ELEMENTS_MODULE_NAME),
                 VERSION_OPTION + VERSION,
                 ARTIFACT_ID_OPTION + artifact_id
             ], 
-            capture_output=True,
-            check=True
+            stdout=PIPE, 
+            stderr=PIPE
         )
-    except CalledProcessError:
-        logging.error("something went wrong making the bean", result.stderr)
+        
+        rc = response.returncode
+        if rc != 0:
+          raise RuntimeError
+    except RuntimeError:
+        logger.error("something went wrong making the bean")
+        logger.error("command attempted was: {}".format(response.args))
+        logger.error("returncode was: {}\n".format(response.returncode)) 
+        logger.error("stdout was:\n{}\n".format(response.stdout.decode()))
+        logger.error("stderr was:\n{}\n".format(response.stderr.decode()))
+    
     
     os.chdir("../")
-    logging.info("done!")
+    
+    if rc == 0:
+        logger.info("done!")
+    else:
+        logger.warn("something went wrong - exiting with non zero return code: {}".format(rc))
+        
+    return rc 
 
 
 
@@ -151,7 +172,7 @@ def main(args):
             logging.info("\nbye!")
         except ValueError:
             done = False
-            logging.error("\n** input needs to be a number and one that's listed in the menu! **\n".format(raw_choice))
+            logger.error("\n** input needs to be a number and one that's listed in the menu! **\n".format(raw_choice))
 
 
     # the values of MENU_DICT are python functions - hence the second set of '()' ...
