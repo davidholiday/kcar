@@ -43,6 +43,10 @@ ARTIFACT_ID_OPTION = "-DartifactId="
 
 ARTIFACT_ID_CAMEL_CASE_OPTION = "-DartifactIdCamelCase="
 
+ARTIFACT_ID_NAMESPACE_OPTION = "-DartifactIdNamespace="
+
+ARTIFACT_SUBPACKAGE_NAME_OPTION = "-DsubpackageName="
+
 INTERACTIVE_MODE_OPTION_AS_FALSE = "-DinteractiveMode=false"
 
 
@@ -65,6 +69,9 @@ def get_camel_case_name(hyphenated_name):
     for e in hyphenated_name.split("-"):
       rv = rv + e.title()
     return rv
+    
+def get_namespace_from_camel_case_name(camel_case_name):
+    return camel_case_name[0].lower() + camel_case_name[1:]
 
 def get_archetype_group_id(module_name):
     return ARCHETYPE_GROUP_ID_BASE + "." + module_name
@@ -83,6 +90,8 @@ def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
                 VERSION_OPTION + VERSION,
                 ARTIFACT_ID_OPTION + artifact_id,
                 ARTIFACT_ID_CAMEL_CASE_OPTION + get_camel_case_name(artifact_id),
+                ARTIFACT_ID_NAMESPACE_OPTION + get_namespace_from_camel_case_name(get_camel_case_name(artifact_id)),
+                ARTIFACT_SUBPACKAGE_NAME_OPTION + ELEMENTS_MODULE_NAME,
                 INTERACTIVE_MODE_OPTION_AS_FALSE
             ]
 
@@ -106,7 +115,7 @@ def bean(artifact_id):
         )
         
         rc = response.returncode
-        logger.info(response.stdout.decode())
+        logger.debug(response.stdout.decode())
         if rc != 0:
           raise RuntimeError
     except RuntimeError:

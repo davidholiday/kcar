@@ -3,14 +3,14 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
+  <groupId>io.holitek.kcar.elements</groupId>
+  <artifactId>test-bean</artifactId>
   <packaging>jar</packaging>
-  <version>${version}</version>
+  <version>1.0-SNAPSHOT</version>
 
   <parent>
-    <groupId>io.holitek.kcar.${subpackageName}</groupId>
-    <artifactId>${subpackageName}-pom</artifactId>
+    <groupId>io.holitek.kcar.elements</groupId>
+    <artifactId>elements-pom</artifactId>
     <version>1.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
