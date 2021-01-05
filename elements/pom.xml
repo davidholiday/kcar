@@ -14,5 +14,6 @@
   <modules>
     <module>archetypes</module>
     <module>foo-bean</module>
+    <module>bar-foo-bean</module>
   </modules>
 </project>

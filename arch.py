@@ -97,11 +97,13 @@ def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
                 ARTIFACT_SUBPACKAGE_NAME_OPTION + ELEMENTS_MODULE_NAME,
                 INTERACTIVE_MODE_OPTION_AS_FALSE
             ]
-
-
-#
-# FUNCTIONS THAT HANDLE USER REQUESTS
-#
+            
+def get_subprocess_cmd_pp(subprocess_cmd_list):
+    cmd_pp = subprocess_cmd_list[0] + subprocess_cmd_list[1]
+    for i in range(2, len(subprocess_cmd_list)):
+        cmd_pp += "\n\t" + subprocess_cmd_list[i]
+        
+    return cmd_pp
 
 # this is a bit of a hack to deal with the fact that maven, when it adds stuff to a pom file automatically, has a nasty
 # habbit of adding new spaces and new line characters where they don't belong. this will remove any line that's 
@@ -123,17 +125,34 @@ def clean_clrf_from_pom():
             logger.error("restoring original pom.xml file...")
             shutil.copyfile('pom.xml.bak', 'pom.xml')
 
+def check_generated_cmd_with_user(subprocess_cmd_list, module_name):
+    subprocess_cmd_pp = get_subprocess_cmd_pp(subprocess_cmd_list)
+    print("About to execute the following maven command on your behalf - " + \
+          "artifact will be added to the [{}] maven module".format(module_name))
+    print(subprocess_cmd_pp)
+    try:
+        raw_choice = input("<< [enter] to accept, [ctrl-c] to exit >> ")
+    except KeyboardInterrupt:
+        logging.info("\nbye!")
+        exit()
+        
+
+#
+# FUNCTIONS THAT HANDLE USER REQUESTS
+#
 
 def bean(artifact_id):
+    subprocess_cmd_list = get_subprocess_cmd_list(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id)
+    check_generated_cmd_with_user(subprocess_cmd_list, ELEMENTS_MODULE_NAME)
+    
     logger.info("generating a bean named: {}".format(artifact_id))    
     os.chdir("./" + ELEMENTS_MODULE_NAME)
-    
     rc = 0
     try:
         # purposefully NOT setting shell=True
         # https://docs.python.org/3/library/subprocess.html#security-considerations
         response = subprocess.run(
-            get_subprocess_cmd_list(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id), 
+            subprocess_cmd_list, 
             stdout=PIPE, 
             stderr=STDOUT
         )
