@@ -9,7 +9,7 @@ import os
 import logging
 import subprocess
 
-from subprocess import PIPE
+from subprocess import PIPE, STDOUT
 
 
 log_format = ("[%(name)s] %(levelname)s %(asctime)s %(message)s")
@@ -53,7 +53,7 @@ SERVICES_MODULE_NAME = "services"
 
 
 #
-# PARSING HELPERS 
+# HELPERS 
 #
 
 def get_archetype_group_id(module_name):
@@ -62,7 +62,17 @@ def get_archetype_group_id(module_name):
 def get_group_id(module_name):
     return GROUP_ID_BASE + "." + module_name
 
-
+def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
+    return [
+                MAVEN_COMMAND,
+                MAVEN_GOAL,
+                ARCHETYPE_GROUP_ID_OPTION + get_archetype_group_id(module_name),
+                ARCHETYPE_VERSION_OPTION + ARCHETYPE_VERSION,
+                ARCHETYPE_ARTIFACT_ID_OPTION + archetype_artifact_id,
+                GROUP_ID_OPTION + get_group_id(module_name),
+                VERSION_OPTION + VERSION,
+                ARTIFACT_ID_OPTION + artifact_id
+            ]
 
 
 #
@@ -70,7 +80,7 @@ def get_group_id(module_name):
 #
 
 def bean(artifact_id):
-    logger.info("generating a bean module named: {}".format(artifact_id))    
+    logger.info("generating a bean named: {}".format(artifact_id))    
     os.chdir("./" + ELEMENTS_MODULE_NAME)
     
     rc = 0
@@ -78,18 +88,9 @@ def bean(artifact_id):
         # purposefully NOT setting shell=True
         # https://docs.python.org/3/library/subprocess.html#security-considerations
         response = subprocess.run(
-            [
-                MAVEN_COMMAND,
-                MAVEN_GOAL,
-                ARCHETYPE_GROUP_ID_OPTION + get_archetype_group_id(ELEMENTS_MODULE_NAME),
-                ARCHETYPE_VERSION_OPTION + ARCHETYPE_VERSION,
-                ARCHETYPE_ARTIFACT_ID_OPTION + "bean-archetype",
-                GROUP_ID_OPTION + get_group_id(ELEMENTS_MODULE_NAME),
-                VERSION_OPTION + VERSION,
-                ARTIFACT_ID_OPTION + artifact_id
-            ], 
+            get_subprocess_cmd_list(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id), 
             stdout=PIPE, 
-            stderr=PIPE
+            stderr=STDOUT
         )
         
         rc = response.returncode
@@ -99,9 +100,7 @@ def bean(artifact_id):
         logger.error("something went wrong making the bean")
         logger.error("command attempted was: {}".format(response.args))
         logger.error("returncode was: {}\n".format(response.returncode)) 
-        logger.error("stdout was:\n{}\n".format(response.stdout.decode()))
-        logger.error("stderr was:\n{}\n".format(response.stderr.decode()))
-    
+        logger.error("output was:\n**********\n{}**********\n".format(response.stdout.decode()))
     
     os.chdir("../")
     
@@ -111,7 +110,6 @@ def bean(artifact_id):
         logger.warn("something went wrong - exiting with non zero return code: {}".format(rc))
         
     return rc 
-
 
 
 #
