@@ -10,22 +10,23 @@
   <version>1.0-SNAPSHOT</version>
 
   <modules>
-    <!-- helpers -->
-    <module>helpers/camel-property-helper</module>
+<!--    &lt;!&ndash; helpers &ndash;&gt;-->
+<!--    <module>helpers/camel-property-helper</module>-->
 
     <!-- elements -->
-    <module>elements/health-check-bean</module>
-    <module>elements/health-check-processor</module>
-    <module>elements/noop-processor</module>
+    <module>elements</module>
+<!--    <module>elements/health-check-bean</module>-->
+<!--    <module>elements/health-check-processor</module>-->
+<!--    <module>elements/noop-processor</module>-->
 
-    <!-- routes -->
-    <module>routes/health-check-route</module>
+<!--    &lt;!&ndash; routes &ndash;&gt;-->
+<!--    <module>routes/health-check-route</module>-->
 
-    <!-- chassis -->
-    <module>chassis/model-k</module>
+<!--    &lt;!&ndash; chassis &ndash;&gt;-->
+<!--    <module>chassis/model-k</module>-->
 
-    <!-- services -->
-    <module>services</module>
+<!--    &lt;!&ndash; services &ndash;&gt;-->
+<!--    <module>services</module>-->
   </modules>
 
   <properties>
@@ -200,8 +201,8 @@
         <version>${maven-surefire-plugin-version}</version>
       </plugin>
 
-      <!-- validates source for invalid camel endpoint URIs and reports the coverage oc camel io.holitek.kcar.routes after unit
-           testing -->
+      <!-- validates source for invalid camel endpoint URIs and reports the coverage oc camel io.holitek.kcar.routes
+           after unit testing -->
       <plugin>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-report-maven-plugin</artifactId>
@@ -216,6 +217,24 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- plugin that appears to be able to both lint and format code according to common code standards (like google)
+           as well as by custom definitions. more research needed but this will likely be included in a future build -->
+<!--      <plugin>-->
+<!--        <groupId>net.revelc.code.formatter</groupId>-->
+<!--        <artifactId>formatter-maven-plugin</artifactId>-->
+<!--        <version>2.13.0</version>-->
+<!--        <configuration>-->
+<!--        </configuration>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <goals>-->
+<!--              <goal>validate</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
+
 
     </plugins>
   </build>
