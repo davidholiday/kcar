@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.holitek.kcar.elements</groupId>
-  <artifactId>foo-bean</artifactId>
+  <artifactId>bar-bean</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 

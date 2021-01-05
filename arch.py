@@ -7,6 +7,9 @@
 import argparse
 import os 
 import logging
+import fileinput
+import string
+import shutil
 import subprocess
 
 from subprocess import PIPE, STDOUT
@@ -61,7 +64,7 @@ SERVICES_MODULE_NAME = "services"
 
 
 #
-# HELPERS 
+# MAVEN COMMAND HELPERS 
 #
 
 def get_camel_case_name(hyphenated_name):
@@ -100,6 +103,26 @@ def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
 # FUNCTIONS THAT HANDLE USER REQUESTS
 #
 
+# this is a bit of a hack to deal with the fact that maven, when it adds stuff to a pom file automatically, has a nasty
+# habbit of adding new spaces and new line characters where they don't belong. this will remove any line that's 
+# comprised of only string.whitespace characters (tab, linefeed, carriage return, space, etc) 
+def clean_clrf_from_pom():
+    printable_set = set(list(string.ascii_letters) + list(string.digits) + list(string.punctuation))
+    with fileinput.input(files='pom.xml', inplace=True) as f:
+    
+        try:
+            for line in f:            
+                line_set = set(line)
+                if len(printable_set) == len(printable_set - line_set):
+                    pass
+                else:
+                    print(line, end='')
+        except Exception as e:
+            # if we don't do this the backup that fileinput.input() generated will get cleaned up on file close
+            logger.error("something went wrong processing the pom file - saving backup as pom.xml.BACKUP...", e)
+            shutil.copyfile('pom.xml.bak', 'pom.xml.BACKUP')
+
+
 def bean(artifact_id):
     logger.info("generating a bean named: {}".format(artifact_id))    
     os.chdir("./" + ELEMENTS_MODULE_NAME)
@@ -124,6 +147,9 @@ def bean(artifact_id):
         logger.error("returncode was: {}\n".format(response.returncode)) 
         logger.error("output was:\n**********\n{}**********\n".format(response.stdout.decode()))
     
+    
+    logger.info("cleaning extra CLRF out of pom file...")
+    clean_clrf_from_pom()
     os.chdir("../")
     
     if rc == 0:

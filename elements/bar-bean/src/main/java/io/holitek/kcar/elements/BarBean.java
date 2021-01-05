@@ -12,13 +12,13 @@ import java.beans.Introspector;
 /**
  * example bean. suitable for binding and stateful storage within a route
  */
-public class FooBean {
+public class BarBean {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FooBean.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BarBean.class);
 
     // anything to do with this element - from properties to identification - will use this top level key
     public static final String NAMESPACE_KEY =
-        Introspector.decapitalize(FooBean.class.getSimpleName());
+        Introspector.decapitalize(BarBean.class.getSimpleName());
 
     private String foo = "bar";
 

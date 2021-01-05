@@ -1,7 +1,7 @@
 package io.holitek.kcar.elements;
 
 
-import io.holitek.kcar.elements.FooBean;
+import io.holitek.kcar.elements.BarBean;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 /**
  * example testing setup for a camel element
  */
-public class FooBeanTest extends CamelTestSupport {
+public class BarBeanTest extends CamelTestSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FooBeanTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BarBeanTest.class);
 
 
     //
@@ -32,7 +32,7 @@ public class FooBeanTest extends CamelTestSupport {
     @BeforeEach
     void beforeEach() {
         context().getRegistry()
-                 .bind(FooBean.NAMESPACE_KEY, new FooBean());
+                 .bind(BarBean.NAMESPACE_KEY, new BarBean());
 
         context().start();
     }
@@ -46,7 +46,7 @@ public class FooBeanTest extends CamelTestSupport {
             @Override
             public void configure() {
                 from("direct:start")
-                        .bean(FooBean.NAMESPACE_KEY)
+                        .bean(BarBean.NAMESPACE_KEY)
                         .to("mock:result");
             }
         };
