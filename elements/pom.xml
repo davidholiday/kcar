@@ -13,5 +13,6 @@
   </parent>
   <modules>
     <module>archetypes</module>
+    <module>foo-bean</module>
   </modules>
 </project>

@@ -15,7 +15,7 @@ import subprocess
 from subprocess import PIPE, STDOUT
 
 
-log_format = ("[%(name)s] %(levelname)s %(asctime)s %(message)s")
+log_format = ("[%(name)s] [%(levelname)s] [%(asctime)s] -- %(message)s")
 logging.basicConfig(level=logging.INFO, format=log_format)
 logger = logging.getLogger("ARCH")
 
@@ -119,8 +119,9 @@ def clean_clrf_from_pom():
                     print(line, end='')
         except Exception as e:
             # if we don't do this the backup that fileinput.input() generated will get cleaned up on file close
-            logger.error("something went wrong processing the pom file - saving backup as pom.xml.BACKUP...", e)
-            shutil.copyfile('pom.xml.bak', 'pom.xml.BACKUP')
+            logger.error("something went wrong processing the pom file {}".format(e))
+            logger.error("restoring original pom.xml file...")
+            shutil.copyfile('pom.xml.bak', 'pom.xml')
 
 
 def bean(artifact_id):
@@ -148,7 +149,7 @@ def bean(artifact_id):
         logger.error("output was:\n**********\n{}**********\n".format(response.stdout.decode()))
     
     
-    logger.info("cleaning extra CLRF out of pom file...")
+    logger.info("cleaning whitespace maven injected into pom file (maven has a bug)")
     clean_clrf_from_pom()
     os.chdir("../")
     
