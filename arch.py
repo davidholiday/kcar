@@ -41,6 +41,10 @@ VERSION = "1.0-SNAPSHOT"
 
 ARTIFACT_ID_OPTION = "-DartifactId="
 
+ARTIFACT_ID_CAMEL_CASE_OPTION = "-DartifactIdCamelCase="
+
+INTERACTIVE_MODE_OPTION_AS_FALSE = "-DinteractiveMode=false"
+
 
 #
 # JAVA SERVICE FACTORY MODULE NAMES
@@ -55,6 +59,12 @@ SERVICES_MODULE_NAME = "services"
 #
 # HELPERS 
 #
+
+def get_camel_case_name(hyphenated_name):
+    rv = ""
+    for e in hyphenated_name.split("-"):
+      rv = rv + e.title()
+    return rv
 
 def get_archetype_group_id(module_name):
     return ARCHETYPE_GROUP_ID_BASE + "." + module_name
@@ -71,7 +81,9 @@ def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
                 ARCHETYPE_ARTIFACT_ID_OPTION + archetype_artifact_id,
                 GROUP_ID_OPTION + get_group_id(module_name),
                 VERSION_OPTION + VERSION,
-                ARTIFACT_ID_OPTION + artifact_id
+                ARTIFACT_ID_OPTION + artifact_id,
+                ARTIFACT_ID_CAMEL_CASE_OPTION + get_camel_case_name(artifact_id),
+                INTERACTIVE_MODE_OPTION_AS_FALSE
             ]
 
 
@@ -94,6 +106,7 @@ def bean(artifact_id):
         )
         
         rc = response.returncode
+        logger.info(response.stdout.decode())
         if rc != 0:
           raise RuntimeError
     except RuntimeError:
