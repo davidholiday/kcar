@@ -1,7 +1,10 @@
-package io.holitek.kcar.elements;
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+package ${package};
 
 
-import io.holitek.kcar.elements.TestBean;
+import ${groupId}.${artifactIdCamelCase};
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
@@ -15,9 +18,9 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-public class TestBeanTest extends CamelTestSupport {
+public class ${artifactIdCamelCase}Test extends CamelTestSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HealthCheckBeanTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(${artifactIdCamelCase}Test.class);
 
 
     //
@@ -32,7 +35,7 @@ public class TestBeanTest extends CamelTestSupport {
     @BeforeEach
     void beforeEach() {
         context().getRegistry()
-                 .bind(TestBean.NAMESPACE_KEY, new TestBean());
+                 .bind(${artifactIdCamelCase}.NAMESPACE_KEY, new ${artifactIdCamelCase}());
 
         context().start();
     }
@@ -46,7 +49,7 @@ public class TestBeanTest extends CamelTestSupport {
             @Override
             public void configure() {
                 from("direct:start")
-                        .bean(TestBean.NAMESPACE_KEY)
+                        .bean(${artifactIdCamelCase}.NAMESPACE_KEY)
                         .to("mock:result");
             }
         };
