@@ -10,8 +10,19 @@ import argparse
 import os
 
 
+
+
+def bean(artifact_id):
+    print("artifact_id is: {}".format(artifact_id))
+
+
+
 THING_TYPES = [
-    "bean", 
+    bean, 
+]
+
+
+UNIMPLEMENTED_THING_TYPES = [
     "processor", 
     "connector (NOT YET IMPLEMENTED)",
     "route (NOT YET IMPLEMENTED)", 
@@ -20,48 +31,49 @@ THING_TYPES = [
     "raw camel archetype (NOT YET IMPLEMENTED)"
 ]
 
-TYPE_COUNT = len(THING_TYPES)
 
 MENU_DICT = {
     i: THING_TYPES[i]
     for i 
-    in range(0, TYPE_COUNT)
+    in range(0, len(THING_TYPES))
 }
 
 
 
 def print_menu():
     print("-= What kind of thing would you like to make? =-")
-    for i in range(0, TYPE_COUNT):
-        print("{}.  {}".format(str(i), MENU_DICT[i]))  
+    for i in range(0, len(THING_TYPES)):
+        print("[{}]  {}".format(str(i), MENU_DICT[i].__name__))  
+    
+    for i in range(0, len(UNIMPLEMENTED_THING_TYPES)):
+        print("[]  {}".format(UNIMPLEMENTED_THING_TYPES[i]))  
     
     print("----")
 
 
 def main(args):
-    ai = args.artifact_id 
-    
 
+    choice_int = -1
     done = False
     while not done:
         try:
             done = True
             print_menu()
-            choice = input("enter choice or ctrl-c to exit >> ")
-            choice = int(choice)
-            if choice not in MENU_DICT.keys():
-                print("\n{} is not a valid menu selection!".format(choice))
+            raw_choice = input("enter choice or ctrl-c to exit >> ")
+            choice_int = int(raw_choice)
+            if choice_int not in MENU_DICT.keys():
+                raise ValueError
 
         except KeyboardInterrupt:
             print("\nbye!")
         except ValueError:
             done = False
-            print("\n{} is not a valid menu selection!".format(choice))
+            print("\n** input needs to be a number and one that's listed in the menu! **\n".format(raw_choice))
 
-             
+    MENU_DICT.get(choice_int)
     
     
-
+     
 if __name__ == "__main__":
     description_text = "helper to create starter code for Java Service Factory elements, routes, chassis, and services."
 
