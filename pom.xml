@@ -13,18 +13,10 @@
     <module>helpers</module>
     <module>elements</module>
     <module>routes</module>
-<!--    <module>chassis</module>-->
-
-<!--    &lt;!&ndash; routes &ndash;&gt;-->
-<!--    <module>routes/health-check-route</module>-->
-
-<!--    &lt;!&ndash; chassis &ndash;&gt;-->
-<!--    <module>chassis/model-k</module>-->
-
-<!--    &lt;!&ndash; services &ndash;&gt;-->
-<!--    <module>services</module>-->
+    <module>chassis</module>
   </modules>
 
+  <!-- TODO migrate versioning to dependency and plugin versioning to dep/plugin management blocks  -->
   <properties>
     <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -77,7 +77,10 @@ def get_namespace_from_camel_case_name(camel_case_name):
     return camel_case_name[0].lower() + camel_case_name[1:]
 
 def get_archetype_group_id(module_name):
-    return ARCHETYPE_GROUP_ID_BASE + "." + module_name
+    # the chassis archetypes used to create services live in the chassis module but are deployed to the services
+    # module
+    archetype_group_id = CHASSIS_MODULE_NAME if module_name == SERVICES_MODULE_NAME else module_name
+    return ARCHETYPE_GROUP_ID_BASE + "." + archetype_group_id
 
 def get_group_id(module_name):
     return GROUP_ID_BASE + "." + module_name
@@ -197,6 +200,10 @@ def route(artifact_id):
     rc = make_thing(ROUTES_MODULE_NAME, "route-archetype", artifact_id)
     return rc
 
+def service(artifact_id):
+    rc = make_thing(SERVICES_MODULE_NAME, "model-k-archetype", artifact_id)
+    return rc
+
 #
 # MENU STRUCTURES
 #
@@ -205,15 +212,13 @@ THING_TYPES = [
     bean,
     processor,
     route,
+    service,
 ]
-
 
 UNIMPLEMENTED_THING_TYPES = [
     "connector (NOT YET IMPLEMENTED)",
-    "service (NOT YET IMPLEMENTED)",
     "raw camel archetype (NOT YET IMPLEMENTED)"
 ]
-
 
 MENU_DICT = {
     i: THING_TYPES[i]
@@ -236,9 +241,7 @@ def print_menu():
     
     print("----")
 
-
 def main(args):
-
     choice_int = -1
     done = False
     while not done:
@@ -255,7 +258,6 @@ def main(args):
         except ValueError:
             done = False
             logger.error("\n** input needs to be a number and one that's listed in the menu! **\n".format(raw_choice))
-
 
     # the values of MENU_DICT are python functions - hence the second set of '()' ...
     MENU_DICT.get(choice_int)(args.artifact_id)

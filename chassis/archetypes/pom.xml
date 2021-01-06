@@ -11,5 +11,6 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modules>
+    <module>model-k-archetype</module>
   </modules>
 </project>

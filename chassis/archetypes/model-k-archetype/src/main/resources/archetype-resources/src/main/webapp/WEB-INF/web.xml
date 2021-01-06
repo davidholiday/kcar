@@ -1,0 +1,39 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+  <!-- Camel servlet used in the application -->
+  <servlet>
+    <servlet-name>CamelServlet</servlet-name>
+    <servlet-class>org.apache.camel.component.servlet.CamelHttpTransportServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <!-- CamelHttpTransportServlet is apparently not capable of async (servlet v < 3.0 I suppose) -->
+    <!-- https://camel.apache.org/components/latest/servlet-component.html${symbol_pound}_servlet_3_0_and_asynccontext -->
+    <!-- leaving this here as a *TODO* for further investigation ... -->
+<!--    <init-param>-->
+<!--      <param-name>async</param-name>-->
+<!--      <param-value>true</param-value>-->
+<!--    </init-param>-->
+<!--    <init-param>-->
+<!--      <param-name>executorRef</param-name>-->
+<!--      <param-value>my-threads</param-value>-->
+<!--    </init-param>-->
+  </servlet>
+
+  <!-- Camel servlet mapping -->
+  <servlet-mapping>
+    <servlet-name>CamelServlet</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- the ServletContextListener that kick-starts Camel -->
+  <listener>
+    <listener-class>${package}.ModelK</listener-class>
+  </listener>
+
+</web-app>

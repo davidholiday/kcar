@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>${groupId}</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <packaging>war</packaging>
+  <version>${version}</version>
+
+  <parent>
+    <groupId>io.holitek.kcar.chassis</groupId>
+    <artifactId>chassis-pom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../../chassis/pom.xml</relativePath>
+  </parent>
+
+  <dependencies>
+
+    <!-- The Servlet component provides HTTP based endpoints for consuming HTTP requests that arrive at a HTTP
+         endpoint that is bound to a published Servlet. -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-servlet</artifactId>
+      <!-- to deal with package namespace collision with newer version from jaxb-runtime -->
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.activation</groupId>
+          <artifactId>javax.activation</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- The HTTP component provides HTTP based endpoints for calling external HTTP resources (as a client to call
+     external servers using HTTP). -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-http</artifactId>
+    </dependency>
+
+    <!-- allows us to define RESTful camel io.holitek.kcar.routes using camel REST DSL
+         https://camel.apache.org/manual/latest/rest-dsl.html  -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-rest</artifactId>
+    </dependency>
+
+    <!-- kcar properties helper -->
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
+    </dependency>
+
+    <!-- allows us to hook into into the servlet container's servlet resources -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${javax.servlet-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- this library was previously split into two that caused package namespace conflicts. dependencies with the split
+         predecessors as one of their dependencies have them marked excluded in their respective POM entries.
+         jaxb-runtime is here to meet whatever need those dependency had from those now excluded libraries. -->
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>${jaxb-runtime-version}</version>
+    </dependency>
+
+    <!-- route that exposes /healthcheck REST endpoint -->
+    <dependency>
+      <groupId>io.holitek.kcar.routes</groupId>
+      <artifactId>health-check-route</artifactId>
+      <version>${health-check-route-version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <!-- for packaging things as a webapp -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven-war-plugin-version}</version>
+      </plugin>
+
+      <!-- for spinning up the service in self-contained instance of jetty -->
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <!-- v10 is the last version that supports javax.servlet.* Might be ok to upgrade to the new jakarta.servlet.*
+             version but I think CamelHttpTransportServlet requires javax.servlet.*
+             will explore at some future date...
+             https://github.com/eclipse/jetty.project/releases -->
+        <version>${jetty-maven-plugin-version}</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
