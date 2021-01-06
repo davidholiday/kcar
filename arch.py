@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 #
 # Handles maven peculiarities when making service instances from archetypes 
-# TODO convert this into a stand-alone camel-main app
+# TODO convert this into a stand-alone camel-main app -or- make it a proper python project with tests
 
 
 import argparse
@@ -189,10 +189,13 @@ def bean(artifact_id):
     rc = make_thing(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id)
     return rc
 
+def processor(artifact_id):
+    rc = make_thing(ELEMENTS_MODULE_NAME, "processor-archetype", artifact_id)
+    return rc
+
 def route(artifact_id):
     rc = make_thing(ROUTES_MODULE_NAME, "route-archetype", artifact_id)
     return rc
-
 
 #
 # MENU STRUCTURES
@@ -200,14 +203,13 @@ def route(artifact_id):
 
 THING_TYPES = [
     bean,
+    processor,
     route,
 ]
 
 
 UNIMPLEMENTED_THING_TYPES = [
-    "processor", 
     "connector (NOT YET IMPLEMENTED)",
-    "chassis (NOT YET IMPLEMENTED)",
     "service (NOT YET IMPLEMENTED)",
     "raw camel archetype (NOT YET IMPLEMENTED)"
 ]

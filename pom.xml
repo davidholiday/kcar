@@ -12,6 +12,8 @@
   <modules>
     <module>helpers</module>
     <module>elements</module>
+    <module>routes</module>
+<!--    <module>chassis</module>-->
 
 <!--    &lt;!&ndash; routes &ndash;&gt;-->
 <!--    <module>routes/health-check-route</module>-->
