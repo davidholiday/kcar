@@ -11,5 +11,6 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modules>
+    <module>route-archetype</module>
   </modules>
 </project>

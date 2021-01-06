@@ -94,12 +94,12 @@ def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
                 ARTIFACT_ID_OPTION + artifact_id,
                 ARTIFACT_ID_CAMEL_CASE_OPTION + get_camel_case_name(artifact_id),
                 ARTIFACT_ID_NAMESPACE_OPTION + get_namespace_from_camel_case_name(get_camel_case_name(artifact_id)),
-                ARTIFACT_SUBPACKAGE_NAME_OPTION + ELEMENTS_MODULE_NAME,
+                ARTIFACT_SUBPACKAGE_NAME_OPTION + module_name,
                 INTERACTIVE_MODE_OPTION_AS_FALSE
             ]
             
 def get_subprocess_cmd_pp(subprocess_cmd_list):
-    cmd_pp = subprocess_cmd_list[0] + subprocess_cmd_list[1]
+    cmd_pp = subprocess_cmd_list[0] + " " + subprocess_cmd_list[1]
     for i in range(2, len(subprocess_cmd_list)):
         cmd_pp += "\n\t" + subprocess_cmd_list[i]
         
@@ -125,59 +125,73 @@ def clean_clrf_from_pom():
             logger.error("restoring original pom.xml file...")
             shutil.copyfile('pom.xml.bak', 'pom.xml')
 
+
+#
+# FUNCTIONS FOR BUILDING AND EXECUTING MAVEN COMMANDS
+#
+
 def check_generated_cmd_with_user(subprocess_cmd_list, module_name):
     subprocess_cmd_pp = get_subprocess_cmd_pp(subprocess_cmd_list)
-    print("About to execute the following maven command on your behalf - " + \
-          "artifact will be added to the [{}] maven module".format(module_name))
+    print("** About to execute the following maven command on your behalf. " + \
+          "Artifact will be added to the [{}] maven module. **".format(module_name))
     print(subprocess_cmd_pp)
     try:
         raw_choice = input("<< [enter] to accept, [ctrl-c] to exit >> ")
     except KeyboardInterrupt:
-        logging.info("\nbye!")
+        print("\nbye!")
         exit()
-        
 
-#
-# FUNCTIONS THAT HANDLE USER REQUESTS
-#
-
-def bean(artifact_id):
-    subprocess_cmd_list = get_subprocess_cmd_list(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id)
-    check_generated_cmd_with_user(subprocess_cmd_list, ELEMENTS_MODULE_NAME)
-    
-    logger.info("generating a bean named: {}".format(artifact_id))    
-    os.chdir("./" + ELEMENTS_MODULE_NAME)
+def execute_subprocess_cmd_list(subprocess_cmd_list):
     rc = 0
     try:
         # purposefully NOT setting shell=True
         # https://docs.python.org/3/library/subprocess.html#security-considerations
         response = subprocess.run(
-            subprocess_cmd_list, 
-            stdout=PIPE, 
+            subprocess_cmd_list,
+            stdout=PIPE,
             stderr=STDOUT
         )
-        
+
         rc = response.returncode
         logger.debug(response.stdout.decode())
         if rc != 0:
-          raise RuntimeError
+            raise RuntimeError
     except RuntimeError:
         logger.error("something went wrong making the bean")
         logger.error("command attempted was: {}".format(response.args))
-        logger.error("returncode was: {}\n".format(response.returncode)) 
+        logger.error("returncode was: {}\n".format(response.returncode))
         logger.error("output was:\n**********\n{}**********\n".format(response.stdout.decode()))
-    
-    
+
     logger.info("cleaning whitespace maven injected into pom file (maven has a bug)")
     clean_clrf_from_pom()
+    return rc
+
+def make_thing(module_name, archetype_artifact_id, artifact_id):
+    subprocess_cmd_list = get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id)
+    check_generated_cmd_with_user(subprocess_cmd_list, module_name)
+    logger.info("generating a route named: {}".format(artifact_id))
+    os.chdir("./" + module_name)
+    rc = execute_subprocess_cmd_list(subprocess_cmd_list)
     os.chdir("../")
-    
     if rc == 0:
         logger.info("done!")
     else:
-        logger.warn("something went wrong - exiting with non zero return code: {}".format(rc))
-        
-    return rc 
+        logger.warning("something went wrong - exiting with non zero return code: {}".format(rc))
+
+    return rc
+
+
+#
+# FUNCTIONS THAT BOOTSTRAP ARCHETYPE CREATION BASED ON USER SELECTION
+#
+
+def bean(artifact_id):
+    rc = make_thing(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id)
+    return rc
+
+def route(artifact_id):
+    rc = make_thing(ROUTES_MODULE_NAME, "route-archetype", artifact_id)
+    return rc
 
 
 #
@@ -185,15 +199,15 @@ def bean(artifact_id):
 #
 
 THING_TYPES = [
-    bean, 
+    bean,
+    route,
 ]
 
 
 UNIMPLEMENTED_THING_TYPES = [
     "processor", 
     "connector (NOT YET IMPLEMENTED)",
-    "route (NOT YET IMPLEMENTED)", 
-    "chassis (NOT YET IMPLEMENTED)", 
+    "chassis (NOT YET IMPLEMENTED)",
     "service (NOT YET IMPLEMENTED)",
     "raw camel archetype (NOT YET IMPLEMENTED)"
 ]
