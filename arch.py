@@ -212,6 +212,11 @@ def route(artifact_id):
     return rc
 
 
+def empty_route(artifact_id):
+    rc = make_thing(ROUTES_MODULE_NAME, "empty-route-archetype", artifact_id)
+    return rc
+
+
 def service(artifact_id):
     rc = make_thing(SERVICES_MODULE_NAME, "model-k-archetype", artifact_id)
     return rc
@@ -225,6 +230,7 @@ THING_TYPES = [
     bean,
     processor,
     route,
+    empty_route,
     service,
 ]
 

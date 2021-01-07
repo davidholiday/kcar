@@ -12,5 +12,6 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modules>
+    <module>hello-world-service</module>
   </modules>
 </project>

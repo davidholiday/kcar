@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.holitek.kcar.routes</groupId>
-  <artifactId>health-check-route</artifactId>
+  <artifactId>empty-route</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
@@ -43,23 +43,21 @@
 
     <!-- The Rest DSL can be integrated with the camel-swagger-java module which is used for exposing the REST services
          and their APIs using Swagger. -->
-    <!-- *!* THIS ISN'T BEING USED PRESENTLY BUT WILL BE IN FUTURE. NO NEED TO BAKE THE DEPENDENCY IN UNTIL
-             THE ROUTE ARCHETYPE IS UPDATED TO PROVIDE A WORKING POC FOR GENERATING AND RENDERING SWAGGER DOCS *!* -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-swagger-java</artifactId>-->
-<!--      &lt;!&ndash; deals with namespace conflicts in this split library &ndash;&gt;-->
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.xml.bind</groupId>-->
-<!--          <artifactId>jaxb-impl</artifactId>-->
-<!--        </exclusion>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.xml.bind</groupId>-->
-<!--          <artifactId>jaxb-core</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-swagger-java</artifactId>
+      <!-- deals with namespace conflicts in this split library -->
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
     <!-- health-check-bean is an element that holds onto app state information -->
     <dependency>

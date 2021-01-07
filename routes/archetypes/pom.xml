@@ -12,5 +12,6 @@
   </parent>
   <modules>
     <module>route-archetype</module>
+    <module>empty-route-archetype</module>
   </modules>
 </project>
