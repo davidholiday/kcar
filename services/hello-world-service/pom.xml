@@ -76,6 +76,13 @@
       <version>${health-check-route-version}</version>
     </dependency>
 
+    <!-- dead simple RESTful route that exposes  -->
+    <dependency>
+      <groupId>io.holitek.kcar.routes</groupId>
+      <artifactId>empty-route</artifactId>
+      <version>${empty-route-version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
