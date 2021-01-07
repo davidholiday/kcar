@@ -12,6 +12,5 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modules>
-    <module>test-service</module>
   </modules>
 </project>
