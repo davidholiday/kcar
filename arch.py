@@ -72,9 +72,11 @@ def get_camel_case_name(hyphenated_name):
     for e in hyphenated_name.split("-"):
       rv = rv + e.title()
     return rv
-    
+
+
 def get_namespace_from_camel_case_name(camel_case_name):
     return camel_case_name[0].lower() + camel_case_name[1:]
+
 
 def get_archetype_group_id(module_name):
     # the chassis archetypes used to create services live in the chassis module but are deployed to the services
@@ -82,8 +84,10 @@ def get_archetype_group_id(module_name):
     archetype_group_id = CHASSIS_MODULE_NAME if module_name == SERVICES_MODULE_NAME else module_name
     return ARCHETYPE_GROUP_ID_BASE + "." + archetype_group_id
 
+
 def get_group_id(module_name):
     return GROUP_ID_BASE + "." + module_name
+
 
 def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
     return [
@@ -101,12 +105,14 @@ def get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id):
                 INTERACTIVE_MODE_OPTION_AS_FALSE
             ]
             
+
 def get_subprocess_cmd_pp(subprocess_cmd_list):
     cmd_pp = subprocess_cmd_list[0] + " " + subprocess_cmd_list[1]
     for i in range(2, len(subprocess_cmd_list)):
         cmd_pp += "\n\t" + subprocess_cmd_list[i]
         
     return cmd_pp
+
 
 # this is a bit of a hack to deal with the fact that maven, when it adds stuff to a pom file automatically, has a nasty
 # habbit of adding new spaces and new line characters where they don't belong. this will remove any line that's 
@@ -144,6 +150,7 @@ def check_generated_cmd_with_user(subprocess_cmd_list, module_name):
         print("\nbye!")
         exit()
 
+
 def execute_subprocess_cmd_list(subprocess_cmd_list):
     rc = 0
     try:
@@ -169,15 +176,17 @@ def execute_subprocess_cmd_list(subprocess_cmd_list):
     clean_clrf_from_pom()
     return rc
 
+
 def make_thing(module_name, archetype_artifact_id, artifact_id):
     subprocess_cmd_list = get_subprocess_cmd_list(module_name, archetype_artifact_id, artifact_id)
     check_generated_cmd_with_user(subprocess_cmd_list, module_name)
-    logger.info("generating a route named: {}".format(artifact_id))
+    logger.info("generating an artifact named: {}".format(artifact_id))
     os.chdir("./" + module_name)
     rc = execute_subprocess_cmd_list(subprocess_cmd_list)
     os.chdir("../")
     if rc == 0:
         logger.info("done!")
+        logger.info("new artifact is located at: {}".format("./" + module_name + "/" + artifact_id))
     else:
         logger.warning("something went wrong - exiting with non zero return code: {}".format(rc))
 
@@ -192,17 +201,21 @@ def bean(artifact_id):
     rc = make_thing(ELEMENTS_MODULE_NAME, "bean-archetype", artifact_id)
     return rc
 
+
 def processor(artifact_id):
     rc = make_thing(ELEMENTS_MODULE_NAME, "processor-archetype", artifact_id)
     return rc
+
 
 def route(artifact_id):
     rc = make_thing(ROUTES_MODULE_NAME, "route-archetype", artifact_id)
     return rc
 
+
 def service(artifact_id):
     rc = make_thing(SERVICES_MODULE_NAME, "model-k-archetype", artifact_id)
     return rc
+
 
 #
 # MENU STRUCTURES
@@ -217,7 +230,7 @@ THING_TYPES = [
 
 UNIMPLEMENTED_THING_TYPES = [
     "connector (NOT YET IMPLEMENTED)",
-    "raw camel archetype (NOT YET IMPLEMENTED)"
+    "raw camel archetypes (NOT YET IMPLEMENTED)"
 ]
 
 MENU_DICT = {
@@ -240,6 +253,7 @@ def print_menu():
         print("[]  {}".format(UNIMPLEMENTED_THING_TYPES[i]))  
     
     print("----")
+
 
 def main(args):
     choice_int = -1
