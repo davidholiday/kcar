@@ -106,6 +106,17 @@
         <version>${jetty-maven-plugin-version}</version>
       </plugin>
 
+      <!-- -->
+      <plugin>
+          <groupId>com.heroku.sdk</groupId>
+          <artifactId>heroku-maven-plugin</artifactId>
+          <version>${heroku-maven-plugin-version}</version>
+          <configuration>
+            <appName>${heroku.appName}</appName>
+            <jdkVersion>11</jdkVersion>
+          </configuration>
+      </plugin>
+
     </plugins>
   </build>
 

@@ -26,13 +26,14 @@
     <!-- peg project soruce and target JDK version -->
     <java-target-version>11</java-target-version>
 
-    <!-- plugin versions (to keep the verion stuff all in one place the plugins are here too) -->
+    <!-- plugin versions (to keep the version stuff all in one place the plugins are here too) -->
     <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
     <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
     <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
     <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
     <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
     <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
+    <heroku-maven-plugin-version>3.0.3</heroku-maven-plugin-version>
 
     <!-- peg camel version for all provided elements with bill of materials file -->
     <camel-bom-version>3.7.0</camel-bom-version>
