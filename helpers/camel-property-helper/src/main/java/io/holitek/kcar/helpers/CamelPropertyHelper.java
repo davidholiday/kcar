@@ -172,7 +172,7 @@ public class CamelPropertyHelper {
                 Class<?> clazz = Class.forName(routeName);
 
                 // grab namespace value for the route. *!* remember *!* by convention, everything in kcar-land uses
-                // their classname (as camelCase) for their namespace.
+                // their classname (as camelCase with the first character as lower case) for their namespace.
                 // for example, "io.holitek.kcar.routes.HealthCheckRoute" has a classname of "HealthCheckRoute". Its
                 // namespace is therefore "healthCheckRoute".
                 String propertiesNamespace = Introspector.decapitalize(clazz.getSimpleName());
