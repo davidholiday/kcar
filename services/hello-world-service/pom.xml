@@ -106,6 +106,11 @@
         <version>${jetty-maven-plugin-version}</version>
       </plugin>
 
+
+
+      <!-- TODO put these into the chassis archetype -->
+
+
       <!-- -->
       <plugin>
           <groupId>com.heroku.sdk</groupId>
@@ -116,6 +121,35 @@
             <jdkVersion>11</jdkVersion>
           </configuration>
       </plugin>
+
+      <!-- for building/pushing docker images to a registry
+           default image
+           https://cloud.google.com/blog/products/gcp/introducing-jib-build-java-docker-images-better
+           https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
+           https://github.com/GoogleContainerTools/distroless
+           -->
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>2.7.0</version>
+        <configuration>
+          <ports>
+            <port>8080</port>
+          </ports>
+          <to>
+            <tags>
+              <tag>${project.version}</tag>
+              <tag>latest</tag>
+            </tags>
+            <image>${project.artifactId}</image>
+          </to>
+        </configuration>
+      </plugin>
+
+
+
+
+
 
     </plugins>
   </build>
