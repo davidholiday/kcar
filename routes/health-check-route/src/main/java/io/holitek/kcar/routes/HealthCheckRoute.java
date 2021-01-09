@@ -5,6 +5,7 @@ import io.holitek.kcar.helpers.CamelPropertyHelper;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,8 @@ public class HealthCheckRoute extends RouteBuilder {
                   .log(LoggingLevel.INFO, "servicing /healthcheck request from: ${header.host}" )
                   .bean(HEALTH_CHECK_BEAN)
                   .bean(HEALTH_CHECK_PROCESSOR)
+                  .marshal().json(JsonLibrary.Jackson)
+                  .log(LoggingLevel.INFO, "returning : ${headers}  ||  ${body}")
                   .to(HEALTH_CHECK_ROUTE_EXITPOINT);
     }
 

@@ -83,6 +83,19 @@
       <version>${empty-route-version}</version>
     </dependency>
 
+
+
+
+
+    <!-- TODO migrate to chassis archetype -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jackson</artifactId>
+    </dependency>
+
+
+
+
   </dependencies>
 
   <build>

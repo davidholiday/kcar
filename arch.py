@@ -236,7 +236,8 @@ THING_TYPES = [
 
 UNIMPLEMENTED_THING_TYPES = [
     "connector (NOT YET IMPLEMENTED)",
-    "raw camel archetypes (NOT YET IMPLEMENTED)"
+    "raw camel archetypes (NOT YET IMPLEMENTED)",
+    "service with routes (a service chassis with a set of routes baked in. NOT YET IMPLEMENTED)"
 ]
 
 MENU_DICT = {
