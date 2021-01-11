@@ -31,6 +31,7 @@ Working knowledge of Apache Camel is a must - though if you're a Java developer 
 
 
 ### core concepts
+
 * Apache Camel
 
 * Enterprise Integration Patterns
@@ -46,12 +47,37 @@ Working knowledge of Apache Camel is a must - though if you're a Java developer 
 
 ### important conventions 
 
+* project build files
+
+* namespacing and properties
+
 
 ### how do I... ?
 
+* make a new element?
+
+* make a new route?
+
+* make a new service?
+
+* run a service locally 
+
+* use a service's docker image locally
+
+* deploy a service to heroku? 
+
 
 ### todo
-
+in no particular order...
+* add sample IT test to service chassis archetype that uses Docker 
+* ensure logging configuration for all project components is sensible and consistent 
+* investigate 'ivy-httpclient-shutdown-handler' noise that sometimes pops up during builds 
+* add remaining archetypes to runner script
+* update runner script to be a full CLI
+* add hooks into pom files to ensure test reports are aggregated and readily available for jenkins (or whatever) to parse
+* update runner script to add version information to global parent pom on module creation  
+* update runner script to remove components from poms
+* update runner script to manage project component versions 
 
 ### notes 
 
