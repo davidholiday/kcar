@@ -4,11 +4,21 @@
 ---
 
 ## contents
--[what is this](#what-is-this)
+- [what is this?](#what-is-this)
+- [how does it work?](#how-does-it-work)
+- [prerequisites](#prerequisites)
+- [key concepts](#key-concepts)
+- [quickstart](#quickstart)
+- [longer quickstart](#longer-quickstart)
+- [important project conventions](#important-project-conventions)
+- [how do I...?](how-do-i...-?)
+- [available service chassis](available-service-chassis)
+- [todo](#todo)
+- [notes](#notes)
 
 
 ## what is this? 
-K-car is the fastest, most flexible, way to create and deploy java microservices. It uses [Apache Camel](https://camel.apache.org/), a 'message oriented middleware' Java toolkit to empower teams to deliver complex business logic in a way that turbo charges both velocity AND quality. Units of business logic (*elements*), collections of business logic (*routes*), and the service platform on which routes are deployed (*chassis*) are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
+K-car is a fast, flexible, way to microservice. It uses [Apache Camel](https://camel.apache.org/), a 'message oriented middleware' Java toolkit to empower teams to deliver complex business logic in a way that turbo charges both velocity AND quality. Units of business logic (*elements*), collections of business logic (*routes*), and the service platform on which routes are deployed (*chassis*) are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
 
 The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
 
@@ -117,7 +127,7 @@ update the test
 * handle dependency injection?
 
 
-## service chassis 
+## available service chassis 
 
 * model-k
   * jj
