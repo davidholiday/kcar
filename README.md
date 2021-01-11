@@ -1,7 +1,7 @@
 # K-car
 ### a factory for building and deploying Java microservices 
 ![kcar factory](./kcar_readme_images/car_factory.gif)
----
+
 
 ## contents
 - [what is this?](#what-is-this)
@@ -18,7 +18,7 @@
 
 
 ## what is this? 
-K-car is a fast, flexible, way to microservice. It uses [Apache Camel](https://camel.apache.org/), a 'message oriented middleware' Java toolkit to empower teams to deliver complex business logic in a way that turbo charges both velocity AND quality. Units of business logic (*elements*), collections of business logic (*routes*), and the service platform on which routes are deployed (*chassis*) are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
+K-car is a fast, flexible, way to microservice. It uses [Apache Camel](https://camel.apache.org/) to empower teams to quickly deliver complex business logic in a way scales. Units of business logic, compositions of business logic (called routes), and the service platform on which routes are deployed are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own properties file, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
 
 The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
 
@@ -61,10 +61,10 @@ A route is a collection of elements strung together to represent complex busines
 ![example EIP route](https://www.enterpriseintegrationpatterns.com/img/MetadataIntegration.gif)
 
 #### chassis 
-A chassis is a ready-bake service into which routes are inserted. While different service chassis come with different things, they all are deployable out of the box.    
+A chassis is a ready-bake service into which routes are inserted. While different service chassis come with different things, they all are deployable out of the box. See [available service chassis](#available-service-chassis) for more detail. 
 
 #### service
-A service is an instance of a given chassis and is the artifact that gets deployed. New routes are inserted into a chassis by properties file.
+A service is an instance of a given chassis and is the artifact that gets deployed. New routes are inserted into a chassis by properties file. 
 
 [back to contents](#contents)
 
@@ -148,13 +148,27 @@ update the test
 
 ## available service chassis 
 
-* model-k
-  * jj
+#### model-k
+The `model-k` chassis is named for the [Kalashnikov rifle](https://en.wikipedia.org/wiki/Kalashnikov_rifle). It is intended to be as simple as possible, as robust as possible, and use the smallest set of dependencies. As such it uses the [Jakarta servlet](https://en.wikipedia.org/wiki/Jakarta_Servlet) interface directly (vs using a framework like Spring). Note that Camel natively supports JNDI and configuration-based routing so effectively, Spring isn't necessary for dependency injection. 
+
+The model-k chassis comes with the following features: 
+* ability to be deployed to any servlet container as a WAR file.
+  * this includes automated deployment to a heroku slug via maven plugin. See [this](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) for more detail. 
+* automated creation of a [distroless](https://github.com/GoogleContainerTools/distroless) docker image, suitable for production deployment, at build time via [Google Jib](https://github.com/GoogleContainerTools/jib). Jib has several nifty features that give you prod-ready docker images without a lot of fuss. See [this](https://cloud.google.com/blog/products/gcp/introducing-jib-build-java-docker-images-better) for more detail. 
+* ability to add routes via configuration file.
+* dependency injection w/o Guice or Spring.
+* ability to run locally either via the docker image or jetty plugin.
+* JUnit5 test support.
+* grab-bag of QA plugins to handle linting, testing, and doc generation.
+  
+#### model-sb (not yet implemented)
+The `model-sb` will SpringBoot vs native Java or Camel components. In effect, it's a Camel service using SpringBoot for all the deeper layer Java things.  
 
 [back to contents](#contents)
 
 ## todo
 in no particular order...
+* error handling for health check route (dead letter channel)
 * add sample IT test to service chassis archetype that uses Docker 
 * ensure logging configuration for all project components is sensible and consistent 
 * investigate 'ivy-httpclient-shutdown-handler' noise that sometimes pops up during builds 
@@ -170,6 +184,6 @@ in no particular order...
 
 ## notes 
 
-This project is the successor to an earlier project called [camel-harness](https://github.com/davidholiday/camel-harness). Many of the ideas developed in that project are here, only better. 
+This project is the successor to an earlier project called [camel-harness](https://github.com/davidholiday/camel-harness). Many of the ideas developed in that project are here in some form. 
 
 [back to contents](#contents)
