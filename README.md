@@ -52,10 +52,12 @@ Working knowledge of Apache Camel is a must - though if you're a Java developer 
 
 #### element
 An element is a single unit of business logic. Examples in code are [endpoints](https://camel.apache.org/manual/latest/endpoint.html), [processors](https://camel.apache.org/manual/latest/processor.html), and [beans](https://camel.apache.org/components/latest/eips/bean-eip.html). Conceptually, an element is any business logic that would normally be represented in a single java object. An EIP example would be a translator:
+
 ![example EIP element](https://www.enterpriseintegrationpatterns.com/img/MessageTranslator.gif)
 
 ####route
 A route is a collection of elements strung together to represent complex business logic. In code, they are represented by camel [RouteBuilder](https://camel.apache.org/manual/latest/routes.html) instances. Conceptually, a route can be represented as an EIP pattern. For example:
+
 ![example EIP route](https://www.enterpriseintegrationpatterns.com/img/MetadataIntegration.gif)
 
 ####chassis 
