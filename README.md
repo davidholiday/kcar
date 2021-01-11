@@ -3,15 +3,19 @@
 
 ---
 
-### what is this? 
+## contents
+-[what is this](#what-is-this)
+
+
+## what is this? 
 K-car is the fastest, most flexible, way to create and deploy java microservices. It uses [Apache Camel](https://camel.apache.org/), a 'message oriented middleware' Java toolkit to empower teams to deliver complex business logic in a way that turbo charges both velocity AND quality. Units of business logic (*elements*), collections of business logic (*routes*), and the service platform on which routes are deployed (*chassis*) are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
 
 The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
 
-### how does it work?
+## how does it work?
 K-car is a factory for producing and deploying services written in Apache Camel. It leverages the ability of Apache Maven to create project templates called 'archetypes' to enable engineers to create 
 
-### prerequisites
+## prerequisites
 
 __stack prerequisites__
 * maven 3
@@ -27,7 +31,7 @@ __knowledge prerequisites__
 
 Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc).
 
-### key concepts
+## key concepts
 
 * element
   * an element is a single unit of business logic. They are [endpoints](https://camel.apache.org/manual/latest/endpoint.html), [processors](https://camel.apache.org/manual/latest/processor.html), [beans](https://camel.apache.org/components/latest/eips/bean-eip.html) etc. 
@@ -40,13 +44,13 @@ Working knowledge of Apache Camel is a must - though if you're a Java developer 
 
 * service
 
-### quickstart 
+## quickstart 
 This will walk you through the process of deploying a bare service using the `model-k` service chassis. 
 
-### longer quickstart 
+## longer quickstart 
 This will walk you through the process of building and deploying a service that exposes a REST endpoint `/helloworld` that returns a `hello world!` response. 
 
-#### make the element
+### make the element
 1. If you haven't already done so, clone this repository and check out the prerequisite section of this doc to ensure you've got all the things. 
 
 2. At the command line, from the root project directory, build all the things with `mvn clean install`. 
@@ -68,7 +72,7 @@ update the test
 
 5. Build and install the new bean into your local maven repository. from the `./kcar/elements/hello-world-bean` directory execute the terminal command `mvn clean install`. If something goes wrong - check to make sure you've updated both the bean and the unit test correctly. 
 
-#### make the route 
+### make the route 
 
 6. At this point you've created a unit of business logic. Now it's time to incorporate that logic into a route that exposes it as a REST endpoint. As you did to create the bean, execute builder script to create a new route `arch.py hello-world-route` (select `[3]` for empty-route)
 ![create hello world route](./kcar_readme_images/create_hello_world_route_screenshot.png)
@@ -87,14 +91,14 @@ update the test
 
 
 
-### important project conventions 
+## important project conventions 
 
 * project build files
 
 * namespacing and properties
 
 
-### how do I... ?
+## how do I... ?
 
 * make a new element?
 
@@ -113,12 +117,12 @@ update the test
 * handle dependency injection?
 
 
-### service chassis 
+## service chassis 
 
 * model-k
   * jj
 
-### todo
+## todo
 in no particular order...
 * add sample IT test to service chassis archetype that uses Docker 
 * ensure logging configuration for all project components is sensible and consistent 
@@ -131,7 +135,7 @@ in no particular order...
 * update runner script to manage project component versions 
 * add service chassis that uses Spring
 
-### notes 
+## notes 
 
 This project is the successor to an earlier project called [camel-harness](https://github.com/davidholiday/camel-harness). Many of the ideas developed in that project are here, only better. 
 
