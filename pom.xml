@@ -43,6 +43,7 @@
     <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
     <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
     <heroku-maven-plugin-version>3.0.3</heroku-maven-plugin-version>
+    <jib-maven-plugin-version>2.7.1</jib-maven-plugin-version>
 
     <!-- peg camel version for all provided elements with bill of materials file -->
     <camel-bom-version>3.7.0</camel-bom-version>

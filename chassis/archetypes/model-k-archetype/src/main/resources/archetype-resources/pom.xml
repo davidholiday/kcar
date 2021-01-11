@@ -76,6 +76,12 @@
       <version>${health-check-route-version}</version>
     </dependency>
 
+    <!-- for marshalling/unmarshalling xml/json -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jackson</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -97,6 +103,52 @@
              will explore at some future date...
              https://github.com/eclipse/jetty.project/releases -->
         <version>${jetty-maven-plugin-version}</version>
+      </plugin>
+
+      <!-- for deploying a war file to a heroku slug -->
+      <plugin>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-maven-plugin</artifactId>
+        <version>${heroku-maven-plugin-version}</version>
+        <configuration>
+          <appName>${heroku.appName}</appName>
+          <jdkVersion>11</jdkVersion>
+        </configuration>
+      </plugin>
+
+      <!-- for building/pushing docker images to a registry
+           default image is a small 'distroless' runner set up to accept WAR files (no need for a docker file!!!)
+
+           https://cloud.google.com/blog/products/gcp/introducing-jib-build-java-docker-images-better
+           https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
+           https://github.com/GoogleContainerTools/distroless
+           -->
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>${jib-maven-plugin-version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>dockerBuild</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <to>
+            <tags>
+              <tag>${project.version}</tag>
+              <tag>latest</tag>
+            </tags>
+            <image>${project.artifactId}</image>
+          </to>
+          <container>
+            <ports>
+              <port>8080</port>
+            </ports>
+          </container>
+        </configuration>
       </plugin>
 
     </plugins>
