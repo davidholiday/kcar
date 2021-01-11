@@ -4,7 +4,7 @@
 ---
 
 ### what is this? 
-K-car is the fastest way to create and deploy java microservices. It uses [Apache Camel](https://camel.apache.org/), a 'message oriented middleware' Java toolkit to empower teams to deliver complex business logic in a way that turbo charges both velocity AND quality. Units of business logic (*elements*), collections of business logic (*routes*), and the service platform on which routes are deployed (*chassis*) are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
+K-car is the fastest, most flexible, way to create and deploy java microservices. It uses [Apache Camel](https://camel.apache.org/), a 'message oriented middleware' Java toolkit to empower teams to deliver complex business logic in a way that turbo charges both velocity AND quality. Units of business logic (*elements*), collections of business logic (*routes*), and the service platform on which routes are deployed (*chassis*) are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
 
 The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
 
@@ -28,13 +28,33 @@ __knowledge prerequisites__
 Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc).
 
 ### quickstart 
+This will walk you through the process of building and deploying a 'hello-world' service. 
+
+1. If you haven't already done so, clone this repository and check out the prerequisite section of this doc to ensure you've got all the things. 
+
+2. At the command line, from the root project directory, build all the things with `mvn clean install`. 
+
+3. Run the builder script to create a new element `./arch.py hello-world-bean`. You will be presented with a menu asking you what kind of thing you want to make. Select `0` for `bean`. It will then ask you to confirm a maven command that will be executed on your behalf. Press `[enter]` to accept. 
+![bean creation screenshot](./kcar_readme_images/kcar_create_bean.png)
+   
+4. The runner script executed a maven command on your behalf to create an instance of the `bean archetype` named `hello-word-bean` a sub-project of the `elements` module. While not 100% necessary, best practice is to add the version of the newly created bean to the project parent pom file to ensure anyone other route that employs the newly created bean will also use the current 'release' version of it. *NOTE* This step will be automated in a future release. 
+![add version to parent pom screenshot](./kcar_readme_images/add_hello_world_bean_version_to_parent_pom.png)
+   
+5. update the bean and bean test to respond with 'hello world!' instead of 'foo'
+
+update the bean
+![update bean to respond with hello world screenshot](./kcar_readme_images/hello_world_bean_update.png)
+   
+update the test
+![update bean test to check for hello world response screenshot](./kcar_readme_images/hello_world_bean_update_test.png)
+
+
+5. 
+
+
 
 
 ### core concepts
-
-* Apache Camel
-
-* Enterprise Integration Patterns
 
 * element
 

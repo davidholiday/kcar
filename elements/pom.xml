@@ -16,5 +16,6 @@
     <module>health-check-bean</module>
     <module>health-check-processor</module>
     <module>noop-processor</module>
+    <module>hello-world-bean</module>
   </modules>
 </project>
