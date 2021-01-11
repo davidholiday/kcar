@@ -11,7 +11,7 @@
 - [quickstart](#quickstart)
 - [longer quickstart](#longer-quickstart)
 - [important project conventions](#important-project-conventions)
-- [how do I...?](#how-do-i...-?)
+- [how do I?](#how-do-i)
 - [available service chassis](#available-service-chassis)
 - [todo](#todo)
 - [notes](#notes)
@@ -108,7 +108,7 @@ update the test
 * namespacing and properties
 
 
-## how do I... ?
+## how do I?
 
 * make a new element?
 
