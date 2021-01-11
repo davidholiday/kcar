@@ -1,4 +1,4 @@
-package io.holitek.kcar.routes.test;
+package io.holitek.kcar.routes;
 
 
 import io.holitek.kcar.elements.HealthCheckBean;
@@ -18,9 +18,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 /**
  *
@@ -28,8 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HealthCheckRouteTest extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(HealthCheckRouteTest.class);
-
-    private static final ObjectMapper mrObjectMapper = new ObjectMapper();
 
     private static final Map<String, String> statusOkMap = new HashMap<>();
     private static final Map<String, String> statusFaultMap = new HashMap<>();
@@ -86,8 +81,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
                 HealthCheckProcessor.JSON_MEDIA_TYPE
         );
 
-        String expectedResult = mrObjectMapper.writeValueAsString(statusOkMap);
-        getMockEndpoint("mock:result").expectedBodiesReceived(expectedResult);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
     }
@@ -112,8 +106,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
                .lookupByNameAndType(HealthCheckBean.NAMESPACE_KEY, HealthCheckBean.class)
                .setFaultState();
 
-        String expectedResult = mrObjectMapper.writeValueAsString(statusFaultMap);
-        getMockEndpoint("mock:result").expectedBodiesReceived(expectedResult);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
         sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
 

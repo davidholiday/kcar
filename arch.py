@@ -207,8 +207,8 @@ def processor(artifact_id):
     return rc
 
 
-def route(artifact_id):
-    rc = make_thing(ROUTES_MODULE_NAME, "route-archetype", artifact_id)
+def example_route(artifact_id):
+    rc = make_thing(ROUTES_MODULE_NAME, "example-route-archetype", artifact_id)
     return rc
 
 
@@ -229,7 +229,7 @@ def service(artifact_id):
 THING_TYPES = [
     bean,
     processor,
-    route,
+    example_route,
     empty_route,
     service,
 ]

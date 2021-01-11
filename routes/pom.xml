@@ -14,6 +14,5 @@
   <modules>
     <module>archetypes</module>
     <module>health-check-route</module>
-    <module>empty-route</module>
   </modules>
 </project>

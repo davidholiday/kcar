@@ -5,7 +5,6 @@ import io.holitek.kcar.helpers.CamelPropertyHelper;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.dataformat.JsonLibrary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,8 @@ import java.beans.Introspector;
 
 
 /**
- * handler for requests to REST endpoint /healthcheck
+ * sample route that exposes a REST endpoint. depending on properties loaded from properties file, channels the
+ * request to business logic handlers before returning results to caller
  */
 public class HealthCheckRoute extends RouteBuilder {
 
@@ -51,8 +51,6 @@ public class HealthCheckRoute extends RouteBuilder {
                   .log(LoggingLevel.INFO, "servicing /healthcheck request from: ${header.host}" )
                   .bean(HEALTH_CHECK_BEAN)
                   .bean(HEALTH_CHECK_PROCESSOR)
-                  .marshal().json(JsonLibrary.Jackson)
-                  .log(LoggingLevel.INFO, "returning : ${headers}  ||  ${body}")
                   .to(HEALTH_CHECK_ROUTE_EXITPOINT);
     }
 

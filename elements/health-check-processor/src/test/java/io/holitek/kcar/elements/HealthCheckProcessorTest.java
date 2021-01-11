@@ -1,7 +1,5 @@
-package io.holitek.kcar.elements.test;
+package io.holitek.kcar.elements;
 
-
-import io.holitek.kcar.elements.HealthCheckProcessor;
 
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.Exchange;

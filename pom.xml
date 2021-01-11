@@ -9,6 +9,7 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
+  <!-- each module has it's own parent pom that has whatever is necessary for any given module member to function -->
   <modules>
     <module>helpers</module>
     <module>elements</module>
@@ -16,7 +17,15 @@
     <module>chassis</module>
   </modules>
 
-  <!-- TODO migrate versioning to dependency and plugin versioning to dep/plugin management blocks  -->
+  <!--
+    versions for all plugins and dependencies are managed in the global parent pom. to keep things easier to reason
+    about - the plugins dependencies themselves are defined in the module parent pom. for example- dependencies/plugins
+    have their versions pegged via the properties block in the global parent pom but are defined in the "roots" parent
+    pom. the reason is, if we went tried to manage everything via dependency/plugin management, we'd end up with a lot
+    of extra XML and less visibility into what's actually being included in what build modules.
+
+    this way, we can manage versions for everything in one place w/o the XML bloat.
+    -->
   <properties>
     <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -224,7 +233,6 @@
 <!--          </execution>-->
 <!--        </executions>-->
 <!--      </plugin>-->
-
 
     </plugins>
   </build>

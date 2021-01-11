@@ -1,7 +1,5 @@
-package io.holitek.kcar.elements.test;
+package io.holitek.kcar.elements;
 
-
-import io.holitek.kcar.elements.HealthCheckBean;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;

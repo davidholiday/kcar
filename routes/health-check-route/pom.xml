@@ -43,23 +43,21 @@
 
     <!-- The Rest DSL can be integrated with the camel-swagger-java module which is used for exposing the REST services
          and their APIs using Swagger. -->
-    <!-- *!* THIS ISN'T BEING USED PRESENTLY BUT WILL BE IN FUTURE. NO NEED TO BAKE THE DEPENDENCY IN UNTIL
-             THE ROUTE ARCHETYPE IS UPDATED TO PROVIDE A WORKING POC FOR GENERATING AND RENDERING SWAGGER DOCS *!* -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.camel</groupId>-->
-<!--      <artifactId>camel-swagger-java</artifactId>-->
-<!--      &lt;!&ndash; deals with namespace conflicts in this split library &ndash;&gt;-->
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.xml.bind</groupId>-->
-<!--          <artifactId>jaxb-impl</artifactId>-->
-<!--        </exclusion>-->
-<!--        <exclusion>-->
-<!--          <groupId>com.sun.xml.bind</groupId>-->
-<!--          <artifactId>jaxb-core</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-swagger-java</artifactId>
+      <!-- deals with namespace conflicts in this split library -->
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
     <!-- health-check-bean is an element that holds onto app state information -->
     <dependency>
@@ -87,19 +85,6 @@
       <groupId>io.holitek.kcar.helpers</groupId>
       <artifactId>camel-property-helper</artifactId>
       <version>${camel-property-helper-version}</version>
-    </dependency>
-
-
-
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jackson</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.12.0</version>
     </dependency>
 
   </dependencies>
