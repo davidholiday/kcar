@@ -66,6 +66,7 @@
     <!-- routes -->
     <health-check-route-version>1.0-SNAPSHOT</health-check-route-version>
     <empty-route-version>1.0-SNAPSHOT</empty-route-version>
+    <hello-world-route-version>1.0-SNAPSHOT</hello-world-route-version>
 
     <!-- chassis -->
 

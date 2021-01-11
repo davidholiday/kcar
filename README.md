@@ -22,14 +22,31 @@ __stack prerequisites__
 [SDK-man](https://sdkman.io/) is an excellent way to install maven and java. Python3 is almost certainly already installed on your workstation. The script that requires it does not require any special libraries. Docker can be installed from their [website](https://www.docker.com/products/docker-desktop). 
 
 __knowledge prerequisites__
-* apache camel [link](https://camel.apache.org/)
+* apache camel [link](https://camel.apache.org/manual/latest/faq/what-is-camel.html), [link](https://www.baeldung.com/apache-camel-intro)
 * Enterprise Integration Patterns [link](https://www.enterpriseintegrationpatterns.com/)
 
 Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc).
 
-### quickstart 
-This will walk you through the process of building and deploying a 'hello-world' service. 
+### key concepts
 
+* element
+  * an element is a single unit of business logic. They are [endpoints](https://camel.apache.org/manual/latest/endpoint.html), [processors](https://camel.apache.org/manual/latest/processor.html), [beans](https://camel.apache.org/components/latest/eips/bean-eip.html) etc. 
+
+* route
+  * a route is a camel [RouteBuilder](https://camel.apache.org/manual/latest/routes.html) instance.
+
+* chassis
+  * a chassis is a ready-bake service into which routes are inserted. Different service chassis come with different things. 
+
+* service
+
+### quickstart 
+This will walk you through the process of deploying a bare service using the `model-k` service chassis. 
+
+### longer quickstart 
+This will walk you through the process of building and deploying a service that exposes a REST endpoint `/helloworld` that returns a `hello world!` response. 
+
+#### make the element
 1. If you haven't already done so, clone this repository and check out the prerequisite section of this doc to ensure you've got all the things. 
 
 2. At the command line, from the root project directory, build all the things with `mvn clean install`. 
@@ -49,23 +66,28 @@ update the test
 ![update bean test to check for hello world response screenshot](./kcar_readme_images/hello_world_bean_update_test.png)
 
 
-5. 
+5. Build and install the new bean into your local maven repository. from the `./kcar/elements/hello-world-bean` directory execute the terminal command `mvn clean install`. If something goes wrong - check to make sure you've updated both the bean and the unit test correctly. 
+
+#### make the route 
+
+6. At this point you've created a unit of business logic. Now it's time to incorporate that logic into a route that exposes it as a REST endpoint. As you did to create the bean, execute builder script to create a new route `arch.py hello-world-route` (select `[3]` for empty-route)
+![create hello world route](./kcar_readme_images/create_hello_world_route_screenshot.png)
+   
+7. As you did with the bean, add the version to the properties section of the project parent pom (and again - this step will be automated in a future release - promise!)
+![add hello world route version to parent pom](./kcar_readme_images/update_pom_with_route_version.png)
+   
+8. 
 
 
 
 
-### core concepts
-
-* element
-
-* route
-
-* chassis 
-
-* service
 
 
-### important conventions 
+
+
+
+
+### important project conventions 
 
 * project build files
 
@@ -86,6 +108,15 @@ update the test
 
 * deploy a service to heroku? 
 
+* integrate with Spring?
+
+* handle dependency injection?
+
+
+### service chassis 
+
+* model-k
+  * jj
 
 ### todo
 in no particular order...
@@ -98,6 +129,7 @@ in no particular order...
 * update runner script to add version information to global parent pom on module creation  
 * update runner script to remove components from poms
 * update runner script to manage project component versions 
+* add service chassis that uses Spring
 
 ### notes 
 

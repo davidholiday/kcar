@@ -14,5 +14,6 @@
   <modules>
     <module>archetypes</module>
     <module>health-check-route</module>
+    <module>hello-world-route</module>
   </modules>
 </project>
