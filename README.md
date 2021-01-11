@@ -1,6 +1,6 @@
 # K-car
 ### a factory for building and deploying Java microservices 
-
+![kcar factory](./kcar_readme_images/car_factory.gif)
 ---
 
 ## contents
@@ -22,8 +22,13 @@ K-car is a fast, flexible, way to microservice. It uses [Apache Camel](https://c
 
 The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
 
+[back to contents](#contents)
+
 ## how does it work?
 K-car is a factory for producing and deploying services written in Apache Camel. It leverages the ability of Apache Maven to create project templates called 'archetypes' to enable engineers to create 
+
+[back to contents](#contents)
+
 
 ## prerequisites
 
@@ -41,18 +46,25 @@ __knowledge prerequisites__
 
 Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc).
 
+[back to contents](#contents)
+
 ## key concepts
 
-* element
-  * an element is a single unit of business logic. They are [endpoints](https://camel.apache.org/manual/latest/endpoint.html), [processors](https://camel.apache.org/manual/latest/processor.html), [beans](https://camel.apache.org/components/latest/eips/bean-eip.html) etc. 
+#### element
+An element is a single unit of business logic. Examples in code are [endpoints](https://camel.apache.org/manual/latest/endpoint.html), [processors](https://camel.apache.org/manual/latest/processor.html), and [beans](https://camel.apache.org/components/latest/eips/bean-eip.html). Conceptually, an element is any business logic that would normally be represented in a single java object. An EIP example would be a translator:
+![example EIP element](https://www.enterpriseintegrationpatterns.com/img/MessageTranslator.gif)
 
-* route
-  * a route is a camel [RouteBuilder](https://camel.apache.org/manual/latest/routes.html) instance.
+####route
+A route is a collection of elements strung together to represent complex business logic. In code, they are represented by camel [RouteBuilder](https://camel.apache.org/manual/latest/routes.html) instances. Conceptually, a route can be represented as an EIP pattern. For example:
+![example EIP route](https://www.enterpriseintegrationpatterns.com/img/MetadataIntegration.gif)
 
-* chassis
-  * a chassis is a ready-bake service into which routes are inserted. Different service chassis come with different things. 
+####chassis 
+a chassis is a ready-bake service into which routes are inserted. Different service chassis come with different things. 
 
-* service
+####service
+
+[back to contents](#contents)
+
 
 ## quickstart 
 This will walk you through the process of deploying a bare service using the `model-k` service chassis. 
