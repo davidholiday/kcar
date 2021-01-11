@@ -55,21 +55,24 @@ An element is a single unit of business logic. Examples in code are [endpoints](
 
 ![example EIP element](https://www.enterpriseintegrationpatterns.com/img/MessageTranslator.gif)
 
-####route
+#### route
 A route is a collection of elements strung together to represent complex business logic. In code, they are represented by camel [RouteBuilder](https://camel.apache.org/manual/latest/routes.html) instances. Conceptually, a route can be represented as an EIP pattern. For example:
 
 ![example EIP route](https://www.enterpriseintegrationpatterns.com/img/MetadataIntegration.gif)
 
-####chassis 
-a chassis is a ready-bake service into which routes are inserted. Different service chassis come with different things. 
+#### chassis 
+A chassis is a ready-bake service into which routes are inserted. While different service chassis come with different things, they all are deployable out of the box.    
 
-####service
+#### service
+A service is an instance of a given chassis and is the artifact that gets deployed. New routes are inserted into a chassis by properties file.
 
 [back to contents](#contents)
 
 
 ## quickstart 
 This will walk you through the process of deploying a bare service using the `model-k` service chassis. 
+
+[back to contents](#contents)
 
 ## longer quickstart 
 This will walk you through the process of building and deploying a service that exposes a REST endpoint `/helloworld` that returns a `hello world!` response. 
@@ -107,7 +110,7 @@ update the test
 8. 
 
 
-
+[back to contents](#contents)
 
 
 
@@ -121,6 +124,7 @@ update the test
 
 * namespacing and properties
 
+[back to contents](#contents)
 
 ## how do I?
 
@@ -140,11 +144,14 @@ update the test
 
 * handle dependency injection?
 
+[back to contents](#contents)
 
 ## available service chassis 
 
 * model-k
   * jj
+
+[back to contents](#contents)
 
 ## todo
 in no particular order...
@@ -159,8 +166,10 @@ in no particular order...
 * update runner script to manage project component versions 
 * add service chassis that uses Spring
 
+[back to contents](#contents)
+
 ## notes 
 
 This project is the successor to an earlier project called [camel-harness](https://github.com/davidholiday/camel-harness). Many of the ideas developed in that project are here, only better. 
 
-
+[back to contents](#contents)
