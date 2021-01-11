@@ -217,7 +217,7 @@ def empty_route(artifact_id):
     return rc
 
 
-def service(artifact_id):
+def model_k_service(artifact_id):
     rc = make_thing(SERVICES_MODULE_NAME, "model-k-archetype", artifact_id)
     return rc
 
@@ -231,7 +231,7 @@ THING_TYPES = [
     processor,
     example_route,
     empty_route,
-    service,
+    model_k_service,
 ]
 
 UNIMPLEMENTED_THING_TYPES = [
