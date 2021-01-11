@@ -11,8 +11,8 @@
 - [quickstart](#quickstart)
 - [longer quickstart](#longer-quickstart)
 - [important project conventions](#important-project-conventions)
-- [how do I...?](how-do-i...-?)
-- [available service chassis](available-service-chassis)
+- [how do I...?](#how-do-i...-?)
+- [available service chassis](#available-service-chassis)
 - [todo](#todo)
 - [notes](#notes)
 
