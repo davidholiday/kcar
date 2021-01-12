@@ -24,8 +24,13 @@ The project is called __K-car__ in honor of [Chrysler's K platform](https://en.w
 
 [back to contents](#contents)
 
+
 ## how does it work?
-K-car is a factory for producing and deploying services written in Apache Camel. It leverages the ability of Apache Maven to create project templates called 'archetypes' to enable engineers to create 
+The big idea behind K-car 
+
+It accomplishes this by using a feature of the build tool, [Maven](https://maven.apache.org/), that allows for project source code to be instanced in much the same way an OOP developer would create an instance of a class. When combined with a framework that's highly modular like Camel, the result is something in which your build artifacts are highly modular as well. This allows work to be distributed more easily across an engineering org because it can be decomposed to a fine degree, and everyone is working in their neatly encapsulated sand box. As a process it also scales for the same reason -and- the paradigm facilitates re-use of components in exactly the same way Java developers already do so via stores like [Maven Central](https://search.maven.org/).
+
+K-car is  
 
 [back to contents](#contents)
 
@@ -47,6 +52,7 @@ __knowledge prerequisites__
 Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc).
 
 [back to contents](#contents)
+
 
 ## key concepts
 
@@ -73,6 +79,7 @@ A service is an instance of a given chassis and is the artifact that gets deploy
 This will walk you through the process of deploying a bare service using the `model-k` service chassis. 
 
 [back to contents](#contents)
+
 
 ## longer quickstart 
 This will walk you through the process of building and deploying a service that exposes a REST endpoint `/helloworld` that returns a `hello world!` response. 
@@ -149,7 +156,7 @@ update the test
 ## available service chassis 
 
 #### model-k
-The `model-k` chassis is named for the [Kalashnikov rifle](https://en.wikipedia.org/wiki/Kalashnikov_rifle). It is intended to be as simple as possible, as robust as possible, and use the smallest set of dependencies. As such it uses the [Jakarta servlet](https://en.wikipedia.org/wiki/Jakarta_Servlet) interface directly (vs using a framework like Spring). Note that Camel natively supports JNDI and configuration-based routing so effectively, Spring isn't necessary for dependency injection. 
+The model-k chassis is named for the [Kalashnikov rifle](https://en.wikipedia.org/wiki/Kalashnikov_rifle). It is intended to be as simple as possible, as robust as possible, and use the smallest set of dependencies. As such it uses the [Jakarta servlet](https://en.wikipedia.org/wiki/Jakarta_Servlet) interface directly (vs using a framework like Spring). Note that Camel natively supports JNDI and configuration-based routing so effectively, Spring isn't necessary for dependency injection. 
 
 The model-k chassis comes with the following features: 
 * ability to be deployed to any servlet container as a WAR file.
@@ -162,7 +169,7 @@ The model-k chassis comes with the following features:
 * grab-bag of QA plugins to handle linting, testing, and doc generation.
   
 #### model-sb (not yet implemented)
-The `model-sb` will SpringBoot vs native Java or Camel components. In effect, it's a Camel service using SpringBoot for all the deeper layer Java things.  
+The model-sb will SpringBoot vs native Java or Camel components. In effect, it's a Camel service using SpringBoot for all the deeper layer Java things.  
 
 [back to contents](#contents)
 
