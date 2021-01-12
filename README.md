@@ -5,7 +5,6 @@
 
 ## contents
 - [what is this?](#what-is-this)
-- [how does it work?](#how-does-it-work)
 - [prerequisites](#prerequisites)
 - [key concepts](#key-concepts)
 - [quickstart](#quickstart)
@@ -20,17 +19,9 @@
 ## what is this? 
 K-car is a fast, flexible, way to microservice. It uses [Apache Camel](https://camel.apache.org/) to empower teams to quickly deliver complex business logic in a way scales. Units of business logic, compositions of business logic (called routes), and the service platform on which routes are deployed are all 100% encapsulated. This allows engineers to work independently, for every element in the assembly to have its own properties file, for every element in the assembly to have its own robust set of tests, and for elements to be re-used without cutting and pasting source from one project to another. 
 
-The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
-
-[back to contents](#contents)
-
-
-## how does it work?
-The big idea behind K-car 
-
 It accomplishes this by using a feature of the build tool, [Maven](https://maven.apache.org/), that allows for project source code to be instanced in much the same way an OOP developer would create an instance of a class. When combined with a framework that's highly modular like Camel, the result is something in which your build artifacts are highly modular as well. This allows work to be distributed more easily across an engineering org because it can be decomposed to a fine degree, and everyone is working in their neatly encapsulated sand box. As a process it also scales for the same reason -and- the paradigm facilitates re-use of components in exactly the same way Java developers already do so via stores like [Maven Central](https://search.maven.org/).
 
-K-car is  
+The project is called __K-car__ in honor of [Chrysler's K platform](https://en.wikipedia.org/wiki/Chrysler_K_platform) from which the philosophy of building complex machinery from a collection of standardized, encapsulated, components is derived. 
 
 [back to contents](#contents)
 
@@ -43,13 +34,15 @@ __stack prerequisites__
 * python3 (for the helper script `arch.py`)
 * docker 
 
-[SDK-man](https://sdkman.io/) is an excellent way to install maven and java. Python3 is almost certainly already installed on your workstation. The script that requires it does not require any special libraries. Docker can be installed from their [website](https://www.docker.com/products/docker-desktop). 
+[SDK-man](https://sdkman.io/) is an excellent way to install maven and java. Python3 is almost certainly already installed on your workstation but here's a [link](https://www.python.org/downloads/) jik. The script that requires it does not require any special libraries so there's no need to stand up a venv. Docker can be installed from their [website](https://www.docker.com/products/docker-desktop). 
 
 __knowledge prerequisites__
-* apache camel [link](https://camel.apache.org/manual/latest/faq/what-is-camel.html), [link](https://www.baeldung.com/apache-camel-intro)
-* Enterprise Integration Patterns [link](https://www.enterpriseintegrationpatterns.com/)
+* apache camel 
+* Enterprise Integration Patterns 
 
-Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc).
+Working knowledge of Apache Camel is a must - though if you're a Java developer already you'll grok Camel very quickly. These will get you started: [link](https://camel.apache.org/manual/latest/faq/what-is-camel.html), [link](https://www.baeldung.com/apache-camel-intro). 
+
+As for the EIPs, because Camel is a tool for implementing those patterns, it would be helpful if you knew enough about them to understand the naming conventions (ie - what a processor is, what a route is, etc). This is a as good a synopsis as any: [link](https://www.enterpriseintegrationpatterns.com/patterns/messaging/).
 
 [back to contents](#contents)
 
