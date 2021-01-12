@@ -290,13 +290,13 @@ This will instruct maven to build the project, run the tests, and create build a
 
 16. __As you did with the bean and the route, add the version of your newly created service to the properties section of the project parent pom located at `{KCAR_PROJECT_ROOT}/pom.xml`. This will peg the release version of the artifact you just created project-wide (and again - this step will be automated in a future release - promise!)__
 ```xml
-<my-service>1.0-SNAPSHOT</my-service>
+<my-service-version>1.0-SNAPSHOT</my-service-version>
 ```
 
 
 ### register hello-world-route with your new service instance (an option to automate this will be added to a future release)
 
-17. __In the same way you added the bean to the `hello-world-route` pom file, add the `hello-world-route` to the `<dependency>` section of your new service's pom file at `{KCAR_PROJECT_ROOT}/services/my-service/pom.xml`. Note that we're taking advantage of the fact that the dependency version is defined in the project parent pom file.
+17. __In the same way you added the bean to the `hello-world-route` pom file, add the `hello-world-route` to the `<dependency>` section of your new service's pom file at `{KCAR_PROJECT_ROOT}/services/my-service/pom.xml`. Note that we're taking advantage of the fact that the dependency version is defined in the project parent pom file.__
 
 ```xml
 <!-- RESTful route that responds to /helloworld with 'hello world!' -->
@@ -308,7 +308,34 @@ This will instruct maven to build the project, run the tests, and create build a
 ```
 
 
-18. __The last thing to do is add the route to the service properties file located at `{KCAR_PROJECT_ROOT}/services/my-service/src/main/resources/myService.application.properties`.   
+18. __The last thing to do is add the route to the service properties file located at `{KCAR_PROJECT_ROOT}/services/my-service/src/main/resources/myService.application.properties`.  The `routes` property takes a comma-delimited list of classnames. Each classname is expected to be the name of a RouteBuilder defined in the classpath. Change that property to read as follows:__
+```properties
+myService.routes = io.holitek.kcar.routes.HealthCheckRoute,io.holitek.kcar.routes.HelloWorldRoute
+```
+
+19. __At this point you should be gtg. Build the service using the same `mvn clean install` command you've been using. If you attempt to build from the `my-service` project folder and get an error from maven telling you it can't resolve the `${hello-world-route-version}` property, try building from the project root directory.__ 
+
+
+### start the service locally
+
+20a __One way to do this is to use the jetty plugin:__
+```shell
+{KCAR_PROJECT_ROOT}/services/my-service$ mvn jetty:run
+```
+
+20b. __Another is to use the docker image created as part of the build. We need to expose port 8080 as that's the default service port the chassis will use:__
+```shell
+{KCAR_PROJECT_ROOT}/services/my-service$ docker run -p 8080:8080 my-service 
+```
+
+Regardless of your chosen method, you should end up with something that looks like this on your terminal. Note that unlike before in the *Quickstart* section, two routes are started. The `healthCheck` route and our new `helloWorldRoute`:
+
+![my_service_with_hello_world_up_screenshot](./kcar_readme_images/hello_world_service_startup_jetty.png)
+
+
+If you make an HTTP GET request against `http://localhost:8080/helloworld` you should get a *Hello World!* response:
+
+![my_service_hello_world_response_screenshot](./kcar_readme_images/hello_world_response.png)
 
 
 
