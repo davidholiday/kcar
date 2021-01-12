@@ -341,7 +341,7 @@ myService.routes = io.holitek.kcar.routes.HealthCheckRoute,io.holitek.kcar.route
 {KCAR_PROJECT_ROOT}/services/my-service$ docker run -p 8080:8080 my-service 
 ```
 
-Regardless of your chosen method, you should end up with something that looks like this on your terminal. Note that unlike before in the *Quickstart* section, two routes are started. The `healthCheck` route and our new `helloWorldRoute`:
+Regardless of your chosen method, you should end up with something that looks like this on your terminal. Note that unlike before in the [Quickstart](#quickstart) section, two routes are started. The `healthCheck` route and our new `helloWorldRoute`:
 
 ![my_service_with_hello_world_up_screenshot](./kcar_readme_images/hello_world_service_startup_jetty.png)
 
@@ -351,37 +351,65 @@ If you make an HTTP GET request against `http://localhost:8080/helloworld` you s
 ![my_service_hello_world_response_screenshot](./kcar_readme_images/hello_world_response.png)
 
 
-
 [back to contents](#contents)
-
 
 
 
 ## important project conventions 
 
-* project build files
+#### project build files
+K-car employs a maven technique in which the build is decomposed into several related build modules that are releated via a hierarchical structure. [Here](https://www.baeldung.com/maven-multi-module) is a short article explaining what that means. 
 
-* namespacing and properties
+The build files are laid out in a way so as to keep things highly modularlized. The idea is to thwart dependency bloat and keep build times to a minumum by defining dependencies only where they are likely to be used. Below is rendering of how things are laid out:
+
+```markdown
+{KCAR_PROJECT_ROOT}
+|    pom.xml                                 // root pom for entire kcar factory. Pom has only what all projects need. 
+|    ...                                     //   also where all project artifact versions are stored
+|
+---- {chassis|elements|routes|services}                                 
+|    |    pom.xml                            // module pom for all projects of this type. build artifacts for        
+|    |    ....                               //   module type are defined here. for example, network and deployment
+|    |                                       //   artifacts are defined in the chassis module pom file. 
+|    ---- archetypes
+|    |       pom.xml                         // this is a bare minimum pom used to build the archetype modules that 
+|    |       ...                             //   K-car uses to instance new elements, routes, and services. 
+|    |
+|    ____ {project}                          
+|            pom.xml                         // the project pom files should be spartan as they should be inhereting
+|            ...                             //   the lion's share of what they need from their parent poms.
+...
+
+
+
+
+```
+
+#### namespacing and properties
 
 [back to contents](#contents)
 
 ## how do I?
 
 * make a new element?
+  * see [make the element](#make-the-element) section of the [longer quickstart](#longer-quickstart) walk tutorial.
 
 * make a new route?
+  * see [make the route](#make-the-route) section of the [longer quickstart](#longer-quickstart) walk tutorial.
 
 * make a new service?
+  * see [make the service](#make-a-service-instance-for-your-new-route-if-youve-already-completed-the-quickstart-then-you-can-skip-to-this-bit) section of the [longer quickstart](#longer-quickstart) walk tutorial.
 
-* run a service locally 
-
-* use a service's docker image locally
+* run a service locally (either with jetty or docker)
+  * see [start the service locally](#start-the-service-locally) section of the [quickstart](#quickstart) tutorial.
 
 * deploy a service to heroku? 
 
 * integrate with Spring?
+  * the service chassis for this is not yet implemented. However, Camel plays nicely with Spring and offers a rich set of integrations. This will be implemented in a future release of K-car.
 
 * handle dependency injection?
+  * Camel is able to natively achieve the effect of Dependency injection in multiple ways, as well as the formal implementation using any Dependency Injection framework such as Spring, CDI, and Guice. At present, the only service chassis available in K-Car, `model-k`, achieves the effect of Dependency Injection without the use of a specialized framework. In a nutshell, the logic used to route data through a route as well as the objects created to handle the data at each point in the route are defined via properties. Typically these are defined in `*.properties` files but can just as easily be defined as system properties. By managing the contents of those properties the same business logic can be configured to handle data differently depending on runtime context. See the [make the route](#make-the-route) section of the [longer quickstart](#longer-quickstart) for an example of what this looks like. 
 
 [back to contents](#contents)
 
