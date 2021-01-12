@@ -75,13 +75,19 @@ A route is a collection of elements strung together to represent complex busines
 A chassis is a ready-bake service into which routes are inserted. While different service chassis come with different things, they all are deployable out of the box. See [available service chassis](#available-service-chassis) for more detail. 
 
 #### service
-A service is an instance of a given chassis and is the artifact that gets deployed. New routes are inserted into a chassis by properties file. 
+A service is an instance of a given chassis. It is what you put your routes into and deploy to wherever you deploy your stuff to. New routes are inserted into a chassis by properties file. 
 
 [back to contents](#contents)
 
 
 ## quickstart 
-This will walk you through the process of deploying a bare service using the `model-k` service chassis. 
+This will walk you through the process of creating deploying a bare-bones service using the `model-k` service chassis. 
+
+### create the service
+1. at the command line, from the project root directory, invoke the builder script:
+```shell
+$ ./arch.py 
+```
 
 [back to contents](#contents)
 
