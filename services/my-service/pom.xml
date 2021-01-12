@@ -82,6 +82,13 @@
       <artifactId>camel-jackson</artifactId>
     </dependency>
 
+    <!-- RESTful route that responds to /helloworld with 'hello world!' -->
+    <dependency>
+      <groupId>io.holitek.kcar.routes</groupId>
+      <artifactId>hello-world-route</artifactId>
+      <version>${hello-world-route-version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
