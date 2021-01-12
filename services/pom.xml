@@ -13,5 +13,6 @@
   </parent>
   <modules>
     <module>hello-world-service</module>
+    <module>my-service</module>
   </modules>
 </project>

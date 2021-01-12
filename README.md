@@ -86,8 +86,39 @@ This will walk you through the process of creating deploying a bare-bones servic
 ### create the service
 1. at the command line, from the project root directory, invoke the builder script:
 ```shell
-$ ./arch.py 
+{KCAR_PROJECT_ROOT}$ ./arch.py my-service  
 ```
+you will be asked what kind of thing you want to make. Enter `[4]` to create a new service. You will then be asked to confirm that the maven command that was generated on your behalf is correct. Hit `return` to confirm. 
+![create_my_service_screenshot](./kcar_readme_images/create_my_service_screenshot.png)
+
+2. navigate to `{KCAR_PROJECT_ROOT}/services/my-service` and build the service:
+```shell
+{KCAR_PROJECT_ROOT}/services/my-service$ mvn clean install
+```
+
+This will instruct maven to build the project, run the tests, and create build artifacts in the form of both a WAR file and a docker image. 
+
+![build_my_service](https://j.gifs.com/p8475m.gif)
+
+### start the service locally 
+
+3a. One way to do this is to use the jetty plugin:
+```shell
+{KCAR_PROJECT_ROOT}/services/my-service$ mvn jetty:run
+```
+
+3b. Another is to use the docker image created as part of the build. We need to expose port 8080 as that's the default service port the chassis will use:
+```shell
+{KCAR_PROJECT_ROOT}/services/my-service$ docker run -p 8080:8080 my-service 
+```
+
+Regardless of your chosen method, you should end up with something that looks like this on your terminal:
+
+![my_service_up_screenshot](./kcar_readme_images/my_service_jetty_run.png)
+
+If you make an HTTP GET request against `http://localhost:8080/healthcheck` you should get an OK response:
+
+![my_service_healthcheck_response_screenshot](./kcar_readme_images/health_check_endpoint_screenshot.png)
 
 [back to contents](#contents)
 
