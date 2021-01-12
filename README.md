@@ -86,7 +86,7 @@ This will walk you through the process of creating a bare-bones service using th
 ```shell
 {KCAR_PROJECT_ROOT}$ mvn clean install
 ```
-
+---
 ### create the service
 1. __At the command line, from the project root directory, invoke the factory script:__
 ```shell
@@ -104,6 +104,8 @@ This will instruct maven to build the project, run the tests, and create build a
 
 ![build_my_service](https://j.gifs.com/p8475m.gif)
 
+
+---
 ### start the service locally 
 
 3a. __One way to do this is to use the jetty plugin:__
@@ -135,6 +137,7 @@ This will walk you through the process of building a custom service that exposes
 {KCAR_PROJECT_ROOT}$ mvn clean install
 ```
 
+---
 ### make the element
 
 2. __Run the factory script to create a new element:__ 
@@ -146,17 +149,24 @@ You will be presented with a menu asking you what kind of thing you want to make
 ![bean creation screenshot](./kcar_readme_images/kcar_create_bean.png)
  
   
-3. __The runner script executed a maven command on your behalf to create an instance of the `bean archetype` named `hello-word-bean` as sub-project of the `elements` module. While not 100% necessary, best practice is to add the version of the newly created bean to the project parent pom file to ensure anyone other route that employs the newly created bean will also use the current 'release' version of it. *NOTE* This step will be automated in a future release.__ 
+3. __The runner script executed a maven command on your behalf to create an instance of the `bean archetype` named `hello-word-bean` as sub-project of the `elements` module. While not 100% necessary, best practice is to add the version of the newly created bean to the project parent pom file located at `{KCAR_PROJECT_ROOT}/pom.xml` to ensure anyone other route that employs the newly created bean will also use the current 'release' version of it. *NOTE* This step will be automated in a future release.__ 
+
+```xml
+<hello-world-bean-version>1.0-SNAPSHOT</hello-world-bean-version>
+```
+
 ![add version to parent pom screenshot](./kcar_readme_images/add_hello_world_bean_version_to_parent_pom.png)
    
 
 4. __Update the bean and bean test to respond with 'hello world!' instead of 'foo'__
 
-update the bean
+* in the file `{KCAR_PROJECT_ROOT}/elements/hello-world-bean/src/main/java/io/holitek/kcar/elements/HelloWorldBean.java` update the bean getters and setters to and method names as per the screenshot:
+
 ![update bean to respond with hello world screenshot](./kcar_readme_images/hello_world_bean_update.png)
    
 
-update the test
+* In the file `{KCAR_PROJECT_ROOT/elements/hello-world-bean/src/test/java/io/holitek/kcar/elements/HelloWorldBeanTest.java`, update the test method `testHappyPath()` to expect the bean to produce the string 'Hello World!' instead of 'foo':
+
 ![update bean test to check for hello world response screenshot](./kcar_readme_images/hello_world_bean_update_test.png)
 
 
@@ -168,9 +178,10 @@ update the test
 ![maven_build_hello_world_bean_gif](https://j.gifs.com/wVoZ1z.gif)
 
 
+---
 ### make the route 
 
-6. __At this point you've created a unit of business logic. Now it's time to incorporate that logic into a route that exposes it as a REST endpoint. As you did to create the bean, execute builder script to create a new route `arch.py hello-world-route` (select `[3]` for empty-route)__
+6. __At this point you've created a unit of business logic. Now it's time to incorporate that logic into a route that exposes it as a REST endpoint. As you did to create the bean, execute builder script to create a new route `{KCAR_PROJECT_ROOT}/arch.py hello-world-route` (select `[3]` for empty-route)__
 ![create hello world route](./kcar_readme_images/create_hello_world_route_screenshot.png)
    
 
@@ -188,7 +199,7 @@ update the test
 {KCAR_PROJECT_ROOT}/routes/hello-world-route$ mvn clean install
 ```
 
-9. Add the `hello-world-bean` to the project pom file *NOTE* this will be automated in a future release. 
+9. __Add the `hello-world-bean` to the project pom file *NOTE* this will be automated in a future release.__ 
 
 Open file `{KCAR_PROJECT_ROOT}/routes/hello-world-route/pom.xml` and add the following to the `<dependencies>` block:
 
@@ -209,16 +220,16 @@ for example:
     
 Note that these files are what controls the flow of logic within a K-car route and do not necessarily need to be the same. For example, the test properties file can define a mock whereas the default properties file defines the production artifact.
     
-Also note that both the properties files and the elements within the files are namespaced. The namespace is automatically generated when the factory script generates the project component. 
+Also note that both the properties files and the elements within the files are namespaced. The namespace is automatically generated when the factory script generates the project component. In this way each artifact can specify for itself what properties it will run by without risk of namespace collision between different elements that happen to be put in the same service. If those properties need to be overridden, they can be at the service level. 
     
 What you need to add is:
 * `helloWorldRoute.helloWorldBean = bean:io.holitek.kcar.elements.HelloWorldBean`
     
-The files you need to add to are located at:
+The files you need to add the above KV pair to are located at:
 * `{KCAR_PROJECT_ROOT}/routes/hello-world-route/src/main/java/resources/helloWorldRoute.application.properties`   
 * `{KCAR_PROJECT_ROOT}/routes/hello-world-route/src/test/java/resources/helloWorldRoute.application.test.properties` 
 
-Additionally, we need to update the default properties file `helloWorldRoute.application.properties` to listn on REST endpoint `/helloworld` instead of `/empty`. Change the `entrypoint` entry to read as this:
+Additionally, we need to update the default properties file `helloWorldRoute.application.properties` to listen on REST endpoint `/helloworld` instead of `/empty`. Change the `entrypoint` entry to read as this:
 
 ```java
 helloWorldRoute.entryPoint = rest:GET:helloworld
@@ -268,7 +279,7 @@ When all is said and done, your `HelloWorldRouteTest` should look something like
     {KCAR_PROJECT_ROOT}/routes/hello-world-route$ mvn clean install
 ```
 
-
+---
 ### make a service instance for your new route (if you've already completed the quickstart then you can skip to this bit)
 
 14. __At the command line, from the project root directory, invoke the factory script:__
@@ -294,6 +305,7 @@ This will instruct maven to build the project, run the tests, and create build a
 ```
 
 
+---
 ### register hello-world-route with your new service instance (an option to automate this will be added to a future release)
 
 17. __In the same way you added the bean to the `hello-world-route` pom file, add the `hello-world-route` to the `<dependency>` section of your new service's pom file at `{KCAR_PROJECT_ROOT}/services/my-service/pom.xml`. Note that we're taking advantage of the fact that the dependency version is defined in the project parent pom file.__
@@ -316,6 +328,7 @@ myService.routes = io.holitek.kcar.routes.HealthCheckRoute,io.holitek.kcar.route
 19. __At this point you should be gtg. Build the service using the same `mvn clean install` command you've been using. If you attempt to build from the `my-service` project folder and get an error from maven telling you it can't resolve the `${hello-world-route-version}` property, try building from the project root directory.__ 
 
 
+---
 ### start the service locally
 
 20a __One way to do this is to use the jetty plugin:__
