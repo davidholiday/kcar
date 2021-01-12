@@ -376,18 +376,24 @@ The build files are laid out in a way so as to keep things highly modularlized. 
 |    |       ...                             //   K-car uses to instance new elements, routes, and services. 
 |    |
 |    ____ {project}                          
-|            pom.xml                         // the project pom files should be spartan as they should be inhereting
+|            pom.xml                         // the project pom files should be spartan as they should be inheriting
 |            ...                             //   the lion's share of what they need from their parent poms.
 ...
 
-
-
-
 ```
+
+When using the factory script `arch.py` K-car will manage some of this for you. Future versions will enhance the level of automation. One thing that is not yet automated is the maintenance of the project artifact versions in the `<properties>` section of the project root pom file. While nothing will break if you don't maintain that list, it will make it more difficult to keep track of what versions of any given artifact are being used by any given service. It is therefore recommended to maintain the master version list in the project parent pom file to help ensure a consistent reuse of the same versions of the same componentry. 
 
 #### namespacing and properties
 
+K-car is built in a way that allows for [n] project elements to be composed into a single service without fear of one element's properties colliding with another. It also allows for elements to be added to the camel registry with a handle that routes can look for by name. In this way, route behavior can be altered by altering what that handle in the camel registry resolves to. 
+
+By convention, every element, route, and service is assumed to be namespaced as a function of its simple, camel-cased, class name. For example, for a class named `FooBar`, its namespace is assumed to be `fooBar`. The properties file names, as well as the top level key for all properties germane to that artifact, are also presumed to be keyed to this namespace key. Every artifact is also expected to have a static String object called `NAMESPACE_KEY` that tells other objects what its expected namespace key is. 
+
+So long as you use the factory script `arch.py` to generate your artifacts, this is all handled for you automatically. Should you decide to create an artifact via different means or change this value, K-car still expects the convention to be honored.
+
 [back to contents](#contents)
+
 
 ## how do I?
 
