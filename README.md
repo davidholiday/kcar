@@ -410,6 +410,12 @@ So long as you use the factory script `arch.py` to generate your artifacts, this
   * see [start the service locally](#start-the-service-locally) section of the [quickstart](#quickstart) tutorial.
 
 * deploy a service to heroku? 
+  * if you haven't already, install the heroku CLI and log in [link](https://devcenter.heroku.com/articles/heroku-cli)
+  * if you haven't already, create the heroku app to which you will deploy [link](https://devcenter.heroku.com/articles/creating-apps#creating-a-named-app)
+  * execute the following command from the service root directory:
+    * `{KCAR_PROJECT_ROOT}/services/{SERVICE_PROJECT}$ mvn clean heroku:deploy-war -Dheroku.AppName={HEROKU_APP_NAME}`
+    * [link](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) to plugin doc
+  * this will cause heroku to deploy your war file into 'slug' containing the lastest stable release of Tomcat. Runetime characteristics can be configured via properties. See [link](https://devcenter.heroku.com/categories/java-advanced-topics) for more detail on deploying Java apps to Heroku. 
 
 * integrate with Spring?
   * the service chassis for this is not yet implemented. However, Camel plays nicely with Spring and offers a rich set of integrations. This will be implemented in a future release of K-car.
@@ -452,6 +458,7 @@ in no particular order...
 * update runner script to remove components from poms
 * update runner script to manage project component versions 
 * add service chassis that uses Spring
+* ensure you're not including things like javadocs in deployment artifacts 
 
 [back to contents](#contents)
 
