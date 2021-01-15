@@ -13,7 +13,14 @@
   </parent>
   <modules>
     <module>archetypes</module>
+    <module>empty-route</module>
     <module>health-check-route</module>
-    <module>hello-world-route</module>
   </modules>
+  <dependencies>
+    <!-- for marshalling/unmarshalling xml/json -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jackson</artifactId>
+    </dependency>
+  </dependencies>
 </project>

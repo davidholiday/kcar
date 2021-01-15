@@ -29,8 +29,8 @@ public class ${artifactIdCamelCase}Test extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(${artifactIdCamelCase}Test.class);
 
-    private static final Map<String, String> statusOkMap = new HashMap<>();
-    private static final Map<String, String> statusFaultMap = new HashMap<>();
+private static final String statusOkJson = "{\"" + HealthCheckProcessor.STATUS_KEY + "\":\"ok\"}";
+private static final String statusFaultJson = "{\"" + HealthCheckProcessor.STATUS_KEY + "\":\"fault\"}";
 
 
     //
@@ -44,12 +44,6 @@ public class ${artifactIdCamelCase}Test extends CamelTestSupport {
      */
     @Override
     public boolean isUseAdviceWith() { return true; }
-
-    @BeforeAll
-    static void beforeAll() {
-        statusOkMap.put(HealthCheckProcessor.STATUS_KEY, "ok");
-        statusFaultMap.put(HealthCheckProcessor.STATUS_KEY, "fault");
-    }
 
     @BeforeEach
     void beforeEach() {
@@ -84,7 +78,7 @@ public class ${artifactIdCamelCase}Test extends CamelTestSupport {
                 HealthCheckProcessor.JSON_MEDIA_TYPE
         );
 
-        getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusOkJson);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
     }
@@ -109,7 +103,7 @@ public class ${artifactIdCamelCase}Test extends CamelTestSupport {
                .lookupByNameAndType(HealthCheckBean.NAMESPACE_KEY, HealthCheckBean.class)
                .setFaultState();
 
-        getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
+        getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultJson);
         sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
 
