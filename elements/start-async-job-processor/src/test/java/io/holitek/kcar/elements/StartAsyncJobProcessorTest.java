@@ -2,7 +2,7 @@ package io.holitek.kcar.elements;
 
 
 import io.holitek.kcar.helpers.CamelPropertyHelper;
-import org.apache.camel.CamelContext;
+
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.beans.Introspector;
 
 
 /**
