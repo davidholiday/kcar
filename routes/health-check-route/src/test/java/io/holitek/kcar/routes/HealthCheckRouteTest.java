@@ -26,8 +26,8 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(HealthCheckRouteTest.class);
 
-private static final String statusOkJson = "{\"" + HealthCheckProcessor.STATUS_KEY + "\":\"ok\"}";
-private static final String statusFaultJson = "{\"" + HealthCheckProcessor.STATUS_KEY + "\":\"fault\"}";
+    private static final String statusOkJson = "{\"" + HealthCheckProcessor.STATUS_KEY + "\":\"ok\"}";
+    private static final String statusFaultJson = "{\"" + HealthCheckProcessor.STATUS_KEY + "\":\"fault\"}";
 
 
     //
