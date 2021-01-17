@@ -16,5 +16,16 @@
     <module>health-check-bean</module>
     <module>health-check-processor</module>
     <module>noop-processor</module>
+    <module>start-async-job-processor</module>
   </modules>
+
+  <dependencies>
+    <!-- kcar properties helper -->
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

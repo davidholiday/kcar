@@ -15,4 +15,14 @@
     <module>archetypes</module>
     <module>model-k</module>
   </modules>
+
+  <dependencies>
+    <!-- kcar properties helper -->
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

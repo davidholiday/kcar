@@ -12,6 +12,6 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modules>
-    <module>test-service</module>
+    <module>github-to-jira-service</module>
   </modules>
 </project>

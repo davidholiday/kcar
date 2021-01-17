@@ -3,10 +3,10 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
+  <groupId>io.holitek.kcar.services</groupId>
+  <artifactId>github-to-jira-service</artifactId>
   <packaging>war</packaging>
-  <version>${version}</version>
+  <version>1.0-SNAPSHOT</version>
 
   <parent>
     <groupId>io.holitek.kcar.chassis</groupId>
@@ -43,6 +43,13 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-rest</artifactId>
+    </dependency>
+
+    <!-- kcar properties helper -->
+    <dependency>
+      <groupId>io.holitek.kcar.helpers</groupId>
+      <artifactId>camel-property-helper</artifactId>
+      <version>${camel-property-helper-version}</version>
     </dependency>
 
     <!-- allows us to hook into into the servlet container's servlet resources -->

@@ -80,13 +80,6 @@
       <version>${noop-processor-version}</version>
     </dependency>
 
-    <!-- kcar properties helper -->
-    <dependency>
-      <groupId>io.holitek.kcar.helpers</groupId>
-      <artifactId>camel-property-helper</artifactId>
-      <version>${camel-property-helper-version}</version>
-    </dependency>
-
   </dependencies>
 
 </project>
