@@ -96,7 +96,7 @@ public class CamelPropertyHelper {
     public static Map<String, String> resolvePropertyMapOrElseEmpty(CamelContext camelContext, String propertyKey) {
         String propertyMapValueString = camelContext.getPropertiesComponent()
                                                     .resolveProperty(propertyKey)
-                                                    .orElse("");
+                                                    .orElse(",");
 
         Map<String, String> propertyMap = new HashMap<>();
         for (String kvString : propertyMapValueString.split(",")) {

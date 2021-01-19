@@ -9,10 +9,14 @@ import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static io.holitek.kcar.helpers.CamelPropertyHelper.resolvePropertyMapOrElseEmpty;
 
 
 /**
@@ -88,6 +92,35 @@ public class CamelPropertyHelperTest extends CamelTestSupport {
 
     //
     @Test
+    @DisplayName("should return a map containing the kv pairs associated with the property key")
+    public void testResolvePropertyMapOrElseEmptyValuePresent() {
+        Map<String, String> kvPropertiesMap =
+                CamelPropertyHelper.resolvePropertyMapOrElseEmpty(
+                    context(),
+                    "camelPropertyHelper.kvProperties"
+                );
+
+        Map<String, String> expectedMap = Map.of("foo", "bar", "moo", "goo");
+        Assertions.assertEquals(expectedMap, kvPropertiesMap);
+    }
+
+    @Test
+    @DisplayName("should return an empty string if property not present")
+    public void testResolvePropertyMapOrElseEmptyNoValuePresent() {
+        Map<String, String> kvPropertiesMap =
+                CamelPropertyHelper.resolvePropertyMapOrElseEmpty(
+                        context(),
+                        "camelPropertyHelper.wokkawokka"
+                );
+
+        // map should be empty for non-existent property key
+        Map<String, String> expectedMap = Map.of();
+        Assertions.assertEquals(expectedMap, kvPropertiesMap);
+    }
+
+
+    //
+    @Test
     @DisplayName("tests that test property gets loaded")
     public void testLoadPropertyFileForNamespace() {
 
@@ -140,8 +173,13 @@ public class CamelPropertyHelperTest extends CamelTestSupport {
         // load test properties file and ensure property value can be loaded from camel context
         CamelPropertyHelper.loadTestPropertyFileForNamespace(context, CamelPropertyHelper.NAMESPACE_KEY);
 
-        String actualPropertyValue = context.getPropertiesComponent().resolveProperty("foo.bar").orElse("");
-        String expectedPropertyValue = "baz";
+        String actualPropertyValue =
+                context.getPropertiesComponent()
+                       .resolveProperty("camelPropertyHelper.foo")
+                       .orElse("");
+
+
+        String expectedPropertyValue = "bar";
         Assertions.assertEquals(expectedPropertyValue, actualPropertyValue);
 
     }
