@@ -3,18 +3,15 @@ package io.holitek.kcar.helpers;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.RoutesBuilder;
-
 import org.apache.camel.RuntimeCamelException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -83,6 +80,31 @@ public class CamelPropertyHelper {
         return camelContext.getPropertiesComponent()
                            .resolveProperty(propertyKey)
                            .orElse("");
+    }
+
+
+    /**
+     * for resolving property values into a map.
+     *
+     * for example:
+     * "property.key=foo=bar,pirate=booty" gets turned into {"foo"->"bar", "pirate"->"booty"}
+     *
+     * @param camelContext
+     * @param propertyKey
+     * @return
+     */
+    public static Map<String, String> resolvePropertyMapOrElseEmpty(CamelContext camelContext, String propertyKey) {
+        String propertyMapValueString = camelContext.getPropertiesComponent()
+                                                    .resolveProperty(propertyKey)
+                                                    .orElse("");
+
+        Map<String, String> propertyMap = new HashMap<>();
+        for (String kvString : propertyMapValueString.split(",")) {
+            String[] kvArr = kvString.split("=");
+            propertyMap.put(kvArr[0], kvArr[1]);
+        }
+
+        return propertyMap;
     }
 
 

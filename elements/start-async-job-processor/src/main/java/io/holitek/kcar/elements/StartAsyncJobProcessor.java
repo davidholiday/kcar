@@ -56,18 +56,18 @@ public class StartAsyncJobProcessor implements Processor {
 
         if (backgroundJobRoutePropertyOptional.isEmpty()) {
             String backgroundJobRoute = exchange.getContext()
-                                               .getPropertiesComponent()
-                                               .resolveProperty(BACKGROUND_JOB_ROUTE_PROPERTY_KEY)
-                                               .orElseThrow();
+                                                .getPropertiesComponent()
+                                                .resolveProperty(BACKGROUND_JOB_ROUTE_PROPERTY_KEY)
+                                                .orElseThrow();
 
             backgroundJobRoutePropertyOptional = Optional.of(backgroundJobRoute);
         }
 
         if (backgroundJobBodyPropertyOptional.isEmpty()) {
             String backgroundJobBody = exchange.getContext()
-                    .getPropertiesComponent()
-                    .resolveProperty(BACKGROUND_JOB_BODY_PROPERTY_KEY)
-                    .orElseThrow();
+                                               .getPropertiesComponent()
+                                               .resolveProperty(BACKGROUND_JOB_BODY_PROPERTY_KEY)
+                                               .orElseThrow();
 
             backgroundJobBodyPropertyOptional = Optional.of(backgroundJobBody);
         }
