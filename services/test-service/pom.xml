@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.holitek.kcar.chassis</groupId>
-  <artifactId>model-k</artifactId>
+  <groupId>io.holitek.kcar.services</groupId>
+  <artifactId>test-service</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 
@@ -13,7 +12,7 @@
     <groupId>io.holitek.kcar.chassis</groupId>
     <artifactId>chassis-pom</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
+    <relativePath>../../chassis/pom.xml</relativePath>
   </parent>
 
   <dependencies>
@@ -44,13 +43,6 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-rest</artifactId>
-    </dependency>
-
-    <!-- kcar properties helper -->
-    <dependency>
-      <groupId>io.holitek.kcar.helpers</groupId>
-      <artifactId>camel-property-helper</artifactId>
-      <version>${camel-property-helper-version}</version>
     </dependency>
 
     <!-- allows us to hook into into the servlet container's servlet resources -->
@@ -98,6 +90,52 @@
              will explore at some future date...
              https://github.com/eclipse/jetty.project/releases -->
         <version>${jetty-maven-plugin-version}</version>
+      </plugin>
+
+      <!-- for deploying a war file to a heroku slug -->
+      <plugin>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-maven-plugin</artifactId>
+        <version>${heroku-maven-plugin-version}</version>
+        <configuration>
+          <appName>${heroku.appName}</appName>
+          <jdkVersion>11</jdkVersion>
+        </configuration>
+      </plugin>
+
+      <!-- for building/pushing docker images to a registry
+           default image is a small 'distroless' runner set up to accept WAR files (no need for a docker file!!!)
+
+           https://cloud.google.com/blog/products/gcp/introducing-jib-build-java-docker-images-better
+           https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
+           https://github.com/GoogleContainerTools/distroless
+           -->
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>${jib-maven-plugin-version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>dockerBuild</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <to>
+            <tags>
+              <tag>${project.version}</tag>
+              <tag>latest</tag>
+            </tags>
+            <image>${project.artifactId}</image>
+          </to>
+          <container>
+            <ports>
+              <port>8080</port>
+            </ports>
+          </container>
+        </configuration>
       </plugin>
 
     </plugins>

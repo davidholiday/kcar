@@ -13,5 +13,6 @@
   </parent>
   <modules>
     <module>github-to-jira-service</module>
+    <module>test-service</module>
   </modules>
 </project>

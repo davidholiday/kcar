@@ -13,7 +13,6 @@
   </parent>
   <modules>
     <module>archetypes</module>
-    <module>model-k</module>
   </modules>
 
   <dependencies>

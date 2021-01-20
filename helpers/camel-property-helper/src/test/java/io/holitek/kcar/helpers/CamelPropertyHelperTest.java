@@ -118,6 +118,20 @@ public class CamelPropertyHelperTest extends CamelTestSupport {
         Assertions.assertEquals(expectedMap, kvPropertiesMap);
     }
 
+    @Test
+    @DisplayName("should return an empty string if property not present")
+    public void testResolvePropertyMapOrElseEmptySpacesStripped() {
+        Map<String, String> kvPropertiesMap =
+                CamelPropertyHelper.resolvePropertyMapOrElseEmpty(
+                        context(),
+                        "camelPropertyHelper.kvPropertiesWithSpace"
+                );
+
+        // map should be empty for non-existent property key
+        Map<String, String> expectedMap = Map.of("moo", "goo");
+        Assertions.assertEquals(expectedMap, kvPropertiesMap);
+    }
+
 
     //
     @Test

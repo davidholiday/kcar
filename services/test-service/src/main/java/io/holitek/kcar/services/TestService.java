@@ -1,7 +1,4 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-package ${package};
+package io.holitek.kcar.services;
 
 
 import io.holitek.kcar.helpers.CamelPropertyHelper;
@@ -24,13 +21,13 @@ import java.beans.Introspector;
 /**
  * fires up camel in a servlet
  */
-public class ${artifactIdCamelCase} implements ServletContextListener {
+public class TestService implements ServletContextListener {
 
-    private static final Logger LOG = LoggerFactory.getLogger(${artifactIdCamelCase}.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TestService.class);
 
     // anything to do with this element - from properties to identification - will use this top level key
     public static final String NAMESPACE_KEY =
-        Introspector.decapitalize(${artifactIdCamelCase}.class.getSimpleName());
+        Introspector.decapitalize(TestService.class.getSimpleName());
 
     public static final String ROUTES_PROPERTY_KEY = "routes";
 

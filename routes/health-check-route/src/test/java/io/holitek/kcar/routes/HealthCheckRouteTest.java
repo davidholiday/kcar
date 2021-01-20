@@ -4,7 +4,6 @@ package io.holitek.kcar.routes;
 import io.holitek.kcar.elements.HealthCheckBean;
 import io.holitek.kcar.elements.HealthCheckProcessor;
 import io.holitek.kcar.helpers.CamelPropertyHelper;
-import io.holitek.kcar.routes.HealthCheckRoute;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -14,9 +13,6 @@ import org.junit.jupiter.api.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**

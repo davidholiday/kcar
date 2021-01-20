@@ -30,7 +30,7 @@
 
   <!-- the ServletContextListener that kick-starts Camel -->
   <listener>
-    <listener-class>io.holitek.kcar.chassis.model_k.ModelK</listener-class>
+    <listener-class>io.holitek.kcar.services.TestService</listener-class>
   </listener>
 
 </web-app>

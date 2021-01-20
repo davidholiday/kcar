@@ -192,6 +192,7 @@
               <additionalparam>-Xdoclint:none</additionalparam>
               <!-- prevents javadoc error from failing build -->
               <detectJavaApiLink>false</detectJavaApiLink>
+              <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
             </configuration>
           </execution>
         </executions>

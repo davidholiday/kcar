@@ -96,12 +96,15 @@ public class CamelPropertyHelper {
     public static Map<String, String> resolvePropertyMapOrElseEmpty(CamelContext camelContext, String propertyKey) {
         String propertyMapValueString = camelContext.getPropertiesComponent()
                                                     .resolveProperty(propertyKey)
-                                                    .orElse(",");
+                                                    .orElse("");
 
         Map<String, String> propertyMap = new HashMap<>();
-        for (String kvString : propertyMapValueString.split(",")) {
-            String[] kvArr = kvString.split("=");
-            propertyMap.put(kvArr[0], kvArr[1]);
+        if (propertyMapValueString.contains("=")) {
+            for (String kvString : propertyMapValueString.split(",")) {
+                String[] kvArr = kvString.split("=");
+                // stripping to ensure leading or trailing spaces don't dork us up later
+                propertyMap.put(kvArr[0].strip(), kvArr[1].strip());
+            }
         }
 
         return propertyMap;
