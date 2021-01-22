@@ -7,11 +7,11 @@ import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
-import java.util.UUID;
 
 
 /**
@@ -31,6 +31,9 @@ public class StartAsyncJobRoute extends RouteBuilder {
     public static final String ROUTE_EXITPOINT =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "exitPoint");
 
+    public static final String ASYNC_JOB_PROCESSOR =
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "asyncJobProcessor");
+
     /**
      *
      * @throws Exception
@@ -45,7 +48,10 @@ public class StartAsyncJobRoute extends RouteBuilder {
         from(ROUTE_ENTRYPOINT)
                   .routeId(NAMESPACE_KEY)
                   .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT + " request from: ${header.host}")
-                  .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("204"))
+                  .to(ASYNC_JOB_PROCESSOR)
+                  .marshal().json(JsonLibrary.Jackson)
+                  .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("202"))
+                  .setHeader(Exchange.CONTENT_TYPE, simple("application/json"))
                   .to(ROUTE_EXITPOINT);
     }
 

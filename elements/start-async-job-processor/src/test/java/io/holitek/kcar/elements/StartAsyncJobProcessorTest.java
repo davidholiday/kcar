@@ -114,6 +114,7 @@ public class StartAsyncJobProcessorTest extends CamelTestSupport {
         Assertions.assertTrue(resultMap.keySet().contains("jobID"));
 
         String shouldBeUUID = resultMap.get("jobID");
+        // ty SO https://stackoverflow.com/a/37616347
         Assertions.assertTrue(shouldBeUUID.matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})"));
     }
 

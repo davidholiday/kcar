@@ -1,9 +1,11 @@
 package io.holitek.kcar.routes;
 
 
+import io.holitek.kcar.elements.StartAsyncJobProcessor;
 import io.holitek.kcar.helpers.CamelPropertyHelper;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
 
@@ -36,14 +38,31 @@ public class StartAsyncJobRouteTest extends CamelTestSupport {
     @BeforeEach
     void beforeEach() {
         CamelPropertyHelper.loadTestPropertyFileForNamespace(context, StartAsyncJobRoute.NAMESPACE_KEY);
+        //CamelPropertyHelper.loadPropertyFileForNamespace(context, StartAsyncJobProcessor.NAMESPACE_KEY);
         context.start();
     }
 
     @AfterEach
     void afterEach() { context.stop(); }
 
+
     @Override
-    protected RouteBuilder createRouteBuilder() { return new StartAsyncJobRoute(); }
+    protected RoutesBuilder[] createRouteBuilders() {
+        // route that wraps processor
+        RouteBuilder testRoute = new StartAsyncJobRoute();
+
+        // target route for async processing
+        RouteBuilder asyncTargetRoute = new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("direct:asyncStart")
+                        .to("mock:asyncResult");
+            }
+        };
+
+        RoutesBuilder[] routesBuilderArrays = {testRoute, asyncTargetRoute};
+        return routesBuilderArrays;
+    }
 
 
     //
@@ -54,10 +73,20 @@ public class StartAsyncJobRouteTest extends CamelTestSupport {
     public void testHappyPath() throws Exception {
         getMockEndpoint("mock:result").expectedHeaderReceived(
                 Exchange.HTTP_RESPONSE_CODE,
-                "204"
+                "202"
         );
 
-        getMockEndpoint("mock:result").expectedBodiesReceived("");
+        getMockEndpoint("mock:result").expectedHeaderReceived(
+                Exchange.CONTENT_TYPE,
+                "application/json"
+        );
+
+        // ensure what comes back is json, has the right key, and has a UUID for a value
+        // ty SO https://stackoverflow.com/a/37616347
+        getMockEndpoint("mock:result").allMessages()
+                                          .jsonpath("$.jobID")
+                                          .regex("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
+
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
     }
