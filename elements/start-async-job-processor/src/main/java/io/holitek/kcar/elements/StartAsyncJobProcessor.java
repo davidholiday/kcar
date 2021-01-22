@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -95,7 +96,7 @@ public class StartAsyncJobProcessor implements Processor {
         producerTemplate.asyncSendBody(backgroundJobRoute, backgroundJobBody)
                         .whenComplete((msg, ex) -> {
                             if (ex != null) {
-                                LOG.error("something went wrong with background process {}!", jobID);
+                                LOG.error("something went wrong with background process {}!", jobID, ex);
                             } else {
                                 LOG.info("jobID: {} completed successfully!", jobID);
                             }
@@ -106,7 +107,7 @@ public class StartAsyncJobProcessor implements Processor {
         // make sure callers have a means of checking in on the job that got started
         //
         exchange.getMessage()
-                .setBody(jobID);
+                .setBody(Map.of("jobID", jobID));
     }
 
 }

@@ -16,15 +16,14 @@
     <module>empty-route</module>
     <module>health-check-route</module>
     <module>github-to-jira-route</module>
+    <module>start-async-job-route</module>
   </modules>
-
   <dependencies>
     <!-- for marshalling/unmarshalling xml/json -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-jackson</artifactId>
     </dependency>
-
     <!-- kcar properties helper -->
     <dependency>
       <groupId>io.holitek.kcar.helpers</groupId>
@@ -32,5 +31,4 @@
       <version>${camel-property-helper-version}</version>
     </dependency>
   </dependencies>
-
 </project>

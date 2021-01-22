@@ -62,6 +62,7 @@
     <health-check-processor-version>1.0-SNAPSHOT</health-check-processor-version>
     <noop-processor-version>1.0-SNAPSHOT</noop-processor-version>
     <hello-world-bean-version>1.0-SNAPSHOT</hello-world-bean-version>
+    <start-async-job-processor-version>1.0-SNAPSHOT</start-async-job-processor-version>
 
     <!-- routes -->
     <health-check-route-version>1.0-SNAPSHOT</health-check-route-version>

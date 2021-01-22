@@ -48,7 +48,7 @@ public class TestService implements ServletContextListener {
         // level that will change the behavior or element.
         String propertyOverrideKey = CamelPropertyHelper.getPropertyKey(NAMESPACE_KEY, PROPERTY_OVERRIDES_KEY);
         Map<String, String> propertyOverrideMap =
-        CamelPropertyHelper.resolvePropertyMapOrElseEmpty(camelContext, propertyOverrideKey);
+                CamelPropertyHelper.resolvePropertyMapOrElseEmpty(camelContext, propertyOverrideKey);
 
         for (String k : propertyOverrideMap.keySet()) {
             String v = propertyOverrideMap.get(k);

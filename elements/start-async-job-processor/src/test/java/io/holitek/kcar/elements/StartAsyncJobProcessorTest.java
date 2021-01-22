@@ -3,18 +3,19 @@ package io.holitek.kcar.elements;
 
 import io.holitek.kcar.helpers.CamelPropertyHelper;
 
+import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit5.CamelTestSupport;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -87,8 +88,7 @@ public class StartAsyncJobProcessorTest extends CamelTestSupport {
 
         // what comes back from the main route is a String representing a UUID
         // ty SO https://stackoverflow.com/a/37616347
-        mockEndpoint.allMessages().body().isInstanceOf(String.class);
-        mockEndpoint.allMessages().body().regex("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
+        mockEndpoint.allMessages().body().isInstanceOf(Map.class);
 
         // the test setup attaches an empty passthru route as the async target of the processor. as such, what we put
         // in should also come back out
@@ -98,5 +98,23 @@ public class StartAsyncJobProcessorTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
+    @Test
+    @DisplayName("inspects that the processor creates a map with a jobid and uuid ")
+    public void testResultMap() throws Exception {
+        // this is a bit of a hack to ensure the async route (the one the processor is going to look for) is created
+        sendBody("direct:start", "");
+
+        // exercise the processor
+        StartAsyncJobProcessor startAsyncJobProcessor = new StartAsyncJobProcessor();
+        Exchange mrExchange = createExchangeWithBody("");
+        startAsyncJobProcessor.process(mrExchange);
+
+        // ensure what comes back is what we expect
+        Map<String, String> resultMap = mrExchange.getMessage().getBody(Map.class);
+        Assertions.assertTrue(resultMap.keySet().contains("jobID"));
+
+        String shouldBeUUID = resultMap.get("jobID");
+        Assertions.assertTrue(shouldBeUUID.matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})"));
+    }
 
 }
