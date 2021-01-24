@@ -33,6 +33,9 @@ public class GithubToJiraRoute extends RouteBuilder {
     public static final String GRAPH_QL_QUERY_TEMPLATE =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlQuery");
 
+    public static final String GITHUB_GRAPH_QL_API =
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlUri");
+
     /**
      *
      * @throws Exception
@@ -50,7 +53,8 @@ public class GithubToJiraRoute extends RouteBuilder {
                   .log("header is ${headers}")
                   .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
                   .to("velocity:dummy?allowTemplateFromHeader=true")
-                  .log(LoggingLevel.INFO, "body is: ${body}")
+                  .log(LoggingLevel.DEBUG, "body is: ${body}")
+                  .to(GITHUB_GRAPH_QL_API)
                   .to(ROUTE_EXITPOINT);
     }
 
