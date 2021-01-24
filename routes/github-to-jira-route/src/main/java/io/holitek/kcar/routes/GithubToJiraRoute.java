@@ -33,7 +33,7 @@ public class GithubToJiraRoute extends RouteBuilder {
     public static final String GRAPH_QL_QUERY_TEMPLATE =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlQuery");
 
-    public static final String GITHUB_GRAPH_QL_API =
+    public static final String GITHUB_GRAPH_QL_URI =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlUri");
 
     /**
@@ -51,10 +51,12 @@ public class GithubToJiraRoute extends RouteBuilder {
                       .setHeader("afterCursor", simple(""))
                   .end()
                   .log("header is ${headers}")
+                  .log("access token is: ${env.GITHUB_ACCESS_TOKEN}")
                   .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
                   .to("velocity:dummy?allowTemplateFromHeader=true")
-                  .log(LoggingLevel.DEBUG, "body is: ${body}")
-                  .to(GITHUB_GRAPH_QL_API)
+                  .log(LoggingLevel.INFO, "graphQL URI is: " + GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
+                  .toD(GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
+                  .log(LoggingLevel.INFO, "response is: ${body}")
                   .to(ROUTE_EXITPOINT);
     }
 

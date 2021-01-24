@@ -69,11 +69,33 @@
       <version>${jaxb-runtime-version}</version>
     </dependency>
 
+    <!-- allows us to use direct: in camel routes -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-direct</artifactId>
+    </dependency>
+
     <!-- route that exposes /healthcheck REST endpoint -->
     <dependency>
       <groupId>io.holitek.kcar.routes</groupId>
       <artifactId>health-check-route</artifactId>
       <version>${health-check-route-version}</version>
+    </dependency>
+
+    <!-- for kicking off a camel route as a background job -->
+    <dependency>
+      <groupId>io.holitek.kcar.routes</groupId>
+      <artifactId>start-async-job-route</artifactId>
+      <!-- TODO -->
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- for pulling data from github and ETLing it to Jira -->
+    <dependency>
+      <groupId>io.holitek.kcar.routes</groupId>
+      <artifactId>github-to-jira-route</artifactId>
+      <!-- TODO -->
+      <version>1.0-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

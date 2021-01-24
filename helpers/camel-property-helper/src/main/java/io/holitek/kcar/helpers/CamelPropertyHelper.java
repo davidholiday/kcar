@@ -189,6 +189,8 @@ public class CamelPropertyHelper {
         // here goes nothing...
         // https://youtu.be/gRvu0yHoHy8?t=49
         for (String routeName : routeNamesList) {
+            // ensures leading or trailing spaces don't dork us up
+            routeName = routeName.strip();
             LOG.info("found route class name {} in properties file. attempting to register...", routeName);
 
             try {
