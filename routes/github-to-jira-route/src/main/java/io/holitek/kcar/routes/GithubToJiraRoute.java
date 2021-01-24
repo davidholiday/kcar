@@ -46,6 +46,7 @@ public class GithubToJiraRoute extends RouteBuilder {
                   .choice()
                     .when(header("afterCursor").isNull())
                       .setHeader("afterCursor", simple(""))
+                  .end()
                   .log("header is ${headers}")
                   .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
                   .to("velocity:dummy?allowTemplateFromHeader=true")
