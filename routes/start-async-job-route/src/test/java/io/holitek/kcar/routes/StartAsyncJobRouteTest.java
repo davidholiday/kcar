@@ -1,7 +1,6 @@
 package io.holitek.kcar.routes;
 
 
-import io.holitek.kcar.elements.StartAsyncJobProcessor;
 import io.holitek.kcar.helpers.CamelPropertyHelper;
 
 import org.apache.camel.Exchange;

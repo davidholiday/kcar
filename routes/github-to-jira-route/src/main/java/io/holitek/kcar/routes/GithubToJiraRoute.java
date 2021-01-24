@@ -30,6 +30,9 @@ public class GithubToJiraRoute extends RouteBuilder {
     public static final String ROUTE_EXITPOINT =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "exitPoint");
 
+    public static final String GRAPH_QL_QUERY_TEMPLATE =
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlQuery");
+
     /**
      *
      * @throws Exception
@@ -37,14 +40,16 @@ public class GithubToJiraRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        restConfiguration().component("servlet")
-                           .scheme("https")
-                           .dataFormatProperty("prettyPrint", "true");
-
         from(ROUTE_ENTRYPOINT)
                   .routeId(NAMESPACE_KEY)
-                  .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT + " request from: ${header.host}")
-                  .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("204"))
+                  .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT + " request with body: ${body}")
+                  .choice()
+                    .when(header("afterCursor").isNull())
+                      .setHeader("afterCursor", simple(""))
+                  .log("header is ${headers}")
+                  .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
+                  .to("velocity:dummy?allowTemplateFromHeader=true")
+                  .log(LoggingLevel.INFO, "body is: ${body}")
                   .to(ROUTE_EXITPOINT);
     }
 

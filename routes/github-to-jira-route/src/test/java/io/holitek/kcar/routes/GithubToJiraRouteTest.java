@@ -20,6 +20,12 @@ public class GithubToJiraRouteTest extends CamelTestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(GithubToJiraRouteTest.class);
 
+    private static final String EXPECTED_NO_CURSOR_GRAPHQL_QUERY =
+            "{viewer{organization(login: \"life360\"){repositories(first: 100, ){pageInfo{hasNextPage}nodes " +
+                    "{ name pullRequests(first: 100, labels: \"dependencies\", states: OPEN) { nodes { title url } } " +
+                    "vulnerabilityAlerts(first: 100) { nodes { securityVulnerability { advisory { description summary "+
+                    "severity references { url } ghsaId origin permalink } } } } } } } } }";
+
 
     //
     // test setup and configuration
@@ -52,12 +58,7 @@ public class GithubToJiraRouteTest extends CamelTestSupport {
     @Test
     @DisplayName("checks happy path")
     public void testHappyPath() throws Exception {
-        getMockEndpoint("mock:result").expectedHeaderReceived(
-                Exchange.HTTP_RESPONSE_CODE,
-                "204"
-        );
-
-        getMockEndpoint("mock:result").expectedBodiesReceived("");
+        getMockEndpoint("mock:result").expectedBodiesReceived(EXPECTED_NO_CURSOR_GRAPHQL_QUERY);
         template.sendBody("direct:start", "");
         assertMockEndpointsSatisfied();
     }

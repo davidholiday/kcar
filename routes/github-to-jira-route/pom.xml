@@ -87,6 +87,18 @@
       <version>${camel-property-helper-version}</version>
     </dependency>
 
+    <!-- for templating graphql queries -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-velocity</artifactId>
+    </dependency>
+
+    <!-- for making graphQL queries -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-graphql</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>
