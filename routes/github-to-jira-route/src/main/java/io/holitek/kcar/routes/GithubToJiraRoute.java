@@ -39,6 +39,8 @@ public class GithubToJiraRoute extends RouteBuilder {
 
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR = "afterCursor";
 
+    public static final String GITHUB_GRAPHQL_AFTER_CURSOR_TEMP = "afterCursorTemp";
+
     /**
      *
      * @throws Exception
@@ -62,11 +64,13 @@ public class GithubToJiraRoute extends RouteBuilder {
                                   + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}"
                   )
                   .toD(GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
-                  //.log(LoggingLevel.INFO, "response is: ${body}")
+                  .log(LoggingLevel.INFO, "response is: ${body}")
                   .choice()
-                    .when().jsonpath()
-                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, )
-                      .to()
+                    .when().jsonpath("$.data.viewer.organization.repositories.pageInfo.[?(@.hasNextPage == true)]")
+                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR_TEMP)
+                        .jsonpath("$.data.viewer.organization.repositories.pageInfo.endCursor")
+                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple("after:\"${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}\""))
+                      .to(ROUTE_ENTRYPOINT)
                     .otherwise()
                       .to(ROUTE_EXITPOINT)
                   .end();
