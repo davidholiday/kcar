@@ -3,7 +3,6 @@ package io.holitek.kcar.routes;
 
 import io.holitek.kcar.helpers.CamelPropertyHelper;
 
-import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -11,19 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
-import java.util.List;
 
 
 /**
  * sample route that exposes a REST endpoint. depending on properties loaded from properties file, channels the
  * request to business logic handlers before returning results to caller
  */
-public class GithubToJiraRoute extends RouteBuilder {
+public class GithubRepositoryVulnerabilitiesConsumer extends RouteBuilder {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GithubToJiraRoute.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GithubRepositoryVulnerabilitiesConsumer.class);
 
     // anything to do with this route - from properties to identification - will use this top level key
-    public static final String NAMESPACE_KEY = Introspector.decapitalize(GithubToJiraRoute.class.getSimpleName());
+    public static final String NAMESPACE_KEY =
+            Introspector.decapitalize(GithubRepositoryVulnerabilitiesConsumer.class.getSimpleName());
 
     public static final String ROUTE_ENTRYPOINT =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "entryPoint");
@@ -73,12 +72,14 @@ public class GithubToJiraRoute extends RouteBuilder {
           // handle pagination
           .choice()
             .when().jsonpath("$.data.viewer.organization.repositories.pageInfo.[?(@.hasNextPage == true)]")
+              // TODO is there a way to do this in one step instead of two?
               .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR_TEMP)
                 .jsonpath("$.data.viewer.organization.repositories.pageInfo.endCursor")
               .setHeader(
                       GITHUB_GRAPHQL_AFTER_CURSOR,
                       simple("after:\"${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}\"")
               )
+              // TODO make this an aggregator
               .to(PAGINATED_RESPONSE_BEAN__ADD)
               .to(ROUTE_ENTRYPOINT)
             .otherwise()
