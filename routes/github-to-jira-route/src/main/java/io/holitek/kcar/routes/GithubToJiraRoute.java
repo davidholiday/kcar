@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
+import java.util.List;
 
 
 /**
@@ -36,6 +37,8 @@ public class GithubToJiraRoute extends RouteBuilder {
     public static final String GITHUB_GRAPH_QL_URI =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlUri");
 
+    public static final String GITHUB_GRAPHQL_AFTER_CURSOR = "afterCursor";
+
     /**
      *
      * @throws Exception
@@ -47,17 +50,26 @@ public class GithubToJiraRoute extends RouteBuilder {
                   .routeId(NAMESPACE_KEY)
                   .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT + " request with body: ${body}")
                   .choice()
-                    .when(header("afterCursor").isNull())
-                      .setHeader("afterCursor", simple(""))
+                    .when(header(GITHUB_GRAPHQL_AFTER_CURSOR).isNull())
+                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple(""))
                   .end()
-                  .log("header is ${headers}")
-                  .log("access token is: ${env.GITHUB_ACCESS_TOKEN}")
+                  .log(LoggingLevel.INFO, "header is ${headers}")
                   .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
                   .to("velocity:dummy?allowTemplateFromHeader=true")
-                  .log(LoggingLevel.INFO, "graphQL URI is: " + GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
+                  .log(LoggingLevel.INFO,
+                          "graphQL URI is: "
+                                  + GITHUB_GRAPH_QL_URI
+                                  + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}"
+                  )
                   .toD(GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
-                  .log(LoggingLevel.INFO, "response is: ${body}")
-                  .to(ROUTE_EXITPOINT);
+                  //.log(LoggingLevel.INFO, "response is: ${body}")
+                  .choice()
+                    .when().jsonpath()
+                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, )
+                      .to()
+                    .otherwise()
+                      .to(ROUTE_EXITPOINT)
+                  .end();
     }
 
 }
