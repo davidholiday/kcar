@@ -24,10 +24,14 @@ public class PaginatedResponseBean {
 
     private Queue<String> paginatedResponseQueue = new ConcurrentLinkedQueue<>();
 
-    public void pushPaginatedResponse(String paginatedResponse) { paginatedResponseQueue.add(paginatedResponse); }
+    public void pushPaginatedResponse(String paginatedResponse) {
+        paginatedResponseQueue.add(paginatedResponse);
+        LOG.info("queue now has {} elements", paginatedResponseQueue.size());
+    }
 
     public void clearPaginatedResponses() { paginatedResponseQueue.clear(); }
 
     public Optional<String> popPaginatedResponse() { return Optional.ofNullable(paginatedResponseQueue.poll()); }
+
 
 }

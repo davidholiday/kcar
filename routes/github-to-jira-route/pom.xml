@@ -87,6 +87,14 @@
       <version>${camel-property-helper-version}</version>
     </dependency>
 
+    <!-- for keeping track of paginated responses -->
+    <!-- TODO -->
+    <dependency>
+      <groupId>io.holitek.kcar.elements</groupId>
+      <artifactId>paginated-response-bean</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
     <!-- for templating graphql queries -->
     <dependency>
       <groupId>org.apache.camel</groupId>

@@ -37,6 +37,9 @@ public class GithubToJiraRoute extends RouteBuilder {
     public static final String GITHUB_GRAPH_QL_URI =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubGraphQlUri");
 
+    public static final String PAGINATED_RESPONSE_BEAN__ADD =
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "paginatedResponseBeanAdd");
+
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR = "afterCursor";
 
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR_TEMP = "afterCursorTemp";
@@ -76,9 +79,9 @@ public class GithubToJiraRoute extends RouteBuilder {
                       GITHUB_GRAPHQL_AFTER_CURSOR,
                       simple("after:\"${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}\"")
               )
-              .enrich(ROUTE_ENTRYPOINT)
+              .to(PAGINATED_RESPONSE_BEAN__ADD)
+              .to(ROUTE_ENTRYPOINT)
             .otherwise()
-              .log(LoggingLevel.INFO, "response is: ${body}")
               .to(ROUTE_EXITPOINT)
           .end();
     }
