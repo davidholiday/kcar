@@ -41,6 +41,8 @@ public class GithubToJiraRoute extends RouteBuilder {
 
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR_TEMP = "afterCursorTemp";
 
+    public static final String HEADER_PAGINATED_GITHUB_RESPONSES_KEY = "githubResponses";
+
     /**
      *
      * @throws Exception
@@ -49,31 +51,38 @@ public class GithubToJiraRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         from(ROUTE_ENTRYPOINT)
-                  .routeId(NAMESPACE_KEY)
-                  .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT + " request with body: ${body}")
-                  .choice()
-                    .when(header(GITHUB_GRAPHQL_AFTER_CURSOR).isNull())
-                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple(""))
-                  .end()
-                  .log(LoggingLevel.INFO, "header is ${headers}")
-                  .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
-                  .to("velocity:dummy?allowTemplateFromHeader=true")
-                  .log(LoggingLevel.INFO,
-                          "graphQL URI is: "
-                                  + GITHUB_GRAPH_QL_URI
-                                  + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}"
-                  )
-                  .toD(GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
-                  .log(LoggingLevel.INFO, "response is: ${body}")
-                  .choice()
-                    .when().jsonpath("$.data.viewer.organization.repositories.pageInfo.[?(@.hasNextPage == true)]")
-                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR_TEMP)
-                        .jsonpath("$.data.viewer.organization.repositories.pageInfo.endCursor")
-                      .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple("after:\"${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}\""))
-                      .to(ROUTE_ENTRYPOINT)
-                    .otherwise()
-                      .to(ROUTE_EXITPOINT)
-                  .end();
+          .routeId(NAMESPACE_KEY)
+          .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT )//+ " request with body: ${body}")
+          // make sure the exchange header has the expected KVs
+          .choice()
+            .when(header(GITHUB_GRAPHQL_AFTER_CURSOR).isNull())
+              .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple(""))
+          .end()
+          // create github graphql from template
+          .log(LoggingLevel.INFO, "header is ${headers}")
+          .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
+          .to("velocity:dummy?allowTemplateFromHeader=true")
+          .log(LoggingLevel.INFO,
+                  "graphQL URI is: "
+                          + GITHUB_GRAPH_QL_URI
+                          + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}"
+          )
+          // send query
+          .toD(GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
+          // handle pagination
+          .choice()
+            .when().jsonpath("$.data.viewer.organization.repositories.pageInfo.[?(@.hasNextPage == true)]")
+              .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR_TEMP)
+                .jsonpath("$.data.viewer.organization.repositories.pageInfo.endCursor")
+              .setHeader(
+                      GITHUB_GRAPHQL_AFTER_CURSOR,
+                      simple("after:\"${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}\"")
+              )
+              .enrich(ROUTE_ENTRYPOINT)
+            .otherwise()
+              .log(LoggingLevel.INFO, "response is: ${body}")
+              .to(ROUTE_EXITPOINT)
+          .end();
     }
 
 }
