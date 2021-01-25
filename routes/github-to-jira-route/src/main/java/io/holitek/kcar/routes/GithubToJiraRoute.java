@@ -41,8 +41,6 @@ public class GithubToJiraRoute extends RouteBuilder {
 
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR_TEMP = "afterCursorTemp";
 
-    public static final String HEADER_PAGINATED_GITHUB_RESPONSES_KEY = "githubResponses";
-
     /**
      *
      * @throws Exception

@@ -17,8 +17,8 @@
     <module>health-check-processor</module>
     <module>noop-processor</module>
     <module>start-async-job-processor</module>
+    <module>paginated-response-bean</module>
   </modules>
-
   <dependencies>
     <!-- kcar properties helper -->
     <dependency>
@@ -27,5 +27,4 @@
       <version>${camel-property-helper-version}</version>
     </dependency>
   </dependencies>
-
 </project>
