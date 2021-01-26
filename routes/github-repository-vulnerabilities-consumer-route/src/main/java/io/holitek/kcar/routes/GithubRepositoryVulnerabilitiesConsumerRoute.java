@@ -16,13 +16,13 @@ import java.beans.Introspector;
  * sample route that exposes a REST endpoint. depending on properties loaded from properties file, channels the
  * request to business logic handlers before returning results to caller
  */
-public class GithubRepositoryVulnerabilitiesConsumer extends RouteBuilder {
+public class GithubRepositoryVulnerabilitiesConsumerRoute extends RouteBuilder {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GithubRepositoryVulnerabilitiesConsumer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GithubRepositoryVulnerabilitiesConsumerRoute.class);
 
     // anything to do with this route - from properties to identification - will use this top level key
     public static final String NAMESPACE_KEY =
-            Introspector.decapitalize(GithubRepositoryVulnerabilitiesConsumer.class.getSimpleName());
+            Introspector.decapitalize(GithubRepositoryVulnerabilitiesConsumerRoute.class.getSimpleName());
 
     public static final String ROUTE_ENTRYPOINT =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "entryPoint");

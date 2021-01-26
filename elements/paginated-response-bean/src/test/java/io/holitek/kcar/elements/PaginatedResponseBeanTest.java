@@ -35,8 +35,11 @@ public class PaginatedResponseBeanTest extends CamelTestSupport {
 
     @BeforeEach
     void beforeEach() {
+        PaginatedResponseBean paginatedResponseBean = new PaginatedResponseBean();
+        paginatedResponseBean.clearPaginatedResponses();
+
         context().getRegistry()
-                 .bind(PaginatedResponseBean.NAMESPACE_KEY, new PaginatedResponseBean());
+                 .bind(PaginatedResponseBean.NAMESPACE_KEY, paginatedResponseBean);
 
         context().start();
     }

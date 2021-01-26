@@ -15,7 +15,7 @@
     <module>archetypes</module>
     <module>empty-route</module>
     <module>health-check-route</module>
-    <module>github-repository-vulnerabilities-consumer</module>
+    <module>github-repository-vulnerabilities-consumer-route</module>
     <module>start-async-job-route</module>
   </modules>
   <dependencies>
