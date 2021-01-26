@@ -52,17 +52,17 @@ public class GithubRepositoryVulnerabilitiesConsumer extends RouteBuilder {
 
         from(ROUTE_ENTRYPOINT)
           .routeId(NAMESPACE_KEY)
-          .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT )//+ " request with body: ${body}")
+          .log(LoggingLevel.INFO, "servicing "+ ROUTE_ENTRYPOINT )
           // make sure the exchange header has the expected KVs
           .choice()
             .when(header(GITHUB_GRAPHQL_AFTER_CURSOR).isNull())
               .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple(""))
           .end()
           // create github graphql from template
-          .log(LoggingLevel.INFO, "header is ${headers}")
+          .log(LoggingLevel.DEBUG, "header is ${headers}")
           .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
           .to("velocity:dummy?allowTemplateFromHeader=true")
-          .log(LoggingLevel.INFO,
+          .log(LoggingLevel.DEBUG,
                   "graphQL URI is: "
                           + GITHUB_GRAPH_QL_URI
                           + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}"

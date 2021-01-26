@@ -22,16 +22,14 @@ public class PaginatedResponseBean {
     public static final String NAMESPACE_KEY =
         Introspector.decapitalize(PaginatedResponseBean.class.getSimpleName());
 
-    private Queue<String> paginatedResponseQueue = new ConcurrentLinkedQueue<>();
+    private static final Queue<String> paginatedResponseQueue = new ConcurrentLinkedQueue<>();
 
-    public void pushPaginatedResponse(String paginatedResponse) {
-        paginatedResponseQueue.add(paginatedResponse);
-        LOG.info("queue now has {} elements", paginatedResponseQueue.size());
-    }
+    public void pushPaginatedResponse(String paginatedResponse) { paginatedResponseQueue.add(paginatedResponse); }
 
     public void clearPaginatedResponses() { paginatedResponseQueue.clear(); }
 
-    public Optional<String> popPaginatedResponse() { return Optional.ofNullable(paginatedResponseQueue.poll()); }
+    public int getNumberOfPaginatedResponses() { return paginatedResponseQueue.size(); }
 
+    public Optional<String> popPaginatedResponse() { return Optional.ofNullable(paginatedResponseQueue.poll()); }
 
 }

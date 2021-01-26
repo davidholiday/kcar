@@ -101,5 +101,36 @@ public class PaginatedResponseBeanTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
     }
 
+    @Test
+    @DisplayName("checks that the bean reports the correct number of elements in its internal queue ")
+    public void testGetPaginatedResponseSize() {
+        ((PaginatedResponseBean)context.getRegistry()
+                .lookupByName(PaginatedResponseBean.NAMESPACE_KEY))
+                .pushPaginatedResponse("{\"foo\":\"bar\"}");
+
+        int expectedNumberOfPaginatedResponses = 1;
+
+        int actualNumberOfPaginatedResponses =
+                ((PaginatedResponseBean)context.getRegistry()
+                                               .lookupByName(PaginatedResponseBean.NAMESPACE_KEY))
+                                               .getNumberOfPaginatedResponses();
+
+        Assertions.assertEquals(expectedNumberOfPaginatedResponses, actualNumberOfPaginatedResponses);
+
+        ((PaginatedResponseBean)context.getRegistry()
+                                       .lookupByName(PaginatedResponseBean.NAMESPACE_KEY))
+                                       .popPaginatedResponse();
+
+        expectedNumberOfPaginatedResponses = 0;
+
+        actualNumberOfPaginatedResponses =
+                ((PaginatedResponseBean)context.getRegistry()
+                                               .lookupByName(PaginatedResponseBean.NAMESPACE_KEY))
+                                               .getNumberOfPaginatedResponses();
+
+        Assertions.assertEquals(expectedNumberOfPaginatedResponses, actualNumberOfPaginatedResponses);
+
+    }
+
 
 }
