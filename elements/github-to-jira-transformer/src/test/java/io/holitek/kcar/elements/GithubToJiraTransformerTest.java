@@ -51,14 +51,14 @@ public class GithubToJiraTransformerTest extends CamelTestSupport {
     //
     // tests
 
-    @Test
-    @DisplayName("checks that what goes in matches what comes out")
-    public void testHappyPath() throws Exception {
-        String input = "mrs input";
-        getMockEndpoint("mock:result").expectedBodiesReceived(input);
-        sendBody("direct:start", input);
-        assertMockEndpointsSatisfied();
-    }
+//    @Test
+//    @DisplayName("checks that what goes in matches what comes out")
+//    public void testHappyPath() throws Exception {
+//        String input = "mrs input";
+//        getMockEndpoint("mock:result").expectedBodiesReceived(input);
+//        sendBody("direct:start", input);
+//        assertMockEndpointsSatisfied();
+//    }
 
 
 }

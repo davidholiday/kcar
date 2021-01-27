@@ -39,6 +39,9 @@ public class GithubToJiraRoute extends RouteBuilder {
     public static final String PAGINATED_RESPONSE_BEAN__ADD =
             CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "paginatedResponseBeanAdd");
 
+    public static final String GITHUB_TO_JIRA_TRANSFORMER =
+            CamelPropertyHelper.getPropertyPlaceholder(NAMESPACE_KEY, "githubToJiraTransformer");
+
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR = "afterCursor";
 
     public static final String GITHUB_GRAPHQL_AFTER_CURSOR_TEMP = "afterCursorTemp";
@@ -69,6 +72,7 @@ public class GithubToJiraRoute extends RouteBuilder {
           )
           // send query
           .toD(GITHUB_GRAPH_QL_URI + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}")
+          .log(LoggingLevel.DEBUG, "response from github is: ${body}")
           // handle pagination
           .choice()
             .when().jsonpath("$.data.viewer.organization.repositories.pageInfo.[?(@.hasNextPage == true)]")
@@ -82,6 +86,12 @@ public class GithubToJiraRoute extends RouteBuilder {
               // TODO make this an aggregator
               .to(PAGINATED_RESPONSE_BEAN__ADD)
               .to(ROUTE_ENTRYPOINT)
+          .end()
+          // translate github payloads into jira payloads
+          .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=getNumberOfPaginatedResponses")
+          .loop(bodyAs(Integer.class))
+            .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=popPaginatedResponse")
+            .to(GITHUB_TO_JIRA_TRANSFORMER)
           .end()
           .to(ROUTE_EXITPOINT);
     }

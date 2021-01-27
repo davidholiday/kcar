@@ -95,6 +95,13 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
+    <!-- TODO -->
+    <dependency>
+      <groupId>io.holitek.kcar.elements</groupId>
+      <artifactId>github-to-jira-transformer</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
     <!-- for templating graphql queries -->
     <dependency>
       <groupId>org.apache.camel</groupId>
