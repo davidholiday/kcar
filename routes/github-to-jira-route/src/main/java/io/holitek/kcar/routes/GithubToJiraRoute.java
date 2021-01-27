@@ -85,11 +85,13 @@ public class GithubToJiraRoute extends RouteBuilder {
               )
               // TODO make this an aggregator
               .to(PAGINATED_RESPONSE_BEAN__ADD)
+              .log("fetching next page after cursor: ${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}")
               .to(ROUTE_ENTRYPOINT)
           .end()
-          // translate github payloads into jira payloads
+          // translate github payloads into jira payloads.
           .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=getNumberOfPaginatedResponses")
-          .loop(bodyAs(Integer.class))
+          .log("loop count is: ${body}")
+          .loop(body())
             .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=popPaginatedResponse")
             .to(GITHUB_TO_JIRA_TRANSFORMER)
           .end()

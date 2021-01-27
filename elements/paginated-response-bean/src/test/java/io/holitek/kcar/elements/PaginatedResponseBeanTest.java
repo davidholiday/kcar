@@ -35,6 +35,12 @@ public class PaginatedResponseBeanTest extends CamelTestSupport {
 
     @BeforeEach
     void beforeEach() {
+
+        // the data store in the bean is static to ensure that there is only one instance of the data store when
+        // camel spins up multiple instances of the object
+        PaginatedResponseBean paginatedResponseBean = new PaginatedResponseBean();
+        paginatedResponseBean.clearPaginatedResponses();
+
         context().getRegistry()
                  .bind(PaginatedResponseBean.NAMESPACE_KEY, new PaginatedResponseBean());
 
