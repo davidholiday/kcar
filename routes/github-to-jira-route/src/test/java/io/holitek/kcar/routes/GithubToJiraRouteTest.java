@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-public class GithubRepositoryVulnerabilitiesConsumerRouteTest extends CamelTestSupport {
+public class GithubToJiraRouteTest extends CamelTestSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GithubRepositoryVulnerabilitiesConsumerRouteTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GithubToJiraRouteTest.class);
 
     private static final String EXPECTED_NO_CURSOR_GRAPHQL_QUERY =
             "{viewer{organization(login: \"life360\"){repositories(first: 100, ){pageInfo{hasNextPage}nodes " +
@@ -48,7 +48,7 @@ public class GithubRepositoryVulnerabilitiesConsumerRouteTest extends CamelTestS
     void beforeEach() {
         CamelPropertyHelper.loadTestPropertyFileForNamespace(
                 context,
-                GithubRepositoryVulnerabilitiesConsumerRoute.NAMESPACE_KEY
+                GithubToJiraRoute.NAMESPACE_KEY
         );
 
         context.start();
@@ -58,7 +58,7 @@ public class GithubRepositoryVulnerabilitiesConsumerRouteTest extends CamelTestS
     void afterEach() { context.stop(); }
 
     @Override
-    protected RouteBuilder createRouteBuilder() { return new GithubRepositoryVulnerabilitiesConsumerRoute(); }
+    protected RouteBuilder createRouteBuilder() { return new GithubToJiraRoute(); }
 
 
     //
