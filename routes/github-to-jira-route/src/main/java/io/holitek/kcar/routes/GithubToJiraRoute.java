@@ -82,9 +82,8 @@ public class GithubToJiraRoute extends RouteBuilder {
               // TODO make this an aggregator
               .to(PAGINATED_RESPONSE_BEAN__ADD)
               .to(ROUTE_ENTRYPOINT)
-            .otherwise()
-              .to(ROUTE_EXITPOINT)
-          .end();
+          .end()
+          .to(ROUTE_EXITPOINT);
     }
 
 }

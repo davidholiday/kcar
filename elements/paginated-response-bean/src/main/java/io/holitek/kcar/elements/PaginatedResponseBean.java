@@ -22,7 +22,7 @@ public class PaginatedResponseBean {
     public static final String NAMESPACE_KEY =
         Introspector.decapitalize(PaginatedResponseBean.class.getSimpleName());
 
-    private static final Queue<String> paginatedResponseQueue = new ConcurrentLinkedQueue<>();
+    private final Queue<String> paginatedResponseQueue = new ConcurrentLinkedQueue<>();
 
     public void pushPaginatedResponse(String paginatedResponse) { paginatedResponseQueue.add(paginatedResponse); }
 

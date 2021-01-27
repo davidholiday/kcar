@@ -18,6 +18,7 @@
     <module>noop-processor</module>
     <module>start-async-job-processor</module>
     <module>paginated-response-bean</module>
+    <module>github-to-jira-transformer</module>
   </modules>
   <dependencies>
     <!-- kcar properties helper -->
