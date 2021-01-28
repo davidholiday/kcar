@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.Introspector;
-import java.util.Map;
 import java.util.Optional;
 
 import com.jayway.jsonpath.JsonPath;
@@ -26,10 +25,11 @@ public class GithubToJiraTransformer implements Processor {
     // anything to do with this element - from properties to identification - will use this top level key
     public static final String NAMESPACE_KEY = Introspector.decapitalize(GithubToJiraTransformer.class.getSimpleName());
 
-    public static final String REPOSITORY_COUNT_HEADER_KEY = "repositoryCount";
+    public static final String REPO_COUNT_HEADER_KEY = "repoCount";
 
-    public static final String
-            REPOSITORIES_WITH_VULNERABILITIES_COUNT_HEADER_KEY = "repositoriesWithVulnerabilitiesCount";
+    public static final String REPO_WITH_ALERTS_ENABLED_COUNT_HEADER_KEY = "repoWithAlertsEnabled";
+
+    public static final String REPO_WITH_VULNERABILITIES_COUNT_HEADER_KEY = "repoWithVulnerabilitiesCount";
 
     public static final String VULNERABILITY_ALERT_COUNT_HEADER_KEY = "vulnerabilityAlertCount";
 
@@ -42,17 +42,19 @@ public class GithubToJiraTransformer implements Processor {
         String paginatedGithubResponse = paginatedGithubResponseOptional.get();
         LOG.debug(paginatedGithubResponse);
 
-        // counts
-        //Map<String, Integer> cvssMap = Map.of( CVSS_CRITICAL, 0, CVSS_HIGH, 0, CVSS_MEDIUM, 0, CVSS_LOW, 0);
-
         ReadContext ctx = JsonPath.parse(paginatedGithubResponse);
         int repositoryCount = ctx.read("$.data.viewer.organization.repositories.nodes.length()");
-        addToHeaderCounter(exchange, REPOSITORY_COUNT_HEADER_KEY, repositoryCount);
+        addToHeaderCounter(exchange, REPO_COUNT_HEADER_KEY, repositoryCount);
 
         for (int i = 0; i < repositoryCount; i ++) {
+            //https://docs.github.com/en/rest/reference/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository
+            //String repositoryName = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].name");
+            // on 204 update counter
+            // on 404 do nothing
+
             int vulnerabilityAlertCount = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].vulnerabilityAlerts.nodes.length()");
             if (vulnerabilityAlertCount > 0) {
-                addToHeaderCounter(exchange, REPOSITORIES_WITH_VULNERABILITIES_COUNT_HEADER_KEY, 1);
+                addToHeaderCounter(exchange, REPO_WITH_VULNERABILITIES_COUNT_HEADER_KEY, 1);
             }
             addToHeaderCounter(exchange, VULNERABILITY_ALERT_COUNT_HEADER_KEY, vulnerabilityAlertCount);
             for (int k = 0; k < vulnerabilityAlertCount; k ++) {
