@@ -90,7 +90,7 @@ public class GithubToJiraRoute extends RouteBuilder {
           .end()
           // translate github payloads into jira payloads.
           .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=getNumberOfPaginatedResponses")
-          .log("loop count is: ${body}")
+          .log("number of pages is: ${body}")
           .loop(body())
             .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=popPaginatedResponse")
             .to(GITHUB_TO_JIRA_TRANSFORMER)

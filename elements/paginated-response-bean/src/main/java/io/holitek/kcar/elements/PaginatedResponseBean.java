@@ -25,17 +25,11 @@ public class PaginatedResponseBean {
     // to ensure the bean effectively acts as a singleton
     private static final Queue<String> paginatedResponseQueue = new ConcurrentLinkedQueue<>();
 
-    public void pushPaginatedResponse(String paginatedResponse) {
-        paginatedResponseQueue.add(paginatedResponse);
-        LOG.info("paginatedResponseQueue size is now: {}", paginatedResponseQueue.size());
-    }
+    public void pushPaginatedResponse(String paginatedResponse) { paginatedResponseQueue.add(paginatedResponse); }
 
     public void clearPaginatedResponses() { paginatedResponseQueue.clear(); }
 
-    public int getNumberOfPaginatedResponses() {
-        LOG.info("returning: {}", paginatedResponseQueue.size());
-        return paginatedResponseQueue.size();
-    }
+    public int getNumberOfPaginatedResponses() { return paginatedResponseQueue.size(); }
 
     public Optional<String> popPaginatedResponse() { return Optional.ofNullable(paginatedResponseQueue.poll()); }
 
