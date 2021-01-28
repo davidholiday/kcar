@@ -97,13 +97,14 @@ public class GithubToJiraRoute extends RouteBuilder {
             .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=popPaginatedResponse")
             .to(GITHUB_TO_JIRA_TRANSFORMER)
           .end()
-          .log(LoggingLevel.INFO, "number of repositories is ${header[" + GithubToJiraTransformer.REPO_COUNT_HEADER_KEY + "]}")
-          .log(LoggingLevel.INFO, "number of repositories with vulnerabilities is ${header[" + GithubToJiraTransformer.REPO_WITH_VULNERABILITIES_COUNT_HEADER_KEY + "]}")
-          .log(LoggingLevel.INFO, "number of vulnerabilities is ${header[" + GithubToJiraTransformer.VULNERABILITY_ALERT_COUNT_HEADER_KEY + "]}")
-          .log(LoggingLevel.INFO, "number of CVSS CRITICAL vulnerabilities is ${header[CRITICAL]}")
-          .log(LoggingLevel.INFO, "number of CVSS HIGH vulnerabilities is ${header[HIGH]}")
-          .log(LoggingLevel.INFO, "number of CVSS MODERATE vulnerabilities is ${header[MODERATE]}")
-          .log(LoggingLevel.INFO, "number of CVSS LOW vulnerabilities is ${header[LOW]}")
+          .log("number of repositories is ${header[" + GithubToJiraTransformer.REPO_COUNT_HEADER_KEY + "]}")
+          .log("number of repositories with alerts enabled is: ${header[" + GithubToJiraTransformer.REPO_WITH_ALERTS_ENABLED_COUNT_HEADER_KEY + "]}")
+          .log("number of repositories with vulnerabilities is ${header[" + GithubToJiraTransformer.REPO_WITH_VULNERABILITIES_COUNT_HEADER_KEY + "]}")
+          .log("number of vulnerabilities is ${header[" + GithubToJiraTransformer.VULNERABILITY_ALERT_COUNT_HEADER_KEY + "]}")
+          .log("number of CVSS CRITICAL vulnerabilities is ${header[CRITICAL]}")
+          .log("number of CVSS HIGH vulnerabilities is ${header[HIGH]}")
+          .log("number of CVSS MODERATE vulnerabilities is ${header[MODERATE]}")
+          .log("number of CVSS LOW vulnerabilities is ${header[LOW]}")
           .to(ROUTE_EXITPOINT);
     }
 

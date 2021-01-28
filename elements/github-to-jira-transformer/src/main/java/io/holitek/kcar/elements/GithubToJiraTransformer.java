@@ -5,6 +5,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 
+import org.apache.hc.client5.http.fluent.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,10 +48,22 @@ public class GithubToJiraTransformer implements Processor {
         addToHeaderCounter(exchange, REPO_COUNT_HEADER_KEY, repositoryCount);
 
         for (int i = 0; i < repositoryCount; i ++) {
+            // there doesn't seem to be a graphql way to do this :-(
             //https://docs.github.com/en/rest/reference/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository
-            //String repositoryName = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].name");
+            String repositoryName = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].name");
+            String accessToken = exchange.getContext().getPropertiesComponent().resolveProperty("env.GITHUB_ACCESS_TOKEN").get();
+
+            int rc = Request.get("https://api.github.com/repos/life360/" + repositoryName + "/vulnerability-alerts")
+                            .setHeader("Authorization", accessToken)
+                            .setHeader("Accept", "Accept: application/vnd.github.dorian-preview+json")
+                            .execute()
+                            .returnResponse()
+                            .getCode();
+
             // on 204 update counter
             // on 404 do nothing
+            if (rc == 204) { addToHeaderCounter(exchange, REPO_WITH_ALERTS_ENABLED_COUNT_HEADER_KEY, 1); }
+
 
             int vulnerabilityAlertCount = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].vulnerabilityAlerts.nodes.length()");
             if (vulnerabilityAlertCount > 0) {
