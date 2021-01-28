@@ -31,23 +31,7 @@ public class GithubToJiraTransformer implements Processor {
     public static final String
             REPOSITORIES_WITH_VULNERABILITIES_COUNT_HEADER_KEY = "repositoriesWithVulnerabilitiesCount";
 
-    public static final String VULNERABILITY_COUNT_HEADER_KEY = "vulnerabilityCount";
-
-    public static final String CVSS_CRITICAL_COUNT_HEADER_KEY = "cvssCriticalCount";
-
-    public static final String CVSS_HIGH_COUNT_HEADER_KEY = "cvssHighCount";
-
-    public static final String CVSS_MEDIUM_COUNT_HEADER_KEY = "cvssMediumCount";
-
-    public static final String CVSS_LOW_COUNT_HEADER_KEY = "cvssLowCount";
-
-    public static final String CVSS_CRITICAL = "CRITICAL";
-
-    public static final String CVSS_HIGH = "HIGH";
-
-    public static final String CVSS_MEDIUM = "MODERATE";
-
-    public static final String CVSS_LOW = "LOW";
+    public static final String VULNERABILITY_ALERT_COUNT_HEADER_KEY = "vulnerabilityAlertCount";
 
 
     @Override
@@ -59,8 +43,7 @@ public class GithubToJiraTransformer implements Processor {
         LOG.debug(paginatedGithubResponse);
 
         // counts
-        int vulnerabilityCount = 0;
-        Map<String, Integer> cvssMap = Map.of( CVSS_CRITICAL, 0, CVSS_HIGH, 0, CVSS_MEDIUM, 0, CVSS_LOW, 0);
+        //Map<String, Integer> cvssMap = Map.of( CVSS_CRITICAL, 0, CVSS_HIGH, 0, CVSS_MEDIUM, 0, CVSS_LOW, 0);
 
         ReadContext ctx = JsonPath.parse(paginatedGithubResponse);
         int repositoryCount = ctx.read("$.data.viewer.organization.repositories.nodes.length()");
@@ -68,11 +51,13 @@ public class GithubToJiraTransformer implements Processor {
 
         for (int i = 0; i < repositoryCount; i ++) {
             int vulnerabilityAlertCount = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].vulnerabilityAlerts.nodes.length()");
-            vulnerabilityCount += vulnerabilityAlertCount;
+            if (vulnerabilityAlertCount > 0) {
+                addToHeaderCounter(exchange, REPOSITORIES_WITH_VULNERABILITIES_COUNT_HEADER_KEY, 1);
+            }
+            addToHeaderCounter(exchange, VULNERABILITY_ALERT_COUNT_HEADER_KEY, vulnerabilityAlertCount);
             for (int k = 0; k < vulnerabilityAlertCount; k ++) {
                 String severity = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].vulnerabilityAlerts.nodes.[" + k + "].securityVulnerability.advisory.severity");
-                int newSeverityCount = cvssMap.get(severity) + 1;
-                cvssMap.put(severity, newSeverityCount);
+                addToHeaderCounter(exchange, severity, 1);
             }
         }
 

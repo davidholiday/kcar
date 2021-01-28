@@ -1,6 +1,7 @@
 package io.holitek.kcar.routes;
 
 
+import io.holitek.kcar.elements.GithubToJiraTransformer;
 import io.holitek.kcar.helpers.CamelPropertyHelper;
 
 import org.apache.camel.LoggingLevel;
@@ -61,11 +62,11 @@ public class GithubToJiraRoute extends RouteBuilder {
             .when(header(GITHUB_GRAPHQL_AFTER_CURSOR).isNull())
               .setHeader(GITHUB_GRAPHQL_AFTER_CURSOR, simple(""))
           .end()
-          // create github graphql from template
+          // create github graphql query from template
           .log(LoggingLevel.DEBUG, "header is ${headers}")
           .setHeader("CamelVelocityTemplate").constant(GRAPH_QL_QUERY_TEMPLATE)
           .to("velocity:dummy?allowTemplateFromHeader=true")
-          .log(LoggingLevel.DEBUG,
+          .log(LoggingLevel.INFO,
                   "graphQL URI is: "
                           + GITHUB_GRAPH_QL_URI
                           + "query=${body}&accessToken=${env.GITHUB_ACCESS_TOKEN}"
@@ -87,14 +88,22 @@ public class GithubToJiraRoute extends RouteBuilder {
               .to(PAGINATED_RESPONSE_BEAN__ADD)
               .log("fetching next page after cursor: ${headers." + GITHUB_GRAPHQL_AFTER_CURSOR_TEMP + "}")
               .to(ROUTE_ENTRYPOINT)
+            .otherwise()
+              .to(PAGINATED_RESPONSE_BEAN__ADD)
           .end()
           // translate github payloads into jira payloads.
           .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=getNumberOfPaginatedResponses")
-          .log("number of pages is: ${body}")
           .loop(body())
             .to("bean:io.holitek.kcar.elements.PaginatedResponseBean?method=popPaginatedResponse")
             .to(GITHUB_TO_JIRA_TRANSFORMER)
           .end()
+          .log(LoggingLevel.INFO, "number of repositories is ${header[" + GithubToJiraTransformer.REPOSITORY_COUNT_HEADER_KEY + "]}")
+          .log(LoggingLevel.INFO, "number of repositories with vulnerabilities is ${header[" + GithubToJiraTransformer.REPOSITORIES_WITH_VULNERABILITIES_COUNT_HEADER_KEY + "]}")
+          .log(LoggingLevel.INFO, "number of vulnerabilities is ${header[" + GithubToJiraTransformer.VULNERABILITY_ALERT_COUNT_HEADER_KEY + "]}")
+          .log(LoggingLevel.INFO, "number of CVSS CRITICAL vulnerabilities is ${header[CRITICAL]}")
+          .log(LoggingLevel.INFO, "number of CVSS HIGH vulnerabilities is ${header[HIGH]}")
+          .log(LoggingLevel.INFO, "number of CVSS MODERATE vulnerabilities is ${header[MODERATE]}")
+          .log(LoggingLevel.INFO, "number of CVSS LOW vulnerabilities is ${header[LOW]}")
           .to(ROUTE_EXITPOINT);
     }
 
