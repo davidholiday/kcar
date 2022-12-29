@@ -1,3 +1,6 @@
+*** THE PROJECT IS STILL ACTIVE IN A PRIVATE FORK. I WILL BACKPORT CHANGES AS NECESSARY. IF THERE IS A PARTICULAR FEATURE OR BUG YOU'D LIKE TO SEE ADDRESSED PLEASE FEEL FREE TO OPEN UP AN ISSUE. TY! ***
+
+
 # K-car
 ### a factory for building and deploying Java microservices 
 ![kcar factory](./kcar_readme_images/car_factory.gif)
