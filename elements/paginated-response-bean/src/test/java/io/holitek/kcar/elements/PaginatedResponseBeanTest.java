@@ -5,6 +5,7 @@ import io.holitek.kcar.elements.PaginatedResponseBean;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
+import org.apache.camel.component.mock.MockEndpoint;
 
 import org.junit.jupiter.api.*;
 
@@ -72,7 +73,7 @@ public class PaginatedResponseBeanTest extends CamelTestSupport {
         getMockEndpoint("mock:result").allMessages().body(Optional.class);
         getMockEndpoint("mock:result").allMessages().body().equals(expectedResult);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class PaginatedResponseBeanTest extends CamelTestSupport {
         getMockEndpoint("mock:result").allMessages().body(Optional.class);
         getMockEndpoint("mock:result").allMessages().body().equals(expectedResult);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test
@@ -104,7 +105,7 @@ public class PaginatedResponseBeanTest extends CamelTestSupport {
         getMockEndpoint("mock:result").allMessages().body(Optional.class);
         getMockEndpoint("mock:result").allMessages().body().equals(expectedResult);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test

@@ -7,6 +7,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
+import org.apache.camel.component.mock.MockEndpoint;
 
 import org.junit.jupiter.api.*;
 
@@ -87,7 +88,7 @@ public class StartAsyncJobRouteTest extends CamelTestSupport {
                                           .regex("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
 
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
 }

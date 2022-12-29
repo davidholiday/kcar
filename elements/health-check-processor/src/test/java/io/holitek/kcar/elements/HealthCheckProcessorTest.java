@@ -5,6 +5,7 @@ import org.apache.camel.CamelExecutionException;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
+import org.apache.camel.component.mock.MockEndpoint;
 
 import org.junit.jupiter.api.*;
 
@@ -86,7 +87,7 @@ public class HealthCheckProcessorTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", statusOkMap);
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test
@@ -104,7 +105,7 @@ public class HealthCheckProcessorTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
         template.sendBody("direct:start", statusFaultMap);
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test

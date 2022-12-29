@@ -6,6 +6,7 @@ import io.holitek.kcar.helpers.CamelPropertyHelper;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
+import org.apache.camel.component.mock.MockEndpoint;
 
 import org.junit.jupiter.api.*;
 
@@ -59,7 +60,7 @@ public class EmptyRouteTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived("");
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
 }

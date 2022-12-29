@@ -36,22 +36,22 @@
     <java-target-version>11</java-target-version>
 
     <!-- plugin versions (to keep the version stuff all in one place the plugins are here too) -->
-    <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
-    <maven-resources-plugin-version>3.2.0</maven-resources-plugin-version>
-    <maven-javadoc-plugin-version>2.9.1</maven-javadoc-plugin-version>
-    <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
-    <maven-war-plugin-version>3.3.1</maven-war-plugin-version>
-    <jetty-maven-plugin-version>10.0.0</jetty-maven-plugin-version>
-    <heroku-maven-plugin-version>3.0.3</heroku-maven-plugin-version>
-    <jib-maven-plugin-version>2.7.1</jib-maven-plugin-version>
+    <maven-compiler-plugin-version>3.10.1</maven-compiler-plugin-version>
+    <maven-resources-plugin-version>3.3.0</maven-resources-plugin-version>
+    <maven-javadoc-plugin-version>3.4.1</maven-javadoc-plugin-version>
+    <maven-surefire-plugin-version>3.0.0-M7</maven-surefire-plugin-version>
+    <maven-war-plugin-version>3.3.2</maven-war-plugin-version>
+    <jetty-maven-plugin-version>11.0.13</jetty-maven-plugin-version>
+    <heroku-maven-plugin-version>3.0.6</heroku-maven-plugin-version>
+    <jib-maven-plugin-version>3.3.1</jib-maven-plugin-version>
 
     <!-- peg camel version for all provided elements with bill of materials file -->
-    <camel-bom-version>3.7.0</camel-bom-version>
+    <camel-bom-version>3.20.0</camel-bom-version>
 
     <!-- default versioning for third party dependencies -->
     <javax.servlet-api-version>4.0.1</javax.servlet-api-version>
-    <log4j2-version>2.13.3</log4j2-version>
-    <jaxb-runtime-version>3.0.0</jaxb-runtime-version>
+    <log4j2-version>2.19.0</log4j2-version>
+    <jaxb-runtime-version>4.0.1</jaxb-runtime-version>
 
     <!-- default versioning for kcar modules -->
     <!-- helpers -->
@@ -180,6 +180,7 @@
       </plugin>
 
       <!-- for javadoc generation -->
+      <!-- disabled because some asshole thought it was a good idea to make sure builds fail for stupid shit 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -190,14 +191,14 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
-              <!-- prevents javadoc error from failing build -->
+              <additionalparam>none</additionalparam>
               <detectJavaApiLink>false</detectJavaApiLink>
               <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      -->	
 
       <!-- for running unit tests as part of a maven build -->
       <plugin>
@@ -218,6 +219,19 @@
             <goals>
               <goal>validate</goal>
               <goal>route-coverage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- for detecting libraries with CVEs -->
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
             </goals>
           </execution>
         </executions>

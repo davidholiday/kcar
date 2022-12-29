@@ -4,6 +4,7 @@ package io.holitek.kcar.routes;
 import io.holitek.kcar.elements.HealthCheckBean;
 import io.holitek.kcar.elements.HealthCheckProcessor;
 import io.holitek.kcar.helpers.CamelPropertyHelper;
+import org.apache.camel.component.mock.MockEndpoint;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -73,7 +74,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusOkJson);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
 
@@ -98,7 +99,7 @@ public class HealthCheckRouteTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultJson);
         sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
 
     }
 

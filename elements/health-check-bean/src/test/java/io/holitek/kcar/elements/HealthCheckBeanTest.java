@@ -3,6 +3,7 @@ package io.holitek.kcar.elements;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit5.CamelTestSupport;
+import org.apache.camel.component.mock.MockEndpoint;
 
 import org.junit.jupiter.api.*;
 
@@ -74,7 +75,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
     public void testHappyPath() throws Exception {
         getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusFaultMap);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test
@@ -105,7 +106,7 @@ public class HealthCheckBeanTest extends CamelTestSupport {
 
         getMockEndpoint("mock:result").expectedBodiesReceived(statusOkMap);
         template.sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
 }

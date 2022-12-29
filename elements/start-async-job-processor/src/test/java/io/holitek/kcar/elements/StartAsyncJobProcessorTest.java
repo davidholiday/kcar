@@ -95,7 +95,7 @@ public class StartAsyncJobProcessorTest extends CamelTestSupport {
         asyncMockEndpoint.expectedBodiesReceived(asyncBody);
 
         sendBody("direct:start", "");
-        assertMockEndpointsSatisfied();
+        MockEndpoint.assertIsSatisfied(context);
     }
 
     @Test
