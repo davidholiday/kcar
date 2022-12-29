@@ -1,6 +1,191 @@
 *** THE PROJECT IS STILL ACTIVE IN A PRIVATE FORK. I WILL BACKPORT CHANGES AS NECESSARY. IF THERE IS A PARTICULAR FEATURE OR BUG YOU'D LIKE TO SEE ADDRESSED PLEASE FEEL FREE TO OPEN UP AN ISSUE. TY! ***
 
 
+# SECURITY DISCLOSURE
+
+THIS VERSION OF KCAR HAS 414 CVE'S REPORTED AGAINST IT. THE VALIDITY OF THE FINDINGS HAVE NOT BEEN ASSESED. THE ISSUES ARE BEING ADDRESSED IN THE PRIVATE INSTANCE OF `KCAR`. ONCE THEY ARE ADDRESSED I WILL BACKPORT THE PATCHES. REPORT IS AS FOLLOWS: 
+
+```
+NAME                  INSTALLED  FIXED-IN  TYPE          VULNERABILITY        SEVERITY 
+camel-api                                  java-archive  CVE-2013-4330        Medium    
+camel-api                                  java-archive  CVE-2014-0002        High      
+camel-api                                  java-archive  CVE-2014-0003        High      
+camel-api                                  java-archive  CVE-2015-0263        Medium    
+camel-api                                  java-archive  CVE-2015-0264        Medium    
+camel-api                                  java-archive  CVE-2015-5344        Critical  
+camel-api                                  java-archive  CVE-2017-3159        Critical  
+camel-api                                  java-archive  CVE-2017-5643        High      
+camel-api                                  java-archive  CVE-2019-0188        High      
+camel-api                                  java-archive  CVE-2020-5529        High      
+camel-bean                                 java-archive  CVE-2013-4330        Medium    
+camel-bean                                 java-archive  CVE-2014-0002        High      
+camel-bean                                 java-archive  CVE-2014-0003        High      
+camel-bean                                 java-archive  CVE-2015-0263        Medium    
+camel-bean                                 java-archive  CVE-2015-0264        Medium    
+camel-bean                                 java-archive  CVE-2015-5344        Critical  
+camel-bean                                 java-archive  CVE-2017-3159        Critical  
+camel-bean                                 java-archive  CVE-2017-5643        High      
+camel-bean                                 java-archive  CVE-2019-0188        High      
+camel-bean                                 java-archive  CVE-2020-5529        High      
+camel-core-engine                          java-archive  CVE-2013-4330        Medium    
+camel-core-engine                          java-archive  CVE-2014-0002        High      
+camel-core-engine                          java-archive  CVE-2014-0003        High      
+camel-core-engine                          java-archive  CVE-2015-0263        Medium    
+camel-core-engine                          java-archive  CVE-2015-0264        Medium    
+camel-core-engine                          java-archive  CVE-2015-5344        Critical  
+camel-core-engine                          java-archive  CVE-2017-3159        Critical  
+camel-core-engine                          java-archive  CVE-2017-5643        High      
+camel-core-engine                          java-archive  CVE-2019-0188        High      
+camel-core-engine                          java-archive  CVE-2020-5529        High      
+camel-core-languages                       java-archive  CVE-2013-4330        Medium    
+camel-core-languages                       java-archive  CVE-2014-0002        High      
+camel-core-languages                       java-archive  CVE-2014-0003        High      
+camel-core-languages                       java-archive  CVE-2015-0263        Medium    
+camel-core-languages                       java-archive  CVE-2015-0264        Medium    
+camel-core-languages                       java-archive  CVE-2015-5344        Critical  
+camel-core-languages                       java-archive  CVE-2017-3159        Critical  
+camel-core-languages                       java-archive  CVE-2017-5643        High      
+camel-core-languages                       java-archive  CVE-2019-0188        High      
+camel-core-languages                       java-archive  CVE-2020-5529        High      
+camel-direct                               java-archive  CVE-2013-4330        Medium    
+camel-direct                               java-archive  CVE-2014-0002        High      
+camel-direct                               java-archive  CVE-2014-0003        High      
+camel-direct                               java-archive  CVE-2015-0263        Medium    
+camel-direct                               java-archive  CVE-2015-0264        Medium    
+camel-direct                               java-archive  CVE-2015-5344        Critical  
+camel-direct                               java-archive  CVE-2017-3159        Critical  
+camel-direct                               java-archive  CVE-2017-5643        High      
+camel-direct                               java-archive  CVE-2019-0188        High      
+camel-direct                               java-archive  CVE-2020-5529        High      
+camel-graphql                              java-archive  CVE-2013-4330        Medium    
+camel-graphql                              java-archive  CVE-2014-0002        High      
+camel-graphql                              java-archive  CVE-2014-0003        High      
+camel-graphql                              java-archive  CVE-2015-0263        Medium    
+camel-graphql                              java-archive  CVE-2015-0264        Medium    
+camel-graphql                              java-archive  CVE-2015-5344        Critical  
+camel-graphql                              java-archive  CVE-2017-3159        Critical  
+camel-graphql                              java-archive  CVE-2017-5643        High      
+camel-graphql                              java-archive  CVE-2019-0188        High      
+camel-graphql                              java-archive  CVE-2020-5529        High      
+camel-http                                 java-archive  CVE-2013-4330        Medium    
+camel-http                                 java-archive  CVE-2014-0002        High      
+camel-http                                 java-archive  CVE-2014-0003        High      
+camel-http                                 java-archive  CVE-2015-0263        Medium    
+camel-http                                 java-archive  CVE-2015-0264        Medium    
+camel-http                                 java-archive  CVE-2015-5344        Critical  
+camel-http                                 java-archive  CVE-2017-3159        Critical  
+camel-http                                 java-archive  CVE-2017-5643        High      
+camel-http                                 java-archive  CVE-2019-0188        High      
+camel-http                                 java-archive  CVE-2020-5529        High      
+camel-jackson                              java-archive  CVE-2013-4330        Medium    
+camel-jackson                              java-archive  CVE-2014-0002        High      
+camel-jackson                              java-archive  CVE-2014-0003        High      
+camel-jackson                              java-archive  CVE-2015-0263        Medium    
+camel-jackson                              java-archive  CVE-2015-0264        Medium    
+camel-jackson                              java-archive  CVE-2015-5344        Critical  
+camel-jackson                              java-archive  CVE-2017-3159        Critical  
+camel-jackson                              java-archive  CVE-2017-5643        High      
+camel-jackson                              java-archive  CVE-2019-0188        High      
+camel-jackson                              java-archive  CVE-2020-5529        High      
+camel-jackson                    2.16.5    java-archive  GHSA-vvjc-q5vr-52q6  Critical  
+camel-jsonpath                             java-archive  CVE-2013-4330        Medium    
+camel-jsonpath                             java-archive  CVE-2014-0002        High      
+camel-jsonpath                             java-archive  CVE-2014-0003        High      
+camel-jsonpath                             java-archive  CVE-2015-0263        Medium    
+camel-jsonpath                             java-archive  CVE-2015-0264        Medium    
+camel-jsonpath                             java-archive  CVE-2015-5344        Critical  
+camel-jsonpath                             java-archive  CVE-2017-3159        Critical  
+camel-jsonpath                             java-archive  CVE-2017-5643        High      
+camel-jsonpath                             java-archive  CVE-2019-0188        High      
+camel-jsonpath                             java-archive  CVE-2020-5529        High      
+camel-log                                  java-archive  CVE-2013-4330        Medium    
+camel-log                                  java-archive  CVE-2014-0002        High      
+camel-log                                  java-archive  CVE-2014-0003        High      
+camel-log                                  java-archive  CVE-2015-0263        Medium    
+camel-log                                  java-archive  CVE-2015-0264        Medium    
+camel-log                                  java-archive  CVE-2015-5344        Critical  
+camel-log                                  java-archive  CVE-2017-3159        Critical  
+camel-log                                  java-archive  CVE-2017-5643        High      
+camel-log                                  java-archive  CVE-2019-0188        High      
+camel-log                                  java-archive  CVE-2020-5529        High      
+camel-rest                                 java-archive  CVE-2013-4330        Medium    
+camel-rest                                 java-archive  CVE-2014-0002        High      
+camel-rest                                 java-archive  CVE-2014-0003        High      
+camel-rest                                 java-archive  CVE-2015-0263        Medium    
+camel-rest                                 java-archive  CVE-2015-0264        Medium    
+camel-rest                                 java-archive  CVE-2015-5344        Critical  
+camel-rest                                 java-archive  CVE-2017-3159        Critical  
+camel-rest                                 java-archive  CVE-2017-5643        High      
+camel-rest                                 java-archive  CVE-2019-0188        High      
+camel-rest                                 java-archive  CVE-2020-5529        High      
+camel-servlet                              java-archive  CVE-2013-4330        Medium    
+camel-servlet                              java-archive  CVE-2014-0002        High      
+camel-servlet                              java-archive  CVE-2014-0003        High      
+camel-servlet                              java-archive  CVE-2015-0263        Medium    
+camel-servlet                              java-archive  CVE-2015-0264        Medium    
+camel-servlet                              java-archive  CVE-2015-5344        Critical  
+camel-servlet                              java-archive  CVE-2017-3159        Critical  
+camel-servlet                              java-archive  CVE-2017-5643        High      
+camel-servlet                              java-archive  CVE-2019-0188        High      
+camel-servlet                              java-archive  CVE-2020-5529        High      
+camel-servlet                    2.15.5    java-archive  GHSA-26v6-w6fw-rh94  High      
+camel-support                              java-archive  CVE-2013-4330        Medium    
+camel-support                              java-archive  CVE-2014-0002        High      
+camel-support                              java-archive  CVE-2014-0003        High      
+camel-support                              java-archive  CVE-2015-0263        Medium    
+camel-support                              java-archive  CVE-2015-0264        Medium    
+camel-support                              java-archive  CVE-2015-5344        Critical  
+camel-support                              java-archive  CVE-2017-3159        Critical  
+camel-support                              java-archive  CVE-2017-5643        High      
+camel-support                              java-archive  CVE-2019-0188        High      
+camel-support                              java-archive  CVE-2020-5529        High      
+camel-swagger-java                         java-archive  CVE-2013-4330        Medium    
+camel-swagger-java                         java-archive  CVE-2014-0002        High      
+camel-swagger-java                         java-archive  CVE-2014-0003        High      
+camel-swagger-java                         java-archive  CVE-2015-0263        Medium    
+camel-swagger-java                         java-archive  CVE-2015-0264        Medium    
+camel-swagger-java                         java-archive  CVE-2015-5344        Critical  
+camel-swagger-java                         java-archive  CVE-2017-3159        Critical  
+camel-swagger-java                         java-archive  CVE-2017-5643        High      
+camel-swagger-java                         java-archive  CVE-2019-0188        High      
+camel-swagger-java                         java-archive  CVE-2020-5529        High      
+camel-test-junit5                          java-archive  CVE-2013-4330        Medium    
+camel-test-junit5                          java-archive  CVE-2014-0002        High      
+camel-test-junit5                          java-archive  CVE-2014-0003        High      
+camel-test-junit5                          java-archive  CVE-2015-0263        Medium    
+camel-test-junit5                          java-archive  CVE-2015-0264        Medium    
+camel-test-junit5                          java-archive  CVE-2015-5344        Critical  
+camel-test-junit5                          java-archive  CVE-2017-3159        Critical  
+camel-test-junit5                          java-archive  CVE-2017-5643        High      
+camel-test-junit5                          java-archive  CVE-2019-0188        High      
+camel-test-junit5                          java-archive  CVE-2020-5529        High      
+camel-validator                            java-archive  CVE-2013-4330        Medium    
+camel-validator                            java-archive  CVE-2014-0002        High      
+camel-validator                            java-archive  CVE-2014-0003        High      
+camel-validator                            java-archive  CVE-2015-0263        Medium    
+camel-validator                            java-archive  CVE-2015-0264        Medium    
+camel-validator                            java-archive  CVE-2015-5344        Critical  
+camel-validator                            java-archive  CVE-2017-3159        Critical  
+camel-validator                            java-archive  CVE-2017-5643        High      
+camel-validator                            java-archive  CVE-2019-0188        High      
+camel-validator                            java-archive  CVE-2020-5529        High      
+camel-velocity                             java-archive  CVE-2013-4330        Medium    
+camel-velocity                             java-archive  CVE-2014-0002        High      
+camel-velocity                             java-archive  CVE-2014-0003        High      
+camel-velocity                             java-archive  CVE-2015-0263        Medium    
+camel-velocity                             java-archive  CVE-2015-0264        Medium    
+camel-velocity                             java-archive  CVE-2015-5344        Critical  
+camel-velocity                             java-archive  CVE-2017-3159        Critical  
+camel-velocity                             java-archive  CVE-2017-5643        High      
+camel-velocity                             java-archive  CVE-2019-0188        High      
+camel-velocity                             java-archive  CVE-2020-5529        High      
+log4j-slf4j-impl      2.13.3               java-archive  CVE-2021-44832       Medium    
+log4j-slf4j-impl      2.13.3               java-archive  CVE-2021-45105       Medium 
+```
+
+
+
+
 # K-car
 ### a factory for building and deploying Java microservices 
 ![kcar factory](./kcar_readme_images/car_factory.gif)
