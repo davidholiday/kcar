@@ -53,7 +53,7 @@ public class GithubToJiraTransformer implements Processor {
             String repositoryName = ctx.read("$.data.viewer.organization.repositories.nodes.[" + i + "].name");
             String accessToken = exchange.getContext().getPropertiesComponent().resolveProperty("env.GITHUB_ACCESS_TOKEN").get();
 
-            int rc = Request.get("https://api.github.com/repos/life360/" + repositoryName + "/vulnerability-alerts")
+            int rc = Request.get("https://api.github.com/repos/acme/" + repositoryName + "/vulnerability-alerts")
                             .setHeader("Authorization", accessToken)
                             .setHeader("Accept", "Accept: application/vnd.github.dorian-preview+json")
                             .execute()
