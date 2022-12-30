@@ -20,13 +20,13 @@ public class GithubToJiraRouteTest extends CamelTestSupport {
     private static final Logger LOG = LoggerFactory.getLogger(GithubToJiraRouteTest.class);
 
     private static final String EXPECTED_NO_CURSOR_GRAPHQL_QUERY =
-            "{viewer{organization(login: \"life360\"){repositories(first: 100, ){pageInfo{hasNextPage}nodes " +
+            "{viewer{organization(login: \"acme\"){repositories(first: 100, ){pageInfo{hasNextPage}nodes " +
                     "{ name pullRequests(first: 100, labels: \"dependencies\", states: OPEN) { nodes { title url } } " +
                     "vulnerabilityAlerts(first: 100) { nodes { securityVulnerability { advisory { description summary "+
                     "severity references { url } ghsaId origin permalink } } } } } } } } }";
 
     private static final String EXPECTED_CURSOR_GRAPHQL_QUERY =
-            "{viewer{organization(login: \"life360\"){repositories(first: 100, after:foo){pageInfo{hasNextPage}nodes " +
+            "{viewer{organization(login: \"acme\"){repositories(first: 100, after:foo){pageInfo{hasNextPage}nodes " +
                     "{ name pullRequests(first: 100, labels: \"dependencies\", states: OPEN) { nodes { title url } } " +
                     "vulnerabilityAlerts(first: 100) { nodes { securityVulnerability { advisory { description summary "+
                     "severity references { url } ghsaId origin permalink } } } } } } } } }";
